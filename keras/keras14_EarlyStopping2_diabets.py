@@ -22,22 +22,18 @@ y = datasets.target
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=66)    #정제작업 
 
 #2. 모델링  여러번해서 좋은 값 찾아야함.
+# 모델링을 못해서 그런가 값이 잘 안나옴;
 model = Sequential()
-model.add(Dense(16, input_dim=10))
-model.add(Dense(15))
-model.add(Dense(14))
-model.add(Dense(13))
-model.add(Dense(12))
-model.add(Dense(11))
+model.add(Dense(100, input_dim=10))
+model.add(Dense(90))
+model.add(Dense(80))
+model.add(Dense(70))
+model.add(Dense(60))
+model.add(Dense(50))
+model.add(Dense(40))
+model.add(Dense(30))
+model.add(Dense(20))
 model.add(Dense(10))
-model.add(Dense(9))
-model.add(Dense(8))
-model.add(Dense(7))
-model.add(Dense(6))
-model.add(Dense(5))
-model.add(Dense(4))
-model.add(Dense(3))
-model.add(Dense(2))
 model.add(Dense(1))
 
 #3. 컴파일, 훈련
@@ -45,7 +41,7 @@ model.compile(loss='mse', optimizer='adam')
 
 
 es = EarlyStopping  # 정의를 해줘야 사용가능하다
-es = EarlyStopping(monitor='val_loss', patience=100, mode='min', verbose=1, restore_best_weights=False)
+es = EarlyStopping(monitor='val_loss', patience=500, mode='min', verbose=1, restore_best_weights=True)
 # val_loss를 관측하고 50번안에 최저값이 갱신되지 않으면 훈련을 중단하고 가장 좋았을때의 "weights"값을 복원하여 저장(?)합니다.
 # 컴파일해보면 마지막에 Restoring model weights from the end of the best epoch. 라는 메시지를 출력시켜준다. 안심할수 있다.
 # True값 넣고 evaluate했을때  1.loss: 3447.219482421875  r2: 0.5668603667030361  2.loss: 3641.060302734375   r2: 0.5425044431962383   3.loss: 3614.39453125  r2: 0.5458550011751824
