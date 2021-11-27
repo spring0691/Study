@@ -49,6 +49,8 @@ model.fit(x_train, y_train, epochs=100, batch_size=1,
           #validation_data=(x_val, y_val))
            validation_split=0.3)
 
+# 여기 이 validation_split=0.3 기능 하나로 그 전과 비슷하게 x_train을 다시 train과 
+# validaion으로 알아서 비율까지 쪼개준다. 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)

@@ -5,7 +5,9 @@
 # 이때문에 train과 test로 나누어 x_train [1~7] x_test[8~10]
 # train으로 학습을 시키고 test로 실전같은 모의고사를 한번 미리해보면
 # fit단계에서의 loss값과 evaluate의 loss값의 차이가 큰 걸 확인할 수 있다.
-# 확인까지만 가능하고 그 이상은 뭐 할 수 없다?
+# 확인까지만 가능하고 그 이상은 뭐 할 수 없다? evaluate은 평가만 가능한거지 
+# 여기서 나온 loss값과 fit 단게의 loss값들의 차이가 크다 하더라도 그 차이가 fit단계에 
+# 적용되지는 않는다.
 from tensorflow.keras.models import Sequential 
 from tensorflow.keras.layers import Dense
 import numpy as np

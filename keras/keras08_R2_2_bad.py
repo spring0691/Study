@@ -42,14 +42,17 @@ model.compile(loss='mse', optimizer='adam')  # mean squared error , 평균제곱
 model.fit(x_train,y_train,epochs=100, batch_size=1)
 
 #4. 평가, 예측 
-#loss = model.evaluate(x_test,y_test)
+loss = model.evaluate(x_test,y_test)
 #print('loss : ', loss)
 
 y_predict = model.predict(x_test) 
 
 r2 = r2_score(y_test,y_predict)
 print('r2스코어 : ', r2)
-
+# 모델링 노드를 많이 주다가 적게주는걸 반복함으로써 고의로 
+# loss값을 계속 튀게하여 정확도를 크게 낮추었다.
+# loss: 679.3102
+# r2스코어 :  0.2231010336057584
 # plt.scatter(x, y) # scatter 흩뿌리다 그림처럼 보여주다?
-# plt.plot(x, y_predict, color='red') # scatter 점찍다 plot 선을 보여준다 
+# plt.plot(loss, color='red') # scatter 점찍다 plot 선을 보여준다 
 # plt.show() 

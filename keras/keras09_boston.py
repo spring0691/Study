@@ -41,7 +41,8 @@ model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam') 
 model.fit(x_train,y_train,epochs=200, batch_size=1)
 
-#4. 평가 , 예측
+#4. 평가 , 예측  평가는 말그대로 평가만 해보는것
+# fit에서 구해진 y = wx + b에 x_test와 y_test를 넣어보고 그 차이가 loss로 나온다?
 #loss = model.evaluate(x_test,y_test)
 #print('loss : ', loss)
 

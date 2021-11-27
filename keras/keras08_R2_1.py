@@ -1,5 +1,6 @@
 ## R2가 무엇인지 찾아라! R2 scroe , R2 제곱, 
 ## 점수매기는 것. 선형회귀모델에 대한 적합도 측정값. 몇점짜리냐 이게 0~1사이 1점만점
+## R2 score는 -값도 가질수 있다. 자세한 공식은 아직 내 레벨로는 알기에 부족하다.
 ## loss만 가지고 정확도를 보기에는 부족함이있어서 R2 score로 점수를 매긴다. 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense

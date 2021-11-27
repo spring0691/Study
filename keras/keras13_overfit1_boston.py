@@ -1,5 +1,5 @@
 # 과적합 예제
-
+# epochs를 많이 준다고해서 무조건 좋은게 아니다. 오히려 과적합이 걸려서 loss, val_loss값이 튈 수 있다.
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.datasets import load_boston
@@ -37,6 +37,7 @@ model.compile(loss='mse', optimizer='adam')
 
 start = time.time()
 hist = model.fit(x_train,y_train,epochs=10, batch_size=1,validation_split=0.25) 
+# 여기서 나오는 값들을 hist에 담는다.
 end = time.time() - start
 
 print("걸린시간 : ", round(end, 3), '초')
