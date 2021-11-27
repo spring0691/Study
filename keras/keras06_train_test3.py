@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 
 #훈련과 평가를 7:3으로 나누는데 임의로 나누어지게 완성지켜라
 #1. 데이터 정제작업 
-x = np.array(range(100))            0 1 2 3 4 5 6 7
-y = np.array(range(1,101))          1 2 3 4 5 6 7
+x = np.array(range(100))            
+y = np.array(range(1,101))          
 
 '''
 x_train = random.sample(list(x), 30)

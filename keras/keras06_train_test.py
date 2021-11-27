@@ -1,3 +1,11 @@
+# 데이터를 train과 test로 나눠주는 이유
+# fit에서 모델학습을 시킬때 모든 데이터를 다 학습시켜버리면 x = [1~10] y = [1~10]
+# 실제로 원하는 미래의 데이터를 넣어봤을때 크게 오류가 날 수 있다 model.predict[11]
+# 왜냐하면 컴퓨터는 모든 주어진 값으로만 훈련을 하고 실전을 해본적이 없기때문이다
+# 이때문에 train과 test로 나누어 x_train [1~7] x_test[8~10]
+# train으로 학습을 시키고 test로 실전같은 모의고사를 한번 미리해보면
+# fit단계에서의 loss값과 evaluate의 loss값의 차이가 큰 걸 확인할 수 있다.
+# 확인까지만 가능하고 그 이상은 뭐 할 수 없다?
 from tensorflow.keras.models import Sequential 
 from tensorflow.keras.layers import Dense
 import numpy as np
