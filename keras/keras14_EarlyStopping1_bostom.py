@@ -30,13 +30,14 @@ model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam') 
 
 es = EarlyStopping  #정의를 해줘야 쓸수있다. 
-es = EarlyStopping(monitor="val_loss", patience=10, mode='min', verbose=1,baseline=None)
-# 멈추는 시점은 최소값.발견 직후 100번째에서 멈춘다. 
-# 단 이때 제공되는 val_loss값은 최소값일까 그 이후 patience값만큼 지나서의 val_loss값일까?
-# val_loss값 비교해보고 그 외의 파라미터나 설정값? 있으면 찾아보기 
-# Tensorflow.org 접속수 EarlyStooping 검색 후 깃허브에 있는 문서의 설명을 보면 설정 파라미터가 나와있다.
-# 1742, 1771번째 줄 restore_best_weights=False 파라미터.  원문 해석을 못해서 실험을 통하여 옵션을 직접 사용해보기로 함.
-# False일 경우 마지막단계에서 얻은 값을 사용또는 저장하고,
+es = EarlyStopping(monitor="val_loss", patience=10, mode='min', verbose=1,baseline=None, restore_best_weights=True)
+# 멈추는 시점은 최소값.발견 직후 patience값에서 멈춘다. 
+# 숙제.
+# 단 이때 제공되는 weight의 값은 최저점 val_loss에서의 weight값일까 아니면 마지막 trainig이 끝난후의 weight값일까? 
+# Tensorflow.org 접속후 EarlyStopping 검색 후 깃허브에 있는 문서의 설명을 보면 설정 파라미터가 나와있다.
+# restore_best_weights 라는 옵션이 있는데 이 값에 True,False를 넣어줘서 저장할 weights 값을 선택할 수 있다.
+# False일 경우 마지막training이 끝난 후의 weight값을 저장하고 True라면 training이 끝난 후 값이 가장 좋았을때의 weight로 복원한다.
+# 또한 baseline 옵션을 사용하여 모델이 달성해야하는 최소한의 기준값을 선정할수도있다.
 
 start = time.time()
 hist = model.fit(x_train,y_train,epochs=10000, batch_size=1,validation_split=0.25, callbacks=[es]) 

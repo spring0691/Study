@@ -28,6 +28,6 @@ print('loss : ', loss)
 
 y_predict = model.predict(x)
 
-plt.scatter(x, y) # scatter 흩뿌리다 그림처럼 보여주다?
+plt.scatter(x, y) 
 plt.plot(x, y_predict, color='red') # scatter 점찍다 plot 선을 보여준다 
 plt.show() 
