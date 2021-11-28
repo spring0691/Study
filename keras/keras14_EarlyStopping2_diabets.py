@@ -41,12 +41,15 @@ model.compile(loss='mse', optimizer='adam')
 
 
 es = EarlyStopping  # 정의를 해줘야 사용가능하다
-es = EarlyStopping(monitor='val_loss', patience=500, mode='min', verbose=1, restore_best_weights=True)
+es = EarlyStopping(monitor='val_loss', patience=100, mode='min', verbose=1, restore_best_weights=True)
 # val_loss를 관측하고 50번안에 최저값이 갱신되지 않으면 훈련을 중단하고 가장 좋았을때의 "weights"값을 복원하여 저장(?)합니다.
 # 컴파일해보면 마지막에 Restoring model weights from the end of the best epoch. 라는 메시지를 출력시켜준다. 안심할수 있다.
 # True값 넣고 evaluate했을때  1.loss: 3447.219482421875  r2: 0.5668603667030361  2.loss: 3641.060302734375   r2: 0.5425044431962383   3.loss: 3614.39453125  r2: 0.5458550011751824
 # False값 넣고 evalutae했을때 1.loss: 3701.3193359375    r2: 0.5349329860627352  2.loss: 3321.02294921875    r2: 0.5827168650569212   3.loss: 3441.029541015625   r2: 0.5676381480025825
 # 왠지는 모르겠는데 그렇게 큰 차이는 없다.  <---------------------------------------------------------------------------- 질문할거  
+# 큰 차이가 없는 이유. EarlyStopping은 최적의 weights값을 기록(?)까지만 하지 저장은 하지 않는다.
+# 값을 저장하려면 ModelCheckpoint 함수를 써야한다.
+
 
 hist = model.fit(x_train,y_train,epochs=10000, batch_size=1, validation_split=0.111111, callbacks=[es]) # loss와 똑같이 관측하기 위해 일단 저장.
 # callbacks함수의 설정은 [es]안에 들어있다는 뜻인가? [ ]로 감싸주는 이유는?                 <---------------------------------------------------------------------------- 질문할거
@@ -66,7 +69,7 @@ y_predict = model.predict(x_test) # 그냥 저장할이름이 y_predict인것. p
 r2 = r2_score(y_test,y_predict) #원본값을 앞에 두고 r2_score측정
 print('r2스코어는', r2)
 
-'''
+
 # 여기서부터는 시각화, 그림그려주는 작업
 plt.figure(figsize=(9,6)) # 판 깔고 사이즈가 9,6이다.
 plt.plot(hist.history['loss'], marker=".", c='red', label='loss') #plot 선을 보여준다 scatter 점찍다
@@ -77,5 +80,5 @@ plt.ylabel('loss')  # y축 설명
 plt.xlabel('epoch') # x축 설명
 plt.legend(loc='upper right') # 그림그렸을때 나오는 설명? 정보들 표시되는 위치
 plt.show()
-'''
+
 
