@@ -44,6 +44,7 @@ es = EarlyStopping  # 정의를 해줘야 사용가능하다
 es = EarlyStopping(monitor='val_loss', patience=100, mode='min', verbose=1, restore_best_weights=True)
 # val_loss를 관측하고 50번안에 최저값이 갱신되지 않으면 훈련을 중단하고 가장 좋았을때의 "weights"값을 복원하여 저장(?)합니다.
 # 컴파일해보면 마지막에 Restoring model weights from the end of the best epoch. 라는 메시지를 출력시켜준다. 안심할수 있다.
+# baseline = None ,  모델이 달성해야하는 최소한의 기준값을 선정합니다. 0.0~1.0?? 이게 뭘 의미하는건지. <-------------------------------------------   질문할거 
 # True값 넣고 evaluate했을때  1.loss: 3447.219482421875  r2: 0.5668603667030361  2.loss: 3641.060302734375   r2: 0.5425044431962383   3.loss: 3614.39453125  r2: 0.5458550011751824
 # False값 넣고 evalutae했을때 1.loss: 3701.3193359375    r2: 0.5349329860627352  2.loss: 3321.02294921875    r2: 0.5827168650569212   3.loss: 3441.029541015625   r2: 0.5676381480025825
 # 왠지는 모르겠는데 그렇게 큰 차이는 없다.   
