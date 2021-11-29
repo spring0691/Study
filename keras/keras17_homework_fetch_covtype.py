@@ -1,5 +1,5 @@
 from sklearn.datasets import fetch_covtype              # 데이터 입력받음.
-from tensorflow.keras.models import Sequential          # 이 아래는 말안해도 다 알지? 모르면 공부 접자 예람아
+from tensorflow.keras.models import Sequential          # 이 아래는 말안해도 다 알지?
 from tensorflow.keras.layers import Dense
 import numpy as np 
 from sklearn.model_selection import train_test_split
@@ -23,7 +23,7 @@ y = to_categorical(y)   # onehotencoding해줘서 배열형태로 변환후 몇�
 # 자리로는 [1,0,0,0,0,0,0,0] 8자리를 차지하는데 유니크값은 7개이다 
 # 이게 무엇을 의마하냐 내 추측으로는 값은 0~7까지 1개인데 0값을안 쓰고 7개만 사용했다. 그래서 실제로 찍어보면 [0,0,0,0,1,0,0,0] 처럼 8자리가 나온다.
 # 그럼 일단 softmax에는 8개를 넣는다. 이론상 결과로는 8개의 값이 나올때 제일 앞에 제일 큰 값이 올 수가없다. 왜냐하면 데이터를 그렇게 안 넣었으니까.
-# 이건 이제 일종의 코딩 어렵게하려는 함정? 같은 개념이 아닐까... [[[    제가 이해한게 맞나요 선생님   ]]]
+# 이건 이제 일종의 코딩 어렵게하려는 함정? 같은 개념이 아닐까
 #print(y.shape)  # (581012, 8)   # 위의 이유때문에 8이 나온거고 softmax에 8을 넣어주면 된다.
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)    # 여기는 뭐 모르면 공부 접어야지
@@ -34,14 +34,15 @@ x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=Tr
 
 #2. 모델링 모델구성
 model = Sequential()
-model.add(Dense(50, activation='linear', input_dim=54))    
-model.add(Dense(45))   
+model.add(Dense(100, activation='linear', input_dim=54))    
+model.add(Dense(90))
+model.add(Dense(80))
+model.add(Dense(70))
+model.add(Dense(60))
+model.add(Dense(50))
 model.add(Dense(40))
-model.add(Dense(35))
 model.add(Dense(30))
-model.add(Dense(25))
-model.add(Dense(20))
-model.add(Dense(15))
+model.add(Dense(20))   
 model.add(Dense(10))
 model.add(Dense(8, activation='softmax'))   
 #회귀모델 activation = linear (default값) 이진분류 sigmoid 다중분류 softmax 
@@ -50,7 +51,7 @@ model.add(Dense(8, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])    
 
 es = EarlyStopping
-es = EarlyStopping(monitor = "val_loss", patience=50, mode='min',verbose=1,restore_best_weights=True)
+es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 
 hist = model.fit(x_train,y_train,epochs=1000000,batch_size=100, verbose=1,validation_split=0.2, callbacks=[es])    
 #batch_size 통째로 빼 보고 해보기 디폴트 사이즈 몇인지 알아보기  로딩되는 과정에서 1epcoh에 값이 몇인지 확인해보기. 데이터 수 / batch사이즈 값만큼 반복한다. 나머지도 1번으로 계산한다.
@@ -62,19 +63,20 @@ hist = model.fit(x_train,y_train,epochs=1000000,batch_size=100, verbose=1,valida
 # case2 371848 / 11620 = 32.00068846815835
 # train데이터의 개수가 1개정도 차이난다고 쳐도 batch사이즈 기본값은 32이고 거기에 나머지가 좀 남은거 1번 연산 더해서 11621이 나온거 같다.
 # batch_size: 정수 혹은 None. 경사 업데이트 별 샘플의 수. 따로 정하지 않으면 batch_size는 디폴트 값인 32가 됩니다. 
-# 구글링 해봤는데 내 계산이 맞았다. 확인 끝났으면 batch_size=10000정도로 화끈하게 줘서 얼른해야지 32로하면 밤새겠다.
+# 구글링 해봤는데 내 계산이 맞았다. 확인 끝났으면 batch_size=10000정도로 화끈하게 줘서 일단 해본다.
 
 #print(len(x_train)) #model.fit에서 다시 train과 validation으로 나눠주니까 여기서 측정하면 나눠진후의 x_train값이 나올줄 알았는데 464809가 나왔다.
 # model.fit안에서 자체적으로 나눠서 계산해주고 그 밖까지 값이 저장되지는 않는거같다.
 #4. 평가, 예측
 loss = model.evaluate(x_test,y_test)   
-print('loss : ', loss[0])          # batch_size=1000 loss :  0.6324978470802307         batch_size=100  loss :  0.639609694480896
-print('accuracy : ', loss[1])      # batch_size=1000 accuracy :  0.725635290145874      batch_size=100   accuracy :  0.7248436212539673
+print('loss : ', loss[0])          # batch_size=1000 loss :  0.6324978470802307         batch_size=100  loss :  0.639609694480896           loss :  0.637958824634552
+print('accuracy : ', loss[1])      # batch_size=1000 accuracy :  0.725635290145874      batch_size=100   accuracy :  0.7248436212539673     accuracy :  0.7228556871414185
 
-results = model.predict(x_test[:7])
-print(x_test[:7])
-print(y_test[:7])
+results = model.predict(x_test[:15])
+print(y_test[:15])
 print(results)
+
+
 # y_test랑 results까서 비교해보자.
 # [[0. 1. 0. 0. 0. 0. 0. 0.]
 #  [0. 0. 1. 0. 0. 0. 0. 0.]
