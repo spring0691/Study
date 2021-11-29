@@ -12,11 +12,7 @@ datasets = load_breast_cancer()
 
 x = datasets.data
 y = datasets.target
-#print(datasets.DESCR)   # describe 약자 이게 뭐해주더라..? 내용확인 
-#print(datasets.feature_names)   # 이름 확인
-#print(x.shape, y.shape)         # 모양분석 (569, 30) (569, )
-#print(y)    # 결과값이 0,1 밖에 없는걸 보는 순간 2진분류인거 판단 + loss 값 binary cross Entropy랑 sigmoid() 함수인거 까지 자동으로 생각
-#print(np.unique(y))     # [0,1] 중복값 빼고 결과값이 뭐인지 보여주는거. 분류값에서 unique한 것이 몇개있는지 뭐 있는지 보여줌.
+
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66) 
 
