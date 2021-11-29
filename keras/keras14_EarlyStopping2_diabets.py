@@ -38,7 +38,11 @@ model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
+<<<<<<< HEAD
 # 컴파일이 정확히 뭘 해주는거지?            <------------------------------------------------------------------------------------  질문할거 
+=======
+# compile은 정확히 뭘 해주는 기능이지? loss , optimizer는 정확히 뭘 의미하는걸까
+>>>>>>> 29db99594d2bf4067ed1c69630382948e9c55cec
 
 es = EarlyStopping  # 정의를 해줘야 사용가능하다
 es = EarlyStopping(monitor='val_loss', patience=100, mode='min', verbose=1, restore_best_weights=True)
@@ -47,7 +51,11 @@ es = EarlyStopping(monitor='val_loss', patience=100, mode='min', verbose=1, rest
 # baseline = None ,  모델이 달성해야하는 최소한의 기준값을 선정합니다. 0.0~1.0?? 이게 뭘 의미하는건지. <-------------------------------------------   질문할거 
 # True값 넣고 evaluate했을때  1.loss: 3447.219482421875  r2: 0.5668603667030361  2.loss: 3641.060302734375   r2: 0.5425044431962383   3.loss: 3614.39453125  r2: 0.5458550011751824
 # False값 넣고 evalutae했을때 1.loss: 3701.3193359375    r2: 0.5349329860627352  2.loss: 3321.02294921875    r2: 0.5827168650569212   3.loss: 3441.029541015625   r2: 0.5676381480025825
+<<<<<<< HEAD
 # 왠지는 모르겠는데 그렇게 큰 차이는 없다.   
+=======
+# 왠지는 모르겠는데 그렇게 큰 차이는 없다. 
+>>>>>>> 29db99594d2bf4067ed1c69630382948e9c55cec
 # 큰 차이가 없는 이유. EarlyStopping은 최적의 weights값을 기록(?)까지만 하지 저장은 하지 않는다.
 # 값을 저장하려면 ModelCheckpoint 함수를 써야한다.
 
