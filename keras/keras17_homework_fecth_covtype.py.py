@@ -7,8 +7,8 @@ from tensorflow.keras.callbacks import EarlyStopping    # 데이터 훈련 자�
 
 # 여기서부터 이제 3가지의 onehotencoding 도와주는 함수가 있다 
 #1. from tensorflow.keras.utils import to_categorical       y라벨 값을 0부터순차적으로 끝까지 변환해준다. 0 1 2 3 4 5...
-from sklearn.preprocessing import OneHotEncoder             #y라벨 값을 유니크값만큼만 변환해준다          1 2 4 6 8...
-#3. from pandas import get_dummies                          y라벨 값을 유니크값만큼만 변환해주는데 print y해보면 라벨값이나정보가 좀 더 들어가 있다.
+from sklearn.preprocessing import OneHotEncoder            #y라벨 값을 유니크값만큼만 변환해준다          1 2 4 6 8...
+#3. from pandas import get_dummies                          y라벨 값을 유니크값만큼만 변환해주는데 print y해보면 라벨값이랑 인덱스정보가 들어가 있다.
 
 #1. 데이터 
 datasets = fetch_covtype()
@@ -39,7 +39,7 @@ y = datasets.target
 # 이 문제는 판다스나 싸이킷런 써서 (581012, 7)로 해서 푸는게 더 좋다.
 
 enco = OneHotEncoder(sparse=False)         # sparse=True가 디폴트이며 이는 Matrix를 반환한다. 원핫인코딩에서 필요한 것은 array이므로 sparse 옵션에 False를 넣어준다.
-y = enco.fit_transform(y.reshape(-1,1))    # -1,1이 뭘 의미하는거지?
+y = enco.fit_transform(y.reshape(-1,1))    # 2차원변환 해주기 위해 행의 자리에 -1넣고 열이1개라서 1넣은거다 그러면 세로베열된다. 가로배열은(1,-1)이다.
 
 #print(y.shape)  # 바뀐거확인.              # (581012, 7)로 잘 바뀐걸 확인 할 수 있다    
 

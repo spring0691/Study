@@ -5,6 +5,8 @@ from pandas import get_dummies
 import numpy as np
 import pandas as pd     # csv같은 데이터를 분석하는걸 도와주는 api
 # csv 거의 엑셀이랑 비스사다 데이터의 구분을 ,로 해준다.
+# 확장에서 rainbow csv설치 - csv파일을 보기좋게 색같은거넣어서 구분해준다. 
+# edit csv설치    - csv파일을 edit창에서 열어서 엑셀처럼 더 편하게 보기좋게 해준다.
 
 #1. 데이터 로드 및 정제
 path = "./_data/titanic/"
