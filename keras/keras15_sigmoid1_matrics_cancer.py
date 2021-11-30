@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping
+#from tensorflow.keras.utils import to_categorical 
  
 # 1. 데이터 정제
 # 싸이킷런은 데이터를 x,y 붙여서 제공한다?
@@ -12,6 +13,7 @@ datasets = load_breast_cancer()
 
 x = datasets.data
 y = datasets.target
+#y = to_categorical(y)
 #print(datasets.DESCR)   # describe 약자 이게 뭐해주더라..? 내용확인 
 #print(datasets.feature_names)   # 이름 확인
 #print(x.shape, y.shape)         # 모양분석 (569, 30) (569, )
@@ -29,7 +31,7 @@ model.add(Dense(15, activation='linear'))
 model.add(Dense(10, activation='linear'))
 model.add(Dense(5, activation='linear'))
 model.add(Dense(1, activation='sigmoid'))   # sigmoid함수는 레이어를 거치며 커져버린 y=wx+b의 값들을 0.0~1.0사이로 잡아주는 역할을 한다. 
-
+#model.add(Dense(2, activation='softmax'))  이게 크게보면 이진분류도 결국 다중분류에 속해있어서 혹시나 onehotencoding하고 softmax2로 잡아주고 하면 될거 같아서 해봤더니 잔짜 된다
 #회귀모델 activation = linear (default값) 이진분류 sigmoid 다중분류 softmax 
 
 #3. 컴파일, 훈련
