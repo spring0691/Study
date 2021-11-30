@@ -35,7 +35,7 @@ model.add(Dense(1, activation='sigmoid'))   # sigmoid함수는 레이어를 거�
 #회귀모델 activation = linear (default값) 이진분류 sigmoid 다중분류 softmax 
 
 #3. 컴파일, 훈련
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])    
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])    # 다중분류 softmax할거면 loss도 categorical_crossentropy로 바꿔줘야한다.
 # 회귀모델을 하기위해서 mse loss가 필요하고 이진분류하기위해서 binary_crossentropy가 필요하고 다중분류를 하기위해서 categorical_crossentropy가 필요하다 그런개념.
 # 각모델에 맞는 mse값들이 있다.   
 # matrics=['accuracy']는 그냥 r2 스코어처럼 지표를 보여주는거지 fit에 영향을 끼치지않는다. 다른것도넣을수 있다 matrics에.
