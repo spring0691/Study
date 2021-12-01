@@ -5,7 +5,6 @@ import pandas as pd
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
 
 def RMSE(y_test, y_pred):
@@ -25,12 +24,12 @@ y = train['count']
 
 y = np.log1p(y) 
 
-x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=49)  
+x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49)  
 
-#scaler = MinMaxScaler()   #어떤 스케일러 사용할건지 정의부터 해준다.
+scaler = MinMaxScaler()   #어떤 스케일러 사용할건지 정의부터 해준다.
 #scaler = StandardScaler()
 #scaler = RobustScaler()
-scaler = MaxAbsScaler()
+#scaler = MaxAbsScaler()
     
 scaler.fit(x_train)       #어떤 비율로 변환할지 계산해줌.
 x_train = scaler.transform(x_train)   # 훈련할 데이터 변환
@@ -40,20 +39,21 @@ test_file = scaler.transform(test_file)
 
 #2. 모델링      
 model = Sequential()
-model.add(Dense(50, input_dim=8))    
-model.add(Dense(40, activation='relu'))
-model.add(Dense(30, activation='relu'))
-model.add(Dense(20))
-model.add(Dense(10))
+model.add(Dense(16, input_dim=8))    
+model.add(Dense(24)) #, activation='relu'
+model.add(Dense(32)) #, activation='relu'
+model.add(Dense(24)) 
+model.add(Dense(16))
+model.add(Dense(8))
 model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
 
 es = EarlyStopping
-es = EarlyStopping(monitor = "val_loss", patience=50, mode='min',verbose=1,restore_best_weights=True)
+es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 
-model.fit(x_train,y_train,epochs=5000,batch_size=100, verbose=1,validation_split=0.25,callbacks=[es])
+model.fit(x_train,y_train,epochs=5000,batch_size=50, verbose=1,validation_split=0.11111111,callbacks=[es])
 
 #4. 평가
 loss = model.evaluate(x_test,y_test)   
@@ -73,20 +73,20 @@ print("RMSE : ", rmse)
 results = model.predict(test_file)
 
 submit_file['count'] = results  
-submit_file.to_csv(path + 'nomarl layer test.csv', index=False)  
+submit_file.to_csv(path + 'nomarl_layer.csv', index=False)  
 
 '''
-결과정리                일반레이어          relu
+결과정리                일반레이어                      relu
 
 안하고 한 결과 
-loss값 :  
-R2 :  
-RMSE : 
+loss값 :            1.4784865379333496          1.4007244110107422
+R2 :                0.2917459249344957          0.3289969819180105
+RMSE :              1.2159303183182582          1.1835221306359913
 
 MinMax
-loss값 :  
-R2 : 
-RMSE : 
+loss값 :            1.4826191663742065          1.376928687095642
+R2 :                0.2897662439632225          0.3403961674900349
+RMSE :              1.217628490239822           1.1734260670034284
 
 Standard
 loss값 : 
