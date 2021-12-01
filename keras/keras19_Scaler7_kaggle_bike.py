@@ -26,10 +26,10 @@ y = np.log1p(y)
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49)  
 
-scaler = MinMaxScaler()   #어떤 스케일러 사용할건지 정의부터 해준다.
+#scaler = MinMaxScaler()   #어떤 스케일러 사용할건지 정의부터 해준다.
 #scaler = StandardScaler()
 #scaler = RobustScaler()
-#scaler = MaxAbsScaler()
+scaler = MaxAbsScaler()
     
 scaler.fit(x_train)       #어떤 비율로 변환할지 계산해줌.
 x_train = scaler.transform(x_train)   # 훈련할 데이터 변환
@@ -73,15 +73,15 @@ print("RMSE : ", rmse)
 results = model.predict(test_file)
 
 submit_file['count'] = results  
-submit_file.to_csv(path + 'nomarl_layer.csv', index=False)  
+submit_file.to_csv(path + 'MaxAbs.csv', index=False)  
 
 '''
 결과정리                일반레이어                      relu
 
 안하고 한 결과 
-loss값 :            1.4784865379333496          1.4007244110107422
-R2 :                0.2917459249344957          0.3289969819180105
-RMSE :              1.2159303183182582          1.1835221306359913
+loss값 :            1.4784865379333496          1.3939474821090698
+R2 :                0.2917459249344957          0.3322434796939797
+RMSE :              1.2159303183182582          1.1806555557714267
 
 MinMax
 loss값 :            1.4826191663742065          1.376928687095642
@@ -89,17 +89,17 @@ R2 :                0.2897662439632225          0.3403961674900349
 RMSE :              1.217628490239822           1.1734260670034284
 
 Standard
-loss값 : 
-R2 :  
-RMSE :  
+loss값 :            1.485615611076355           1.3592065572738647
+R2 :                0.2883307752457015          0.3488858125246118
+RMSE :              1.2188583566891529          1.1658501305517504
 
 Robust
-loss값 : 
-R2 :  
-RMSE :  
+loss값 :            1.47902512550354            1.3599188327789307
+R2 :                0.29148796673764255         0.34854455230668224
+RMSE :              1.2161517294252668          1.1661556116484861
 
 MaxAbs
-loss값 : 
-R2 :  
-RMSE :  
+loss값 :            1.482558012008667           1.36235773563385
+R2 :                0.2897954998115978          0.34737620891107013
+RMSE :              1.2176034117913292          1.167200855711969
 '''
