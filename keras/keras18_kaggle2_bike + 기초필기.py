@@ -9,7 +9,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 import matplotlib.pyplot as plt
 
 def RMSE(y_test, y_pred):
-    return np.sqrt(mean_squared_error(y_test,y_predict))
+    return np.sqrt(mean_squared_error(y_test,y_predict))    #배열의 제곱근을 계산 np.sqrt
 
 #1. 데이터 로드 및 정제
 path = "./_data/bike/"   #문자열 스트링데이터    .현재폴더 ..이전폴더로 가겠다
@@ -51,39 +51,26 @@ y = np.log1p(y) # y모든 값에 1더해주고 log화 시킨다. log1p
 #plt.show()      # 데이터가 넓거나 한쪽으로 치우쳐진 경우에 데이터를 로그변환 해준다. 0값이 있으면 안된다. 모든 값에 1더해놓고 로그화 시킨다.
 
 
-x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=66)  
+x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=49)  
 
 #2. 모델링      이 모델은 y의 값이 천차만별인 회귀형 모델이다
 model = Sequential()
-model.add(Dense(100, input_dim=8))    
-model.add(Dense(95))
-model.add(Dense(90))
-model.add(Dense(85))
-model.add(Dense(80))
-model.add(Dense(75))
-model.add(Dense(70))
-model.add(Dense(65))
-model.add(Dense(60))
-model.add(Dense(55))
-model.add(Dense(50))
-model.add(Dense(45))
-model.add(Dense(40))
-model.add(Dense(35))
-model.add(Dense(30))
-model.add(Dense(25))
-model.add(Dense(20))
-model.add(Dense(15))   
-model.add(Dense(10))
+model.add(Dense(8, input_dim=8))    
+model.add(Dense(7))
+model.add(Dense(6))
 model.add(Dense(5))
+model.add(Dense(4))
+model.add(Dense(3))
+model.add(Dense(2))
 model.add(Dense(1))
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam') # 이 모델은 RMSLE로 해아한다고 하네~
+model.compile(loss='mse', optimizer='adam') #kaggle에서 이 모델은 RMSLE로 loss값 잡으라고 명시해줌
 
 #es = EarlyStopping
-#es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
+es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 
-model.fit(x_train,y_train,epochs=30,batch_size=1, verbose=1,validation_split=0.11111111, ) #callbacks=[es]
+model.fit(x_train,y_train,epochs=5000,batch_size=10, verbose=1,validation_split=0.25,callbacks=[es])
 
 #4. 평가
 loss = model.evaluate(x_test,y_test)   
