@@ -1,3 +1,4 @@
+import re
 from tensorflow.keras.models import Sequential, Model         
 from tensorflow.keras.layers import Dense, Input
 import numpy as np
@@ -23,12 +24,15 @@ submit_file = pd.read_csv(path + 'sample_Submission.csv')
 
 x = train.drop(['id','quality'], axis=1)    # id와 quality열 제거
 
-Le = LabelEncoder()
-#라벨 인코딩은 n개의 범주형 데이터를 0부터 n-1까지의 연속적 수치 데이터로 표현
-label = x['type']
-Le.fit(label)
+Le = LabelEncoder()     # 함수 선언
+#라벨 인코딩은 n개의 범주형 데이터를 0부터 n-1까지의 연속적 수치 데이터로 표현 문자를 
+label = x['type']   # label안에 x의 type열 값들 저장.   x.type과 x['type']은 같다. 
+Le.fit(label)       # fit으로 범주를 찾아낸다.
 x['type'] = Le.transform(label)     # 라벨인코더로 type값 변환
-
+#print(type(x.type))     # pandas.core.series.Series
+#print(x.type)
+#print(x.type.value_counts())    #x의 type열의 개수를 세주는 기능 value_counts() 
+# categorical 형 데이터의 value별로 개수를 카운트해준다.
 #print(x)   #확인        여기까지가 x값 정제.
 #print(x.shape)       (3231, 12)   
 
@@ -36,7 +40,7 @@ x['type'] = Le.transform(label)     # 라벨인코더로 type값 변환
 test_file = test_file.drop(['id'], axis=1)
 label2 = test_file['type']
 Le.fit(label2)
-test_file['type'] =Le.transform(label2)
+test_file['type'] =Le.transform(label2) 
 #print(test_file)   #id값 사라진거 확인. type 1과0으로 바뀐거확인
 
 y = train['quality']    # train에서 quality 열 값만 가져오겠다.
@@ -97,9 +101,12 @@ print('loss값 accuracy값 : ', loss)
 results = model.predict(test_file)
 
 results_int = np.argmax(results, axis=1).reshape(-1,1) + 4 # 0부터되돌려주므로 4더해준다.
-# argmax 중요 ! argmax란 그니까 원핫인코딩된 데이터를 결과데이터에 넣을때 다시 원래의 colums값으로
-# 되돌려 주는 편리한 기능을 제공해주는 함수이다. colums값이 꽃의 종류나 등등 문자일경우
+# argmax 중요 ! argmax란 그니까 원핫인코딩된 데이터를 결과데이터에 넣을때 다시 숫자로,
+# 되돌려 주는 편리한 기능을 제공해주는 함수이다. colums값이 꽃의 종류같이 문자일경우
 # 내가 작업하거나 다른 함수기능으로 한번더 디코딩 해줘야할거 같다.
+# [0.1, 0.4, 0.3, 0.2] -> 0.4가 제일 크다 -> [0,1,0,0] -> 2로 반환 완전 편하당 
+# padas는 value_count 기능으로 numpy는 np.unique으로 안의 값들을 정리된 상태로 편하게 이해 할 수 있다.
+#print(np.unique(results_int))  results_int안에 담긴 값들의 unique값을 확인 할 수 있다.
 
 submit_file['quality'] = results_int
 
