@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
 from sklearn.preprocessing import LabelEncoder
 from pandas import get_dummies
@@ -43,7 +42,6 @@ test_file['type'] =Le.transform(label2)
 y = train['quality']    # train에서 quality 열 값만 가져오겠다.
 #print(y.unique())       # 6,7,5,8,4     5가지 값만 나온다. 다중분류모델 고고~
 y = get_dummies(y)
-y = np.log1p(y) 
 
 #print(y[:50])            # 앞에서부터 4,5,6,7,8순으로 잘 변환되어있다.
 
@@ -99,7 +97,9 @@ print('loss값 accuracy값 : ', loss)
 results = model.predict(test_file)
 
 results_int = np.argmax(results, axis=1).reshape(-1,1) + 4 # 0부터되돌려주므로 4더해준다.
-# argmax 중요 !
+# argmax 중요 ! argmax란 그니까 원핫인코딩된 데이터를 결과데이터에 넣을때 다시 원래의 colums값으로
+# 되돌려 주는 편리한 기능을 제공해주는 함수이다. colums값이 꽃의 종류나 등등 문자일경우
+# 내가 작업하거나 다른 함수기능으로 한번더 디코딩 해줘야할거 같다.
 
 submit_file['quality'] = results_int
 
