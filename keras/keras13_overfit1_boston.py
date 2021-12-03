@@ -40,7 +40,7 @@ hist = model.fit(x_train,y_train,epochs=10, batch_size=1,validation_split=0.25)
 # 여기서 나오는 값들을 hist에 담는다.
 end = time.time() - start
 
-print("걸린시간 : ", round(end, 3), '초')
+print("걸린시간 : ", round(end, 3), '초')   #round는 반올림 함수이다. end값을 소수점 3자리까지만 반올림처리하겠다는 뜻
 #4. 평가 , 예측
 #loss = model.evaluate(x_test,y_test)
 #print('loss : ', loss)
