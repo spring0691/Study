@@ -50,11 +50,11 @@ y = get_dummies(y)
 
 #print(y[:50])            # 앞에서부터 4,5,6,7,8순으로 잘 변환되어있다.
 
-x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.7, shuffle=True, random_state=49)  
+x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)  
 
-#scaler = MinMaxScaler()   
+scaler = MinMaxScaler()   
 #scaler = StandardScaler()
-scaler = RobustScaler()
+#scaler = RobustScaler()
 #scaler = MaxAbsScaler()
     
 scaler.fit(x_train)       
@@ -66,14 +66,13 @@ test_file = scaler.transform(test_file)
 #2. 모델링
 
 input1 = Input(shape=(12,))
-dense1 = Dense(24,activation="relu")(input1) #
-dense2 = Dense(36)(dense1)
-dense3 = Dense(48,activation="relu")(dense2) # 
-dense4 = Dense(36)(dense3)
-dense5 = Dense(24)(dense4)
-dense6 = Dense(12)(dense5)
-dense7 = Dense(8)(dense6)
-output1 = Dense(5,activation='softmax')(dense7)
+dense1 = Dense(20, activation='relu')(input1) #
+dense2 = Dense(40, activation='relu')(dense1)
+dense3 = Dense(60, activation='sigmoid')(dense2) # 
+dense4 = Dense(40)(dense3) # 
+dense5 = Dense(20)(dense4) # 
+dense6 = Dense(10)(dense5)
+output1 = Dense(5,activation='softmax')(dense6)
 model = Model(inputs=input1,outputs=output1)
       
 # model = Sequential()
@@ -93,7 +92,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 es = EarlyStopping
 es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 
-model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0.14,callbacks=[es])
+model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0.25,callbacks=[es])
 
 #4. 평가
 loss = model.evaluate(x_test,y_test)   
