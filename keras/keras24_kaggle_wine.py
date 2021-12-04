@@ -30,7 +30,9 @@ label = x['type']   # label안에 x의 type열 값들 저장.   x.type과 x['typ
 Le.fit(label)       # fit으로 범주를 찾아낸다.
 x['type'] = Le.transform(label)     # 라벨인코더로 type값 변환
 #print(type(x.type))     # pandas.core.series.Series
-#print(x.type)
+#print(x.type)          # 값이 바뀐것을 확인.
+#print(x.type.info())    # pandas.core.series.Series 는 값이 찍히지 않는다. 그냥 이 자체로 이해하는게 편할거같다.
+#print(x.type[2:3] + x.type[3:4])   덧셈 연산 안된다. 숫자가 아니라 문자로 바뀌는거 같다.
 #print(x.type.value_counts())    #x의 type열의 개수를 세주는 기능 value_counts() 
 # categorical 형 데이터의 value별로 개수를 카운트해준다.
 #print(x)   #확인        여기까지가 x값 정제.
@@ -49,7 +51,7 @@ y = get_dummies(y)
 
 #print(y[:50])            # 앞에서부터 4,5,6,7,8순으로 잘 변환되어있다.
 
-x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49)  
+x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.7, shuffle=True, random_state=49)  
 
 #scaler = MinMaxScaler()   
 #scaler = StandardScaler()
@@ -64,22 +66,27 @@ test_file = scaler.transform(test_file)
 
 #2. 모델링
 
-# input1 = Input(shape=(8,))
-# dense1 = Dense(16)(input1) #,activation="relu"
-# dense2 = Dense(24)(dense1)
-# dense3 = Dense(32)(dense2) #,activation="relu" 
-# dense4 = Dense(16)(dense3)
-# dense5 = Dense(8)(dense4)
-# output1 = Dense(1)(dense5)
-# model = Model(inputs=input1,outputs=output1)
+input1 = Input(shape=(12,))
+dense1 = Dense(24,activation="relu")(input1) #
+dense2 = Dense(36)(dense1)
+dense3 = Dense(48,activation="relu")(dense2) # 
+dense4 = Dense(36)(dense3)
+dense5 = Dense(24)(dense4)
+dense6 = Dense(12)(dense5)
+dense7 = Dense(8)(dense6)
+output1 = Dense(5,activation='softmax')(dense7)
+model = Model(inputs=input1,outputs=output1)
       
-model = Sequential()
-model.add(Dense(60, activation='relu', input_dim=12))    
-model.add(Dense(48, activation='relu')) #, activation='relu'
-model.add(Dense(36)) 
-model.add(Dense(24)) #, activation='relu'
-model.add(Dense(12))
-model.add(Dense(5,activation='softmax'))
+# model = Sequential()
+# model.add(Dense(100, input_dim=12))    
+# model.add(Dense(80, activation='relu')) # 
+# model.add(Dense(60)) #
+# model.add(Dense(40, activation='relu'))
+# model.add(Dense(30, activation='relu')) 
+# model.add(Dense(20))
+# model.add(Dense(15))
+# model.add(Dense(10))
+# model.add(Dense(5))
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']) 
@@ -87,7 +94,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 es = EarlyStopping
 es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 
-model.fit(x_train,y_train,epochs=5000,batch_size=50, verbose=1,validation_split=0.11111111,callbacks=[es])
+model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0.14,callbacks=[es])
 
 #4. 평가
 loss = model.evaluate(x_test,y_test)   
@@ -110,7 +117,8 @@ results_int = np.argmax(results, axis=1).reshape(-1,1) + 4 # 0부터되돌려주
 
 submit_file['quality'] = results_int
 
-submit_file.to_csv(path + 'Roubst_relu3.csv', index=False)  
+acc= str(round(loss[1], 4)).replace(".", "_")
+submit_file.to_csv(path+f"result/accuracy_{acc}.csv", index = False)
 
 
 '''                                                                                   

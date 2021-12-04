@@ -27,7 +27,8 @@ x_test = scaler.transform(x_test)
 
 #2. 모델구성,모델링
 
-input1 = Input(shape=(10,))
+#input1 = Input(shape=(10,))
+input1 = Input(dim=10)
 dense1 = Dense(100)(input1)
 dense2 = Dense(80,activation="relu")(dense1)
 dense3 = Dense(60)(dense2)

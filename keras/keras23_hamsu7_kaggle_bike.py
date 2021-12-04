@@ -13,7 +13,7 @@ def RMSE(y_test, y_pred):
     return np.sqrt(mean_squared_error(y_test,y_predict))    
 
 #1. 데이터 로드 및 정제
-path = "./_data/bike/"   
+path = "../_data/kaggle/bike/"   
 
 train = pd.read_csv(path + 'train.csv')                 
 test_file = pd.read_csv(path + 'test.csv')                  

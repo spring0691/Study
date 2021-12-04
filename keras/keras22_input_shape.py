@@ -11,7 +11,7 @@ y = np.transpose(y)
 
 #2. 모델구성        행의 개수는 같아야 하지만 열의 개수는 달라도 된다. 열 = 특성,피쳐,등등
 from tensorflow.keras.models import Sequential, Model # 함수형모델 Model
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Input
 
 model = Sequential()
 model.add(Dense(10, input_dim=3))       # x는 (100,3)이다   행 무시 (N,3)
