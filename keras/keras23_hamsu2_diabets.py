@@ -1,5 +1,5 @@
 ######### model = Sequential()  -> model = Model
-from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Input
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
@@ -27,8 +27,7 @@ x_test = scaler.transform(x_test)
 
 #2. 모델구성,모델링
 
-#input1 = Input(shape=(10,))
-input1 = Input(dim=10)
+input1 = Input(shape=(10,))
 dense1 = Dense(100)(input1)
 dense2 = Dense(80,activation="relu")(dense1)
 dense3 = Dense(60)(dense2)
@@ -49,10 +48,12 @@ model = Model(inputs=input1,outputs=output1)
 
 #3. 컴파일 훈련
 model.compile(loss='mse', optimizer='adam') 
-es = EarlyStopping  
+
 es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 model.fit(x_train,y_train,epochs=10000, batch_size=10,validation_split=0.1111111, callbacks=[es])
 
+model.save("./_save/keras25_2_save_diabets.h5")
+#model = load_model("./_save/keras25_1_save_boston.h5")
 
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)

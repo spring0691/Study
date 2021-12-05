@@ -1,6 +1,6 @@
 ######### model = Sequential()  -> model = Model
 
-from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.models import Sequential, Model,load_model
 from tensorflow.keras.layers import Dense, Input
 from sklearn.datasets import fetch_covtype
 from sklearn.model_selection import train_test_split
@@ -52,10 +52,12 @@ model = Model(inputs=input1,outputs=output1)
 #3. 컴파일 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']) 
 es = EarlyStopping  
-es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
+es = EarlyStopping(monitor="val_loss", patience=10, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 model.fit(x_train,y_train,epochs=10000, batch_size=10000,validation_split=0.11111111, callbacks=[es])
 
 
+model.save("./_save/keras25_6_save_covtype.h5")
+#model = load_model("./_save/keras25_1_save_boston.h5")
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)
 print(loss)

@@ -1,6 +1,6 @@
 ######### model = Sequential()  -> model = Model
 
-from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Input
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
@@ -8,6 +8,7 @@ from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAb
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import r2_score
 import numpy as np
+import time
 
 #1.데이터 로드 및 정제
 
@@ -19,8 +20,8 @@ y = datasets.target
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49)    # train과 test로 나누고나서 스케일링한다.
 
 ##################################### 스케일러 설정 옵션 ########################################
-scaler = MinMaxScaler()   
-#scaler = StandardScaler()
+#scaler = MinMaxScaler()   
+scaler = StandardScaler()
 #scaler = RobustScaler()
 #scaler = MaxAbsScaler()
 scaler.fit(x_train)       
@@ -55,12 +56,18 @@ es = EarlyStopping
 es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 model.fit(x_train,y_train,epochs=10000, batch_size=10,validation_split=0.111111, callbacks=[es])
 
+#time = time.time()
+#tm = time.gmtime(time)
+#print(time)
+model.save("./_save/keras25_1_save_boston.h5")
+#model = load_model("./_save/keras25_1_save_boston.h5")
 
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)
 y_predict = model.predict(x_test)
 r2 = r2_score(y_test,y_predict) 
 print('r2스코어 : ', r2)
+
 
 '''
 결과정리            일반레이어                  relu추가                                          

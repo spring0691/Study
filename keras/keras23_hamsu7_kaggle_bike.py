@@ -1,6 +1,6 @@
 ######### model = Sequential()  -> model = Model
 
-from tensorflow.keras.models import Sequential, Model         
+from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Input
 import numpy as np
 import pandas as pd
@@ -62,10 +62,12 @@ model = Model(inputs=input1,outputs=output1)
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
 
-es = EarlyStopping
 es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 
 model.fit(x_train,y_train,epochs=5000,batch_size=50, verbose=1,validation_split=0.11111111,callbacks=[es])
+
+model.save("./_save/keras25_7_save_bike.h5")
+#model = load_model("./_save/keras25_1_save_boston.h5")
 
 #4. 평가
 loss = model.evaluate(x_test,y_test)   
