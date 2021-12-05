@@ -50,23 +50,23 @@ y = get_dummies(y)
 #print(y[:50])            # 앞에서부터 4,5,6,7,8순으로 잘 변환되어있다.
 
 
-x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)  
+x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=66)  
 
 
-#scaler = MinMaxScaler()   
+scaler = MinMaxScaler()   
 #scaler = StandardScaler()
 #scaler = RobustScaler()
 #scaler = MaxAbsScaler()
     
-#scaler.fit(x_train)       
-#x_train = scaler.transform(x_train)   
-#x_test = scaler.transform(x_test)    
-#test_file = scaler.transform(test_file)
+scaler.fit(x_train)       
+x_train = scaler.transform(x_train)   
+x_test = scaler.transform(x_test)    
+test_file = scaler.transform(test_file)
 
 
 
 
-'''
+
 #2. 모델링
 
 input1 = Input(shape=(12,))
@@ -96,7 +96,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 es = EarlyStopping
 es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 
-model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0.25,callbacks=[es])
+model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0.1111111111,callbacks=[es])
 
 #4. 평가
 loss = model.evaluate(x_test,y_test)   
@@ -119,7 +119,7 @@ submit_file['quality'] = results_int
 
 acc= str(round(loss[1], 4)).replace(".", "_")
 submit_file.to_csv(path+f"result/accuracy_{acc}.csv", index = False)
-'''
+
 
 '''                                                                                   
 결과정리                  일반레이어                      relu                   
