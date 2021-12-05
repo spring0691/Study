@@ -18,7 +18,7 @@ submit_file = pd.read_csv(path + 'sample_Submission.csv')
 #일단 기본적으로 csv파일 직접보거나 excel로 열어서 colums값을 직접 보고 분석하는게 좋다.
 #print(train.info())
 #print(train)   값 들을 보면 id는 그냥 단순 번호라서 삭제해야하고 type는 white와 red로 되어있어서 
-#               labelencoder로 변환해줘야함을 알수있다. 또한 quality는 결과치이므로 y값으로 분리시켜야한다.
+#labelencoder로 변환해줘야함을 알수있다. 또한 quality는 결과치이므로 y값으로 분리시켜야한다.
 
 
 x = train.drop(['id','quality'], axis=1)    # id와 quality열 제거
@@ -32,11 +32,10 @@ x['type'] = Le.transform(label)     # 라벨인코더로 type값 변환
 #print(x.type)          # 값이 바뀐것을 확인.
 #print(x.type.info())    # pandas.core.series.Series 는 값이 찍히지 않는다. 그냥 이 자체로 이해하는게 편할거같다.
 #print(x.type[2:3] + x.type[3:4])   덧셈 연산 안된다. 숫자가 아니라 문자로 바뀌는거 같다.
-#print(x.type.value_counts())    #x의 type열의 개수를 세주는 기능 value_counts() 
+#print(x.type.value_counts())    #x의 type열의 개수를 세주는 기능 value_counts()
 # categorical 형 데이터의 value별로 개수를 카운트해준다.
 #print(x)   #확인        여기까지가 x값 정제.
-#print(x.shape)       (3231, 12)   
-
+#print(x.shape)       (3231, 12) 
 
 test_file = test_file.drop(['id'], axis=1)
 label2 = test_file['type']
@@ -50,28 +49,33 @@ y = get_dummies(y)
 
 #print(y[:50])            # 앞에서부터 4,5,6,7,8순으로 잘 변환되어있다.
 
+
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)  
 
-scaler = MinMaxScaler()   
+
+#scaler = MinMaxScaler()   
 #scaler = StandardScaler()
 #scaler = RobustScaler()
 #scaler = MaxAbsScaler()
     
-scaler.fit(x_train)       
-x_train = scaler.transform(x_train)   
-x_test = scaler.transform(x_test)    
-test_file = scaler.transform(test_file)
+#scaler.fit(x_train)       
+#x_train = scaler.transform(x_train)   
+#x_test = scaler.transform(x_test)    
+#test_file = scaler.transform(test_file)
 
 
+
+
+'''
 #2. 모델링
 
 input1 = Input(shape=(12,))
-dense1 = Dense(20, activation='relu')(input1) #
-dense2 = Dense(40, activation='relu')(dense1)
-dense3 = Dense(60, activation='sigmoid')(dense2) # 
-dense4 = Dense(40)(dense3) # 
-dense5 = Dense(20)(dense4) # 
-dense6 = Dense(10)(dense5)
+dense1 = Dense(30, activation='relu')(input1) #
+dense2 = Dense(50)(dense1)
+dense3 = Dense(70, activation='relu')(dense2) # 
+dense4 = Dense(50)(dense3) # 
+dense5 = Dense(30)(dense4) # 
+dense6 = Dense(10, activation='relu')(dense5)
 output1 = Dense(5,activation='softmax')(dense6)
 model = Model(inputs=input1,outputs=output1)
       
@@ -100,8 +104,6 @@ print('loss값 accuracy값 : ', loss)
 
 
 
-
-
 ############################# 제출용 제작 ####################################
 results = model.predict(test_file)
 
@@ -117,7 +119,7 @@ submit_file['quality'] = results_int
 
 acc= str(round(loss[1], 4)).replace(".", "_")
 submit_file.to_csv(path+f"result/accuracy_{acc}.csv", index = False)
-
+'''
 
 '''                                                                                   
 결과정리                  일반레이어                      relu                   
