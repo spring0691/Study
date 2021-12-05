@@ -56,7 +56,7 @@ es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseli
 model.fit(x_train,y_train,epochs=10000, batch_size=1,validation_split=0.1111111111, callbacks=[es])
 
 model.save("./_save/keras25_5_save_wine.h5")
-#model = load_model("./_save/keras25_1_save_boston.h5")
+#model = load_model("./_save/keras25_5_save_wine.h5")
 
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)

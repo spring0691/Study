@@ -57,7 +57,7 @@ model.fit(x_train,y_train,epochs=10000, batch_size=10000,validation_split=0.1111
 
 
 model.save("./_save/keras25_6_save_covtype.h5")
-#model = load_model("./_save/keras25_1_save_boston.h5")
+#model = load_model("./_save/keras25_6_save_covtype.h5")
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)
 print(loss)

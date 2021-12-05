@@ -52,14 +52,16 @@ model = Model(inputs=input1,outputs=output1)
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
-es = EarlyStopping  
 es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 model.fit(x_train,y_train,epochs=10000, batch_size=10,validation_split=0.111111, callbacks=[es])
 
-#time = time.time()
-#tm = time.gmtime(time)
-#print(time)
-model.save("./_save/keras25_1_save_boston.h5")
+ti = time.time()
+kr = time.localtime(ti)
+krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
+print(krtime)
+
+
+model.save(f"./_save/keras25_1_save_boston{krtime}.h5")
 #model = load_model("./_save/keras25_1_save_boston.h5")
 
 #4. 평가 예측
