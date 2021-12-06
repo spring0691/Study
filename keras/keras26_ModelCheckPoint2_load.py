@@ -44,8 +44,10 @@ x_train,x_test,y_train,y_test = train_test_split(x, y, train_size=0.8, shuffle=T
 
 # restore_best_weights False 했을때
 model = load_model('./_ModelCheckPoint/keras26_1_MCP.hdf5')     # 향상된 값이 나온다. 왜 why? 와 조금이 아니라 엄청 상향된값 나오네 차이 심하네.
-#model = load_model('./_save/keras26_1_save_MCP.h5')            # 추가로 그러면 save모델에 저장되는 값은 es의 영향을 받는다는 뜻인거 같네. 
-                                                                # 반환에서 돌아오는 값은 es가 주는값. 그리고 프로그램이 주는 loss값 r2스코어 모두 es에서 주는 값.
+#model = load_model('./_save/keras26_1_save_MCP.h5')            # 추가로 그러면 save모델에 저장되는 값은 es의 영향을 받는다는 뜻인거 같네. <- 마지막값을 저장했다.
+                                                                # 반환에서 돌아오는 값은 es가 주는값. 그리고 프로그램이 주는 loss값 r2스코어 모두 es에서 주는 값. <- 마지막값
+                                                                # mcp는 es와 model.save와 상관없이 독자적으로 값을 따로 저장하고 파일까지 저장한다.
+                                                                # mcp file_save는 mcp가 주는값을 저장하고 model.save와 프로그램이 출력해주는 값은 es가 주는 값을 출력.
 #4. 평가 , 예측
 loss = model.evaluate(x_test,y_test)
 print('loss : ', loss)
