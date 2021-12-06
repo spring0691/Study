@@ -28,7 +28,8 @@ model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam') 
 
 es = EarlyStopping(monitor='val_loss', patience=10, mode='min', verbose=1)#, restore_best_weights=True
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath='./_ModelCheckPoint/keras26_1_MCP.hdf5')
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath='./_ModelCheckPoint/keras26_11_MCP.hdf5') #save_weights_only=True
+# 아무리 로드해봐도 모델을 돌릴수 없었다. 그냥 저장만하고 관측하는 용도로 사용하는건가봐
 
 hist = model.fit(x_train,y_train,epochs=500, batch_size=8,validation_split=0.25, callbacks=[es,mcp]) 
 
@@ -53,7 +54,7 @@ plt.xlabel('epoch')
 plt.legend(loc='upper right')
 plt.show()
 
-model.save("./_save/keras26_1_save_MCP.h5")     #<-- 여기서 저장하는 값은 es 여기서 주는 w값을 받아와서 저장.
+model.save("./_save/keras26_11_save_MCP.h5")     #<-- 여기서 저장하는 값은 es 여기서 주는 w값을 받아와서 저장.
 #4. 평가 , 예측
 loss = model.evaluate(x_test,y_test)
 print('loss : ', loss)

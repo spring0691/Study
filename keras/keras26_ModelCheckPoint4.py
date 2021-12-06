@@ -36,9 +36,10 @@ model_path = "".join([filepath, 'k26_',datetime, '_' ,filename])
             # ./_ModelCheckPoint/k26_1206_0456_2500-0.3724.hdf5
 ########################################################################################################
 
-es = EarlyStopping(monitor='val_loss', patience=10, mode='min', verbose=1)#, restore_best_weights=True
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=model_path)
-
+es = EarlyStopping(monitor='val_loss', patience=5, mode='min', verbose=1)#, restore_best_weights=True
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=model_path)    
+# save_best_weight  -> True면 좋은값들만 저장해주는데 이거마저도 좋은값들이 갱신되면서 저장되는거고, False하면 0부터 계속 다 저장한다.;
+# 어마어마하게 많이 저장하는데 1개만 저장하게 하는법 찾아보자. 만들어보자
 hist = model.fit(x_train,y_train,epochs=50, batch_size=8,validation_split=0.25, callbacks=[es,mcp]) 
 
 model.save("./_save/keras26_4_save_MCP.h5")
