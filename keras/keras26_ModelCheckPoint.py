@@ -18,7 +18,7 @@ x_train,x_test,y_train,y_test = train_test_split(x, y, train_size=0.8, shuffle=T
 model = Sequential()
 model.add(Dense(40, input_dim=13))
 model.add(Dense(30))
-model.add(Dense(20))
+model.add(Dense(20, activation='relu'))
 model.add(Dense(10))
 model.add(Dense(1))
 
@@ -30,7 +30,7 @@ model.compile(loss='mse', optimizer='adam')
 es = EarlyStopping(monitor='val_loss', patience=10, mode='min', verbose=1)#, restore_best_weights=True
 mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath='./_ModelCheckPoint/keras26_1_MCP.hdf5')
 
-hist = model.fit(x_train,y_train,epochs=50, batch_size=8,validation_split=0.25, callbacks=[es,mcp]) 
+hist = model.fit(x_train,y_train,epochs=500, batch_size=8,validation_split=0.25, callbacks=[es,mcp]) 
 
 print("-------------------------------------------")
 print(hist)   # 자료형이 나온다.
@@ -53,7 +53,7 @@ plt.xlabel('epoch')
 plt.legend(loc='upper right')
 plt.show()
 
-model.save("./_save/keras26_1_save_MCP.h5")
+model.save("./_save/keras26_1_save_MCP.h5")     #<-- 여기서 저장하는 값은 es 여기서 주는 w값을 받아와서 저장.
 #4. 평가 , 예측
 loss = model.evaluate(x_test,y_test)
 print('loss : ', loss)
@@ -63,5 +63,8 @@ y_predict = model.predict(x_test)
 r2 = r2_score(y_test,y_predict) 
 print('r2스코어 : ', r2)
 
-#loss :  45.410118103027344
-#r2스코어 :  0.456705915478698
+#loss :  30.479597091674805
+#r2스코어 :  0.6353370636633953
+
+# loss :  32.29319381713867
+# r2스코어 :  0.6136389237537831
