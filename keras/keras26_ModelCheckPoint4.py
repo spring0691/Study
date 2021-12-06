@@ -28,18 +28,20 @@ model.compile(loss='mse', optimizer='adam')
 #######################################################################################################
 import datetime         # 어제 새벽에 혼자 공부했던 부분이네 나이스. 근데 좀 다르다. 포메팅 안쓰고 다른 방식이네.
 date = datetime.datetime.now()
-datetime = date.strftime("%m%d_%H%M")
+datetime = date.strftime("%m%d_%H%M")   # 1206_0456
 
-filepath = './ModelCheckPoint/'
-filename = '{epoch:04d}-{val_loss:.4f}.hdf5'
-model_path = "".join([])
+filepath = './_ModelCheckPoint/'
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'    #ex)2500-0.3724.hdf5
+model_path = "".join([filepath, 'k26_',datetime, '_' ,filename])
+            # ./_ModelCheckPoint/k26_1206_0456_2500-0.3724.hdf5
+########################################################################################################
 
 es = EarlyStopping(monitor='val_loss', patience=10, mode='min', verbose=1)#, restore_best_weights=True
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath='./_ModelCheckPoint/keras26_3_MCP.hdf5')
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=model_path)
 
 hist = model.fit(x_train,y_train,epochs=50, batch_size=8,validation_split=0.25, callbacks=[es,mcp]) 
 
-model.save("./_save/keras26_3_save_MCP.h5")
+model.save("./_save/keras26_4_save_MCP.h5")
 
                        
 #4. 평가, 예측                                               
@@ -55,7 +57,7 @@ r2 = r2_score(y_test,y_predict)
 print('r2스코어 : ', r2)
 
 print("======================= 2. load_model 출력 ======================")
-model2 = load_model('./_save/keras26_3_save_MCP.h5')
+model2 = load_model('./_save/keras26_4_save_MCP.h5')
 loss2 = model2.evaluate(x_test,y_test)
 print('loss2 : ', loss2)
 
@@ -64,12 +66,12 @@ y_predict2 = model2.predict(x_test)
 r2 = r2_score(y_test,y_predict2) 
 print('r2스코어 : ', r2)
 
-print("====================== 3. mcp 출력 ============================")
-model3 = load_model('./_ModelCheckPoint/keras26_3_MCP.hdf5')
-loss3 = model3.evaluate(x_test,y_test)
-print('loss3 : ', loss3)
+# print("====================== 3. mcp 출력 ============================")
+# model3 = load_model('./_ModelCheckPoint/keras26_3_MCP.hdf5')
+# loss3 = model3.evaluate(x_test,y_test)
+# print('loss3 : ', loss3)
 
-y_predict3 = model3.predict(x_test)
+# y_predict3 = model3.predict(x_test)
 
-r2 = r2_score(y_test,y_predict3) 
-print('r2스코어 : ', r2)
+# r2 = r2_score(y_test,y_predict3) 
+# print('r2스코어 : ', r2)
