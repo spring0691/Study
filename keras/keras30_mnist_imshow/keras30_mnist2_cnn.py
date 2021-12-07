@@ -23,7 +23,7 @@ x_test = x_test.reshape(10000, 28, 28, 1)
 #print(np.unique(y_train, return_counts=True))   # np.unique(y_train, return_counts=True) 하면 pandas의 value.counts와 같은 기능
 
 y_train = to_categorical(y_train)
-#y_test = to_categorical(y_test)
+y_test = to_categorical(y_test)
 #2. 모델링
 
 model = Sequential()
@@ -44,9 +44,9 @@ model.add(Dense(10, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
 
 
-es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
+es = EarlyStopping(monitor="val_loss", patience=10, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 #mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras30_mnist_MCP.hdf5')
-model.fit(x_train,y_train,epochs=10000, batch_size=10000,validation_split=0.2, callbacks=[es])#,mcp
+model.fit(x_train,y_train,epochs=10000, batch_size=1000,validation_split=0.2, callbacks=[es])#,mcp
 
 #model.save(f"./_save/keras30_save_mnist.h5")
 
@@ -54,3 +54,6 @@ model.fit(x_train,y_train,epochs=10000, batch_size=10000,validation_split=0.2, c
 loss = model.evaluate(x_test,y_test)
 print('loss : ', loss[0])
 print('accuracy : ', loss[1])
+
+# loss :  0.058354027569293976          0.04385140538215637
+# accuracy :  0.9817000031471252        0.9861000180244446
