@@ -75,6 +75,9 @@ y_predict = model.predict(x_test)
 r2 = r2_score(y_test,y_predict) 
 print('r2스코어 : ', r2)
 
+rmse = RMSE(y_test,y_predict)
+print("RMSE : ", rmse)
+
 print("======================= 2. load_model 출력 ======================")
 model2 = load_model(f"./_save/keras26_7_save_bike{krtime}.h5")
 loss2 = model2.evaluate(x_test,y_test)
@@ -84,6 +87,9 @@ y_predict2 = model2.predict(x_test)
 
 r2 = r2_score(y_test,y_predict2) 
 print('r2스코어 : ', r2)
+
+rmse = RMSE(y_test,y_predict)
+print("RMSE : ", rmse)
 
 print("====================== 3. mcp 출력 ============================")
 model3 = load_model(f'./_ModelCheckPoint/keras26_7_bike{krtime}_MCP.hdf5')
@@ -95,6 +101,8 @@ y_predict3 = model3.predict(x_test)
 r2 = r2_score(y_test,y_predict3) 
 print('r2스코어 : ', r2)
 
+rmse = RMSE(y_test,y_predict)
+print("RMSE : ", rmse)
 
 ############################# 제출용 제작 ####################################
 # results = model.predict(test_file)

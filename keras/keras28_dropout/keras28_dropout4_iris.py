@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Sequential, Model, load_model
-from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.layers import Dense, Input, Dropout
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
@@ -28,16 +28,15 @@ x_test = scaler.transform(x_test)
 
 #2. 모델구성,모델링
 
-input1 = Input(shape=(4,))
-dense1 = Dense(70)(input1)
-dense2 = Dense(55)(dense1)
-dense3 = Dense(40,activation="relu")(dense2)
-dense4 = Dense(25)(dense3)
-dense5 = Dense(10,activation="relu")(dense4)
-output1 = Dense(3,activation='softmax')(dense5)
-model = Model(inputs=input1,outputs=output1)
-
-
+model = Sequential()
+model.add(Dense(70, activation='linear', input_dim=4))    
+model.add(Dense(55))   
+model.add(Dropout(0.4))
+model.add(Dense(40,activation='relu')) #
+model.add(Dropout(0.2))
+model.add(Dense(25))
+model.add(Dense(10,activation='relu')) #
+model.add(Dense(3, activation='softmax'))  
 
 #3. 컴파일 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
@@ -47,10 +46,10 @@ kr = time.localtime(ti)
 krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
 
 es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=False)
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras26_4_iris{krtime}_MCP.hdf5')
-model.fit(x_train,y_train,epochs=10000, batch_size=1,validation_split=0.11111111, callbacks=[es,mcp])
+#mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras28_4_iris{krtime}_MCP.hdf5')
+model.fit(x_train,y_train,epochs=10000, batch_size=1,validation_split=0.11111111, callbacks=[es])#,mcp
 
-model.save(f"./_save/keras26_4_save_iris{krtime}.h5")
+#model.save(f"./_save/keras28_4_save_iris{krtime}.h5")
 
 
 #4. 평가 예측
@@ -62,21 +61,22 @@ print('accuracy : ', loss[1])
 
 
 print("======================= 2. load_model 출력 ======================")
-model2 = load_model(f"./_save/keras26_4_save_iris{krtime}.h5")
+model2 = load_model(f"./_save/keras28_4_save_iris{krtime}.h5")
 loss2 = model2.evaluate(x_test,y_test)
 print('loss2 : ', loss[0])
 print('accuracy2 : ', loss[1])
 
 
 print("====================== 3. mcp 출력 ============================")
-model3 = load_model(f'./_ModelCheckPoint/keras26_4_iris{krtime}_MCP.hdf5')
+model3 = load_model(f'./_ModelCheckPoint/keras28_4_iris{krtime}_MCP.hdf5')
 loss3 = model3.evaluate(x_test,y_test)
 print('loss3 : ', loss[0])
 print('accuracy3 : ', loss[1])
 
 
+
 '''
-결과정리            일반레이어                      relu
+결과정리            일반레이어                      relu                drop+relu
 
 안하고 한 결과 
 loss :          0.0033079693093895912       0.0010957516497001052
@@ -95,6 +95,6 @@ loss :          0.0014624781906604767       0.0034313490614295006
 accuracy :      1.0                         1.0
 
 MaxAbs
-loss :          0.0035078583750873804       0.0006933937547728419
-accuracy :      1.0                         1.0
+loss :          0.0035078583750873804       0.0006933937547728419    0.041455790400505066
+accuracy :      1.0                         1.0                      1.0
 '''
