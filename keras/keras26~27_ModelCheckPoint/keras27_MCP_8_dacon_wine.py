@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Sequential, Model, load_model      
-from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.layers import Dense, Input, Dropout
 import numpy as np
 import pandas as pd
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -39,10 +39,10 @@ y = get_dummies(y)
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=66)  
 
 
-scaler = MinMaxScaler()   
+#scaler = MinMaxScaler()   
 #scaler = StandardScaler()
 #scaler = RobustScaler()
-#scaler = MaxAbsScaler()
+scaler = MaxAbsScaler()
     
 scaler.fit(x_train)       
 x_train = scaler.transform(x_train)   
@@ -53,12 +53,14 @@ test_file = scaler.transform(test_file)
 #2. 모델링
 
 input1 = Input(shape=(12,))
-dense1 = Dense(100, activation='relu')(input1) #
-dense2 = Dense(100, activation='relu')(dense1)
-dense3 = Dense(100, activation='relu')(dense2) # 
-dense4 = Dense(75, activation='relu')(dense3) # 
+dense1 = Dense(90, activation='relu')(input1) #
+dense2 = Dense(80)(dense1)
+drop2  = Dropout(0.4)(dense2)
+dense3 = Dense(70, activation='relu')(drop2) # 
+drop1  = Dropout(0.2)(dense3)
+dense4 = Dense(60)(drop1) # 
 dense5 = Dense(50, activation='relu')(dense4) # 
-dense6 = Dense(10, activation='relu')(dense5)
+dense6 = Dense(10)(dense5)
 output1 = Dense(5,activation='softmax')(dense6)
 model = Model(inputs=input1,outputs=output1)
       
@@ -71,32 +73,32 @@ kr = time.localtime(ti)
 krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
 
 es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras26_8_wine{krtime}_MCP.hdf5')
-model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0.1111111111,callbacks=[es,mcp])
+#mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras26_8_wine{krtime}_MCP.hdf5')
+model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0.1111111111,callbacks=[es])#,mcp
 
-model.save(f"./_save/keras26_8_save_wine{krtime}.h5")
+#model.save(f"./_save/keras26_8_save_wine{krtime}.h5")
 
 #4. 평가
-print("======================= 1. 기본 출력 =========================")
+# print("======================= 1. 기본 출력 =========================")
 loss = model.evaluate(x_test,y_test)
-print('loss : ', loss[0])
-print('accuracy : ', loss[1])
+# print('loss : ', loss[0])
+# print('accuracy : ', loss[1])
 
 
 
-print("======================= 2. load_model 출력 ======================")
-model2 = load_model(f"./_save/keras26_8_save_wine{krtime}.h5")
-loss2 = model2.evaluate(x_test,y_test)
-print('loss2 : ', loss2[0])
-print('accuracy2 : ', loss2[1])
+# print("======================= 2. load_model 출력 ======================")
+# model2 = load_model(f"./_save/keras26_8_save_wine{krtime}.h5")
+# loss2 = model2.evaluate(x_test,y_test)
+# print('loss2 : ', loss2[0])
+# print('accuracy2 : ', loss2[1])
 
 
 
-print("====================== 3. mcp 출력 ============================")
-model3 = load_model(f'./_ModelCheckPoint/keras26_8_wine{krtime}_MCP.hdf5')
-loss3 = model3.evaluate(x_test,y_test)
-print('loss3 : ', loss3[0])
-print('accuracy3 : ', loss3[1])
+# print("====================== 3. mcp 출력 ============================")
+# model3 = load_model(f'./_ModelCheckPoint/keras26_8_wine{krtime}_MCP.hdf5')
+# loss3 = model3.evaluate(x_test,y_test)
+# print('loss3 : ', loss3[0])
+# print('accuracy3 : ', loss3[1])
 
 
 
