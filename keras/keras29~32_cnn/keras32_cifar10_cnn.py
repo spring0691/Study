@@ -33,7 +33,7 @@ y_test = to_categorical(y_test)
 
 #4차원 데이터의 스케일러 적용하는 방법
 
-scaler =   StandardScaler()#MinMaxScaler()RobustScaler()MaxAbsScaler()    어떤 스케일러 사용할건지 정의부터 해준다.
+scaler =MinMaxScaler()   #StandardScaler()RobustScaler()MaxAbsScaler()    어떤 스케일러 사용할건지 정의부터 해준다.
 
 #x_train= x_train.reshape(50000,-1)  # 4차원 (50000,32,32,3)을 가로로 1자로 쫙펴준다.  행 세로 열 가로   (50000,3072)
 #x_test = x_test.reshape(10000,-1)
@@ -49,41 +49,43 @@ scaler =   StandardScaler()#MinMaxScaler()RobustScaler()MaxAbsScaler()    어떤
 # 위의 일련의 작업들을 2줄로 압축하면 이렇게 줄일수 있다.
 x_train = scaler.fit_transform(x_train.reshape(len(x_train),-1)).reshape(x_train.shape)
 x_test = scaler.transform(x_test.reshape(len(x_test),-1)).reshape(x_test.shape)
+#print(x_train[:2],x_train.shape)   잘 적용되어있다.
+#print(x_test[:2],x_test.shape) 
 
 #2. 모델링
-
-# model = Sequential()
-# model.add(Conv2D(10,kernel_size=(2,2),strides=1,padding='same', input_shape=(32,32,3), activation='relu'))
-# # strides = 
-# model.add(MaxPooling2D())
-# model.add(Conv2D(10,(2,2), activation='relu'))
-# model.add(MaxPooling2D())
-# model.add(Dropout(0.5))
-# model.add(Conv2D(10,(2,2), activation='relu'))
-# model.add(Dropout(0.5))
-# model.add(Flatten())       
-# model.add(Dense(64))
-# model.add(Dropout(0.5))
-# model.add(Dense(16))
-# model.add(Dense(10, activation='softmax'))
+# strides = 필터가 지정된 간격으로 순회하는 간격
+# padding = 입력데이터 외각에 특정값을 갖는 픽셀을 추가하여 Feature Map가 줄어드는것 방지 same하면막아주고, valid하면 안함(default)
+# 컨볼류션 레이어의 출력 데이터를 입력으로 받아서 크기를 줄이거나 특정 데이터를 강조하는 용도로 사용
+model = Sequential()
+model.add(Conv2D(10,kernel_size=(3,3),strides=1,padding='valid', input_shape=(32,32,3), activation='relu')) # 30,30,10
+model.add(MaxPooling2D(2,2))                                                                                # 15,15,10
+model.add(Conv2D(10,kernel_size=(2,2), strides=1, padding='same', activation='relu'))                       # 15,15,10
+model.add(MaxPooling2D(3,3))                                                                                #  5,5,10
+model.add(Conv2D(10,(2,2), activation='relu'))                                                              #  4,4,10
+model.add(MaxPooling2D(2,2))
+model.add(Flatten())       
+model.add(Dense(64))
+model.add(Dropout(0.5))
+model.add(Dense(16))
+model.add(Dropout(0.5))
+model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일 훈련
-#model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
+model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
 
 
-#es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
-#mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras32_cifar10_stardard_MCP.hdf5')
-#model.fit(x_train,y_train,epochs=10000, batch_size=1000,validation_split=0.2, callbacks=[es,mcp])#
-
-#model.save(f"./_save/keras32_save_cifar10_standard.h5")
-model = load_model("")
+es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras32_cifar10_MCP.hdf5')
+model.fit(x_train,y_train,epochs=10000, batch_size=1000,validation_split=0.2, callbacks=[es,mcp])#
+model.save(f"./_save/keras32_save_cifar10.h5")
+#model = load_model("")
 
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)
 print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
-#            기본                   기본+Minmax             기본+satndard 
-# loss :     1.0126644372940063     1.1994456052780151      0.3034297525882721      1.202593207359314
-# accuracy : 0.6455000042915344     0.5812000036239624      0.8963000178337097      0.5715000033378601
+#               기본                       Minmax                 standard 
+# loss :     1.012665867805481     1.1994456052780151     1.203997015953064
+# accuracy : 0.6509000062942505     0.5812000036239624     0.5752999782562256
 

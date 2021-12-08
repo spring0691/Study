@@ -6,7 +6,7 @@
 
 # ex) 3 x 3(필터 크기) x 3 (입력 채널(RGB, 흑백이면 1)) x 32(#출력 채널) + 32(출력 채널 bias) = 896
 # model.add(Conv2D(a, kernel_size=(b,c), input_shape=(d, e, f)))
-# a = filters
+# a = filters or kernel
 # Filter와 Kernel은 같음 ex) (b,c) -> kernel_size -> 파라미터 연산할때는 b*c값을 사용함 필터크기.
 # d, e, 
 # f = channel : 컬러 이미지는 3개의 채널로 구성됨. 반면에 흑백 명암만을 표현하는 흑백 사진은 2차원 데이터로 1개 채널로 구성됨 

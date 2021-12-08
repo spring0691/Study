@@ -44,7 +44,7 @@ model = Model(inputs=input1,outputs=output1)
 # model = Sequential()
 # model.add(Dense(50, input_dim=13))
 # model.add(Dense(30))
-# model.add(Dropout(0.2))   <-- 이런식으로 적용
+# model.add(Dropout(0.2))   <-- 이런식으로 적용 traub&test하면 더 적은 데이터 학습시키지만 성능 좋아지듯이 dropout도 비슷한 개념
 # model.add(Dense(15,activation="relu")) #
 # model.add(Dense(8,activation="relu")) #
 # model.add(Dense(5))
