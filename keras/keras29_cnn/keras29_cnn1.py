@@ -69,10 +69,4 @@ activation : 활성화 함수 설정합니다.
 ‘sigmoid’ : 시그모이드 함수, 이진 분류 문제에서 출력층에 주로 쓰입니다.
 ‘softmax’ : 소프트맥스 함수, 다중 클래스 분류 문제에서 출력층에 주로 쓰입니다.
 
-Output Size = (W - F + 2P) / S + 1
-W: input_volume_size
-F: kernel_size
-P: padding_size
-S: strides
-
 '''
