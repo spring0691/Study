@@ -12,12 +12,15 @@
 # f = channel : 컬러 이미지는 3개의 채널로 구성됨. 반면에 흑백 명암만을 표현하는 흑백 사진은 2차원 데이터로 1개 채널로 구성됨 
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten,Dropout, Activation
+from tensorflow.keras.layers import Dense, Conv2D, Flatten,Dropout, Activation, MaxPooling2D
 
 
 model = Sequential()
-model.add(Conv2D(10,kernel_size=(2,2), input_shape=(10,10,1)))   #<-- img를 받기위해 사용. 10은 그 다음레이어로 전달할 값 출력값.
-            # kernel_size=(2,2)  사진을 2,2로 쪼개서 작업하겠다. # Conv2D 할때는 5,5,1하더라도 1을 입력해야한다. RGB구분 위해.
+model.add(Conv2D(10,kernel_size=(2,2),strides=1 ,padding='same',input_shape=(10,10,1)))   #<-- img를 받기위해 사용. 10은 그 다음레이어로 전달할 값 출력값.
+                                # kernel_size=(2,2)  사진을 2,2로 쪼개서 작업하겠다. # Conv2D 할때는 5,5,1하더라도 1을 입력해야한다. RGB구분 위해.
+                                # padding='same'는 겉에 0값으로 둘러싸서 kerner_size로 쪼개도 row,col값을 유지시켜준다. default는 valid. -> 유지시켜주지 않음
+model.add(MaxPooling2D())       # dropout과 비슷한개념 conv2d가 knrnel을 이용해서 중첩시키며 특성을 추출해나간다면 maxpoolig은 픽셀을 묶어서 그중에 가장큰값만 뺀다.
+                                # maxpooling는 값을 반으로 계속 줄여나간다. default 2,2=4픽셀당 1개값. 
 model.add(Conv2D(5,(3,3), activation='relu'))
 model.add(Conv2D(7,(2,2), activation='relu'))
 model.add(Flatten())        #<-- 위에서 넘겨주는 값을 일렬로 쭉 나열해서 1개의 값으로 만들어준다.
@@ -43,7 +46,7 @@ conv2d_2 (Conv2D)            (None, 6, 6, 7)           147          (2*2*5+1) * 
 _________________________________________________________________
 flatten (Flatten)            (None, 252)               0
 _________________________________________________________________
-dense (Dense)                (None, 64)                16192        252 * 64 + 4 = 16192
+dense (Dense)                (None, 64)                16192        252 * 64 + 64 = 16192
 _________________________________________________________________
 dropout (Dropout)            (None, 64)                0            
 _________________________________________________________________

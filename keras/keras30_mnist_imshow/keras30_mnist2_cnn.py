@@ -7,7 +7,6 @@ from tensorflow.keras.utils import to_categorical
 
 # 평가지표 acc 
 # 0.98 
-# test는 따로 평가용으로만 쓰고 train을 나눠서 다시해라 .
 
 #1. 데이터 로드 및 전처리
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
