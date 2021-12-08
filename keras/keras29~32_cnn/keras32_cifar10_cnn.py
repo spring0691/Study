@@ -23,7 +23,8 @@ from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAb
 # 3가지 방법으로 onehotencoding 해봄.
 enco = OneHotEncoder(sparse=False)
 y_train = enco.fit_transform(y_train.reshape(-1,1)) 
-#y_train = get_dummies(y_train)     get_dummies는 1차원데이터만 사용가능하다. Data must be 1-dimensional
+#y_train = y_train.reshape(10000,)
+#y_train = get_dummies(y_train)     #get_dummies는 1차원데이터만 사용가능하다. Data must be 1-dimensional
 y_test = to_categorical(y_test)
 
 #print(y_train[2],y_test[2])
@@ -45,8 +46,8 @@ scaler =StandardScaler()   #MinMaxScaler()RobustScaler()MaxAbsScaler()    어떤
 #x_test = x_test.reshape(10000, 32,32,3)
 
 # 위의 일련의 작업들을 2줄로 압축하면 이렇게 줄일수 있다.
-x_train = scaler.fit_transform(x_train.reshape(len(x_train),-1)).reshape(x_train.shape)
-x_test = scaler.transform(x_test.reshape(len(x_test),-1)).reshape(x_test.shape)
+#x_train = scaler.fit_transform(x_train.reshape(len(x_train),-1)).reshape(x_train.shape)
+#x_test = scaler.transform(x_test.reshape(len(x_test),-1)).reshape(x_test.shape)
 
 
 #2. 모델링
