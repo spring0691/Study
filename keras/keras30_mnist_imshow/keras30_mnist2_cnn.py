@@ -4,7 +4,8 @@ import numpy as np
 from tensorflow.keras.datasets import mnist # 교육용데이터 
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.utils import to_categorical
-
+from pandas import get_dummies
+from sklearn.preprocessing import OneHotEncoder
 # 평가지표 acc 
 # 0.98 
 
@@ -20,8 +21,15 @@ x_test = x_test.reshape(10000, 28, 28, 1)
 
 #print(np.unique(y_train, return_counts=True))   # np.unique(y_train, return_counts=True) 하면 pandas의 value.counts와 같은 기능
 
-y_train = to_categorical(y_train)
+enco = OneHotEncoder(sparse=False)
+
+y_train = enco.fit_transform(y_train.reshape(-1,1)) 
+#y_train = get_dummies(y_train)
 y_test = to_categorical(y_test)
+print(y_train.shape)
+print(y_train[:5])
+print(y_test[:5])
+'''
 #2. 모델링
 
 model = Sequential()
@@ -55,3 +63,4 @@ print('accuracy : ', loss[1])
 
 # loss :  0.058354027569293976          0.04385140538215637
 # accuracy :  0.9817000031471252        0.9861000180244446
+'''

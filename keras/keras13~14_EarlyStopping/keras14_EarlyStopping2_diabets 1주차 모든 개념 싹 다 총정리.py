@@ -51,7 +51,7 @@ es = EarlyStopping(monitor='val_loss', patience=100, mode='min', verbose=1, rest
 # True값 넣고 evaluate했을때  1.loss: 3447.219482421875  r2: 0.5668603667030361  2.loss: 3641.060302734375   r2: 0.5425044431962383   3.loss: 3614.39453125  r2: 0.5458550011751824
 # False값 넣고 evalutae했을때 1.loss: 3701.3193359375    r2: 0.5349329860627352  2.loss: 3321.02294921875    r2: 0.5827168650569212   3.loss: 3441.029541015625   r2: 0.5676381480025825
 # 왠지는 모르겠는데 그렇게 큰 차이는 없다. 
-# 큰 차이가 없는 이유. EarlyStopping은 최적의 weights값을 기록(?)까지만 하지 저장은 하지 않는다.
+# 큰 차이가 없는 이유. EarlyStopping은 최적의 weights값을 복원해서 저장한다. <-- 기록하고 저장해서 evaluate 할때 최적의 값으로 계산한다.
 # 값을 저장하려면 ModelCheckpoint 함수를 써야한다.
 
 

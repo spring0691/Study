@@ -4,6 +4,9 @@ import numpy as np
 from tensorflow.keras.datasets import cifar10 # 교육용데이터 
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
+from pandas import get_dummies
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
 
 #1. 데이터 로드 및 전처리
@@ -16,12 +19,16 @@ from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAb
 
 #print(np.unique(y_train, return_counts=True))   # 0~9까지 각각 5000개씩 10개의 label값.
 
-y_train = to_categorical(y_train)
+enco = OneHotEncoder(sparse=False)
+
+y_train = enco.fit_transform(y_train.reshape(-1,1)) 
+#y_train = get_dummies(y_train)     get_dummies는 1차원데이터만 사용가능하다. Data must be 1-dimensional
 y_test = to_categorical(y_test)
 
+print(y_train[2])
 #print(y_train.shape,y_test.shape)
 
-
+'''
 #scaler = MinMaxScaler()   #어떤 스케일러 사용할건지 정의부터 해준다.
 scaler = StandardScaler()
 x_train= x_train.reshape(50000,-1)  # 4차원 (50000,32,32,3)을 가로로 1자로 쫙펴준다.  행 세로 열 가로   (50000,3072)
@@ -75,7 +82,7 @@ loss = model.evaluate(x_test,y_test)
 print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
-#            기본                   기본+Minmax             기본+satndard
-# loss :     1.0126644372940063     1.1994456052780151
-# accuracy : 0.6455000042915344     0.5812000036239624
-
+#            기본                   기본+Minmax             기본+satndard 
+# loss :     1.0126644372940063     1.1994456052780151      0.3034297525882721
+# accuracy : 0.6455000042915344     0.5812000036239624      0.8963000178337097
+'''

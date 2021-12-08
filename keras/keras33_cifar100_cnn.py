@@ -56,6 +56,6 @@ print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
 #            기본                       기본+Minmax
-# loss :     5.560264587402344
-# accuracy : 0.00930000003427267
+# loss :     5.560264587402344          3.04172852
+# accuracy : 0.00930000003427267        0.2642
 

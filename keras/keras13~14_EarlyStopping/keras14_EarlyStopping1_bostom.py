@@ -43,6 +43,7 @@ start = time.time()
 hist = model.fit(x_train,y_train,epochs=10000, batch_size=1,validation_split=0.25, callbacks=[es]) 
 end = time.time() - start
 #print("걸린시간 : ", round(end, 3), '초')
+
 #4. 평가 , 예측
 loss = model.evaluate(x_test,y_test)
 # print(hist.history['val_loss'])
