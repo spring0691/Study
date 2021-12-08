@@ -20,7 +20,6 @@ submit_file = pd.read_csv(path + 'sample_Submission.csv')
 #print(train)   값 들을 보면 id는 그냥 단순 번호라서 삭제해야하고 type는 white와 red로 되어있어서 
 #labelencoder로 변환해줘야함을 알수있다. 또한 quality는 결과치이므로 y값으로 분리시켜야한다.
 
-
 x = train.drop(['id','quality'], axis=1)    # id와 quality열 제거
 
 Le = LabelEncoder()     # 함수 선언
@@ -53,10 +52,10 @@ y = get_dummies(y)
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=66)  
 
 
-#scaler = MinMaxScaler()   
+scaler = MinMaxScaler()   
 #scaler = StandardScaler()
 #scaler = RobustScaler()
-scaler = MaxAbsScaler()
+#scaler = MaxAbsScaler()
     
 scaler.fit(x_train)       
 x_train = scaler.transform(x_train)   
@@ -64,31 +63,30 @@ x_test = scaler.transform(x_test)
 test_file = scaler.transform(test_file)
 
 
-
-
-
 #2. 모델링
 
-input1 = Input(shape=(12,))
-dense1 = Dense(60, activation='relu')(input1)
-drop1 = Dropout(0.2)(dense1)
-dense2 = Dense(40, activation='relu')(drop1)
-drop2 = Dropout(0.2)(dense2)
-dense3 = Dense(20, activation='relu')(drop2)
-dense4 = Dense(10, activation='relu')(dense3)
-output1 = Dense(5, activation='softmax')(dense4)
-model = Model(inputs=input1, outputs=output1)
+# input1 = Input(shape=(12,))
+# dense1 = Dense(30, activation='relu')(input1)
+# drop1 = Dropout(0.2)(dense1)
+# dense2 = Dense(50, activation='relu')(drop1)
+# drop2 = Dropout(0.2)(dense2)
+# dense3 = Dense(70, activation='relu')(drop2)
+# dense4 = Dense(50, activation='relu')(dense3)
+# output1 = Dense(5, activation='softmax')(dense4)
+# model = Model(inputs=input1, outputs=output1)
       
-# model = Sequential()
-# model.add(Dense(100, input_dim=12))    
-# model.add(Dense(80, activation='relu')) # 
-# model.add(Dense(60)) #
-# model.add(Dense(40, activation='relu'))
-# model.add(Dense(30, activation='relu')) 
-# model.add(Dense(20))
-# model.add(Dense(15))
-# model.add(Dense(10))
-# model.add(Dense(5))
+model = Sequential()
+model.add(Dense(30, input_dim=12))    
+model.add(Dense(50, activation='relu')) # 
+model.add(Dense(70)) #
+model.add(Dropout(0.2))
+model.add(Dense(50, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(30)) 
+model.add(Dense(20))
+model.add(Dense(15))
+model.add(Dense(10))
+model.add(Dense(5, activation='softmax'))
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']) 
@@ -101,8 +99,6 @@ model.fit(x_train,y_train,epochs=5000,batch_size=5, verbose=1,validation_split=0
 #4. 평가
 loss = model.evaluate(x_test,y_test)   
 print('loss값 accuracy값 : ', loss) 
-
-
 
 ############################# 제출용 제작 ####################################
 results = model.predict(test_file)
