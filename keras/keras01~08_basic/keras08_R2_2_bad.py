@@ -53,6 +53,3 @@ print('r2스코어 : ', r2)
 # loss값을 계속 튀게하여 정확도를 크게 낮추었다.
 # loss: 679.3102
 # r2스코어 :  0.2231010336057584
-# plt.scatter(x, y) # scatter 흩뿌리다 그림처럼 보여주다?
-# plt.plot(loss, color='red') # scatter 점찍다 plot 선을 보여준다 
-# plt.show() 

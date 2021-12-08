@@ -75,7 +75,7 @@ loss = model.evaluate(x_test,y_test)
 print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
-#            기본                   기본+Minmax
+#            기본                   기본+Minmax             기본+satndard
 # loss :     1.0126644372940063     1.1994456052780151
 # accuracy : 0.6455000042915344     0.5812000036239624
 
