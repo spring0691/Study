@@ -64,7 +64,7 @@ krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
 #acc = '{accuracy:.4f}'
 #fn = "".join([krtime,acc])
 
-es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
+es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 #mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras34_1_mnist{fn}_MCP.hdf5')
 model.fit(x_train,y_train,epochs=10000, batch_size=100,validation_split=0.1111111111, callbacks=[es])#,mcp
 
@@ -79,6 +79,6 @@ print('accuracy : ', loss[1])
 '''
 결과정리
                 Minmax
-loss :      
-accuracy :
+loss :      1.4599390029907227
+accuracy :  0.47870001196861267
 '''

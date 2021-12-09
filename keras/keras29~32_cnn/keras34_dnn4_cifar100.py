@@ -44,7 +44,7 @@ dense3 = Dense(60,activation="relu")(dense2)
 dense7 = Dropout(0.4)(dense3)
 dense4 = Dense(40,activation="relu")(dense7)
 dense5 = Dense(20)(dense4)
-output1 = Dense(10,activation='softmax')(dense5)
+output1 = Dense(100,activation='softmax')(dense5)
 model = Model(inputs=input1,outputs=output1)
 
 
@@ -66,11 +66,11 @@ krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
 #acc = '{accuracy:.4f}'
 #fn = "".join([krtime,acc])
 
-es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
-#mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras34_1_mnist{fn}_MCP.hdf5')
+es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
+#mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras34_4_cifar100_MCP.hdf5')
 model.fit(x_train,y_train,epochs=10000, batch_size=100,validation_split=0.1111111111, callbacks=[es])#,mcp
 
-model.save(f"./_save/keras34_3_cifar10{krtime}.h5")
+model.save(f"./_save/keras34_4_cifar100{krtime}.h5")
 
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)
@@ -81,6 +81,6 @@ print('accuracy : ', loss[1])
 '''
 결과정리
                 Minmax
-loss :      
-accuracy :
+loss :      4.605223178863525
+accuracy :  0.009999999776482582
 '''
