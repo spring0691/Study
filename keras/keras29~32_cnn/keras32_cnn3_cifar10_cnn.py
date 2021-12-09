@@ -35,6 +35,7 @@ y_test = to_categorical(y_test)
 
 scaler =MinMaxScaler()   #StandardScaler()RobustScaler()MaxAbsScaler()    어떤 스케일러 사용할건지 정의부터 해준다.
 #Minmax scaler에 한해서 스케일러 적용시키는대신 255.0으로 나눠서 할수도 있다.
+
 #x_train= x_train.reshape(50000,-1)  # 4차원 (50000,32,32,3)을 가로로 1자로 쫙펴준다.  행 세로 열 가로   (50000,3072)
 #x_test = x_test.reshape(10000,-1)   # 스케일러는 2차원에서만 적용되어 데이터를 정제해주기때문에 2차원 형태로 변환해줘야한다.
 
