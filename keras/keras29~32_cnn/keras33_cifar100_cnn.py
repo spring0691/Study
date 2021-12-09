@@ -37,10 +37,10 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accura
 
 
 es = EarlyStopping(monitor="val_accuracy", patience=50, mode='max',verbose=1,baseline=None, restore_best_weights=True)
-#mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras33_cifar100_MCP.hdf5')
-model.fit(x_train,y_train,epochs=10000, batch_size=1000,validation_split=0.2, callbacks=[es])#,mcp
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras33_cifar100_MCP.hdf5')
+model.fit(x_train,y_train,epochs=10000, batch_size=1000,validation_split=0.2, callbacks=[es,mcp])#
 
-#model.save(f"./_save/keras33_save_cifar100.h5")
+model.save(f"./_save/keras33_save_cifar100.h5")
 
 #4.평가,예측
 loss = model.evaluate(x_test,y_test)
@@ -48,7 +48,7 @@ print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
 #            기본                       기본+Minmax       기본 + standard
-# loss :     5.560264587402344          3.04172852      3.0337114334106445
-# accuracy : 0.00930000003427267        0.2642          0.2630000114440918
+# loss :     3.620971441268921          3.04172852      3.0337114334106445
+# accuracy : 0.15029999613761902        0.2642          0.2630000114440918
 
 

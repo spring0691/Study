@@ -27,9 +27,10 @@ model.add(Dense(1))
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
 
-es = EarlyStopping(monitor='val_loss', patience=10, mode='min', verbose=1)#, restore_best_weights=True
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath='./_ModelCheckPoint/keras26_11_MCP.hdf5') #save_weights_only=True
-# 아무리 로드해봐도 모델을 돌릴수 없었다. 그냥 저장만하고 관측하는 용도로 사용하는건가봐
+es = EarlyStopping(monitor='val_loss', patience=10, mode='min', verbose=1, restore_best_weights=True)#
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath='./_ModelCheckPoint/keras26_11_MCP.hdf5')
+# es에서 restore_bets_weights = True,False하든말든 mcp는 나름대로 save_best_only를 계속 수행하고 값을 저장한다.
+# save_weights_only = True 했을경우 load_weights해서 사용
 
 hist = model.fit(x_train,y_train,epochs=500, batch_size=8,validation_split=0.25, callbacks=[es,mcp]) 
 

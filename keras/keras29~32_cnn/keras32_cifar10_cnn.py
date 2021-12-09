@@ -75,9 +75,9 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accura
 
 
 es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras32_cifar10_MCP.hdf5')
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras32_cifar10_Minmax_MCP.hdf5')
 model.fit(x_train,y_train,epochs=10000, batch_size=1000,validation_split=0.2, callbacks=[es,mcp])#
-model.save(f"./_save/keras32_save_cifar10.h5")
+model.save(f"./_save/keras32_save_cifar10_Minmax.h5")
 #model = load_model("")
 
 #4. 평가 예측
@@ -86,6 +86,6 @@ print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
 #               기본                       Minmax                 standard 
-# loss :     1.012665867805481     1.1994456052780151     1.203997015953064
-# accuracy : 0.6509000062942505     0.5812000036239624     0.5752999782562256
+# loss :     1.012665867805481     1.2447775602340698     1.203997015953064
+# accuracy : 0.6509000062942505     0.5385000109672546     0.5752999782562256
 
