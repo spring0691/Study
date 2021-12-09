@@ -4,6 +4,7 @@ from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
 from sklearn.metrics import r2_score
 import time
@@ -18,11 +19,12 @@ y = datasets.target
 #print(y.shape) # y형태  (506, )
 #print(datasets.feature_names) # 컬럼,열의 이름들
 #print(datasets.DESCR) # 데이터셋 및 컬럼에 대한 설명 
+#print(np.unique(y, return_counts=True))      종류가 셀수도없이 많다. 회귀모델
 
 # cnn 만들기
 # img           (1000, 32,32,3) -> (1000, 3072) -> 4차원에서 2차원으로변환  dnn
 # 2차원         (1000, 3072)  -> (1000, 32,32,3) -> 2차원에서 4차원으로 형태변환 한후 conv2D 하다가 다시 flatten써서 dnn
-
+'''
 # numpy pandas로 변환후 pandas의 제공기능인 index정보와 columns정보를 확인할수있다.
 xx = pd.DataFrame(x, columns=datasets.feature_names)    # x가 pandas로 바껴서 xx에 저장, columns를 칼럼명이 나오게 지정해준다.
 #print(type(xx))         # pandas.core.frame.DataFrame
@@ -61,19 +63,21 @@ x_train,x_test,y_train,y_test = train_test_split(xx,y, train_size=0.9, shuffle=T
 scaler =MinMaxScaler()   #StandardScaler()RobustScaler()MaxAbsScaler()     
 #스케일러를 쓸려면 또 여기단계에서 써줘야한다. 2차원일때 아 귀찮아 ㅋㅋㅋㅋ
 
-x_train = scaler.fit_transform(x_train).reshape(len(x_train),2,2,3)
-x_test = scaler.transform(x_test).reshape(len(x_test),2,2,3)
+x_train = scaler.fit_transform(x_train).reshape(len(x_train),3,4,1)
+x_test = scaler.transform(x_test).reshape(len(x_test),3,4,1)
 
 #print(x_train[:3])     x데이터에 스케일러값이 잘 들어갔나 확인.
-#print(x_train.shape)    # (455, 2, 2, 3)
-#print(x_test.shape)     # (51, 2, 2, 3)
+#print(x_train.shape)    # (455, 3, 4, 1)
+#print(x_test.shape)     # (51, 3, 4, 1)
+
 
 
 #2.모델링
 
 model = Sequential()
-model.add(Conv2D(10,kernel_size=(2,2),strides=1,padding='same', input_shape=(2,2,3), activation='relu'))    # 2,2,10                                                                           # 1,1,10
-model.add(Conv2D(10,kernel_size=(2,2), strides=1, padding='same', activation='relu'))                       # 2,2,10 
+model.add(Conv2D(10,kernel_size=(2,2),strides=1,padding='same', input_shape=(3,4,1), activation='relu'))    # 3,4,10                                                                           # 1,1,10
+model.add(Conv2D(10,kernel_size=(1,2), strides=1, padding='valid', activation='relu'))                       # 3,3,10 
+model.add(Conv2D(10,kernel_size=(2,2), strides=1, padding='valid', activation='relu'))                      # 2,2,10
 model.add(MaxPooling2D(2,2))                                                                                # 1,1,10     
 model.add(Flatten())       
 model.add(Dense(64))
@@ -105,11 +109,13 @@ y_predict = model.predict(x_test)
 
 r2 = r2_score(y_test,y_predict) 
 print('r2스코어 : ', r2)
-
+'''
 '''
 결과정리
             Minmax
 loss:       15.627214431762695
 r2스코어:   0.8422346388910221
 
+            17.33212661743164
+            0.8250225959246392
 '''

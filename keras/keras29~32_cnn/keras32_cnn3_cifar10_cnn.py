@@ -4,7 +4,6 @@ import numpy as np
 from tensorflow.keras.datasets import cifar10 # 교육용데이터 
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.utils import to_categorical
 from pandas import get_dummies
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler

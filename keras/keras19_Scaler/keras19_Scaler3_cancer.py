@@ -30,7 +30,7 @@ model.add(Dense(25 ,activation='relu')) #
 model.add(Dense(15 ,activation='relu')) #
 model.add(Dense(10))
 model.add(Dense(5))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(2, activation='sigmoid'))
 model.summary()
 '''
 Model: "sequential"
