@@ -36,7 +36,7 @@ y_test = to_categorical(y_test)
 scaler =MinMaxScaler()   #StandardScaler()RobustScaler()MaxAbsScaler()    어떤 스케일러 사용할건지 정의부터 해준다.
 
 #x_train= x_train.reshape(50000,-1)  # 4차원 (50000,32,32,3)을 가로로 1자로 쫙펴준다.  행 세로 열 가로   (50000,3072)
-#x_test = x_test.reshape(10000,-1)
+#x_test = x_test.reshape(10000,-1)   # 스케일러는 2차원에서만 적용되어 데이터를 정제해주기때문에 2차원 형태로 변환해줘야한다.
 
 #scaler.fit(x_train) 비율을 가져옴
 
@@ -86,6 +86,6 @@ print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
 #               기본                       Minmax                 standard 
-# loss :     1.012665867805481     1.2447775602340698     1.203997015953064
-# accuracy : 0.6509000062942505     0.5385000109672546     0.5752999782562256
+# loss :     1.012665867805481     1.2333050966262817     1.203997015953064
+# accuracy : 0.6509000062942505    0.5440999865531921     0.5752999782562256
 
