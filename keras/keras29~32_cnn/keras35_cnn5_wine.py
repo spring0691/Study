@@ -71,7 +71,7 @@ model.add(Conv2D(4,kernel_size=(2,2),strides=1,padding='same', input_shape=(3,4,
 model.add(Conv2D(4,kernel_size=(2,3),strides=1,padding='valid', activation='relu'))                     # 2,2,4                                                                      # 1,1,10
 model.add(MaxPooling2D(2,2))                                                                            # 1 1 4                               
 model.add(Flatten())       
-model.add(Dense(400))
+model.add(Dense(40))
 model.add(Dropout(0.5))
 model.add(Dense(20))
 model.add(Dropout(0.5))
