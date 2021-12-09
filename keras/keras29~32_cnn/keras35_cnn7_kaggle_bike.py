@@ -45,7 +45,7 @@ test_file = scaler.transform(test_file).reshape(len(test_file),2,2,2)
 input1 = Input(shape=(2,2,2))
 conv1  = Conv2D(4,kernel_size=(2,2),strides=1,padding='valid',activation='relu')(input1) # 2,2,2
 conv2  = Conv2D(4,kernel_size=(2,2),strides=1,padding='same',activation='relu')(conv1) # 1,1,1
-fla    = Flatten(conv2)
+fla    = Flatten()(conv2)
 dense1 = Dense(16,activation="relu")(fla) #
 dense2 = Dense(24)(dense1)
 drop1  = Dropout(0.2)(dense2)
@@ -57,16 +57,12 @@ model = Model(inputs=input1,outputs=output1)
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
 
-ti = time.time()
-kr = time.localtime(ti)
-krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
-
 es = EarlyStopping(monitor = "val_loss", patience=100, mode='min',verbose=1,restore_best_weights=True)
 #mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras26_7_bike{krtime}_MCP.hdf5')
 
 model.fit(x_train,y_train,epochs=5000,batch_size=50, verbose=1,validation_split=0.11111111,callbacks=[es])#,mcp
 
-#model.save(f"./_save/keras26_7_save_bike{krtime}.h5")
+
 
 #4. 평가
 print("======================= 1. 기본 출력 =========================")
@@ -81,40 +77,30 @@ print('r2스코어 : ', r2)
 
 #rmse = RMSE(y_test,y_predict)
 #print("RMSE : ", rmse)
-
-
-# print("======================= 2. load_model 출력 ======================")
-# model2 = load_model(f"./_save/keras26_7_save_bike{krtime}.h5")
-# loss2 = model2.evaluate(x_test,y_test)
-# print('loss2 : ', loss2)
-
-# y_predict2 = model2.predict(x_test)
-
-# r2 = r2_score(y_test,y_predict2) 
-# print('r2스코어 : ', r2)
-
-# rmse = RMSE(y_test,y_predict)
-# print("RMSE : ", rmse)
-
-# print("====================== 3. mcp 출력 ============================")
-# model3 = load_model(f'./_ModelCheckPoint/keras26_7_bike{krtime}_MCP.hdf5')
-# loss3 = model3.evaluate(x_test,y_test)
-# print('loss3 : ', loss3)
-
-# y_predict3 = model3.predict(x_test)
-
-# r2 = r2_score(y_test,y_predict3) 
-# print('r2스코어 : ', r2)
-
-
-# rmse = RMSE(y_test,y_predict)
-# print("RMSE : ", rmse)
+r2s = str(round(r2,4))
+model.save(f"./_save/keras32_7_save_bike{r2s}.h5")
 
 ############################# 제출용 제작 ####################################
+results = model.predict(test_file)
+
+submit_file['count'] = results  
+submit_file.to_csv(path + 'nolog_MaxAbs.csv', index=False)  
+
+
+############################# 제출용 제작 ####################################
+results = model.predict(test_file)
+
+submit_file['count'] = results  
+submit_file.to_csv(path + 'test.csv', index=False)  
+
 # results = model.predict(test_file)
 
-# submit_file['count'] = results  
-# submit_file.to_csv(path + 'nolog_MaxAbs.csv', index=False)  
+# results_int = np.argmax(results, axis=1).reshape(-1,1) + 4 
+
+# submit_file['quality'] = results_int
+
+# acc= str(round(loss[1], 4)).replace(".", "_")
+# submit_file.to_csv(path+f"result/accuracy_{acc}.csv", index = False)
 
 
 '''                            y값 로그O (x하면-값때문에 다 리젝당함)                                                  
