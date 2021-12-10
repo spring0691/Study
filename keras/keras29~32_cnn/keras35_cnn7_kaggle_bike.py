@@ -28,7 +28,7 @@ y = train['count']
 
 #print(x.shape)          # (10886, 8)
 #print(y.shape)          # (10886,)
-#print(test_file.shape)   # (6493, 8)
+#print(test_file.shape)   # (6493, 8)           
 
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49)  
@@ -80,18 +80,13 @@ print('r2스코어 : ', r2)
 r2s = str(round(r2,4))
 model.save(f"./_save/keras32_7_save_bike{r2s}.h5")
 
-############################# 제출용 제작 ####################################
-results = model.predict(test_file)
-
-submit_file['count'] = results  
-submit_file.to_csv(path + 'nolog_MaxAbs.csv', index=False)  
-
-
-############################# 제출용 제작 ####################################
+# ############################# 제출용 제작 ####################################
 results = model.predict(test_file)
 
 submit_file['count'] = results  
 submit_file.to_csv(path + 'test.csv', index=False)  
+
+
 
 # results = model.predict(test_file)
 
