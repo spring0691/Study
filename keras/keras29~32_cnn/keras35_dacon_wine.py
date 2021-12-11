@@ -12,24 +12,36 @@ from tensorflow.python.keras import optimizers
 
 
 #1. 데이터 로드 및 정제
+
+#자료 3개 로드
 path = "../_data/dacon/wine/"   
 
-train = pd.read_csv(path + 'train.csv') #train.csv를 train에 담아 사용해서 원본은 그대로있다. 
+train = pd.read_csv(path + 'train.csv') 
 test_file = pd.read_csv(path + 'test.csv')                  
 submit_file = pd.read_csv(path + 'sample_Submission.csv')     
 
+# 각 자료별로 불필요한 칼럼 드랍시킴.
 x = train.drop(['id','quality'], axis=1)   # shape(3231, 12)
 test_file = test_file.drop(['id'], axis=1) # shape(3231, 12)
 y = train['quality']                       # shape(3231,)
 #print(y.value_counts())     # 6 5 7 8 4개의 value가 각각 1418 1069 539 108 97순으로 있는 다중분류모델
  
+# train과 test파일의 type칼럼 red white -> 0,1로 변환해줌.
 # Le = LabelEncoder() + label = x.type + Le.fit(label) + x.type = Le.transform(label)
 x.type = LabelEncoder().fit_transform(x.type)                   # type의 white와 red값이 0,1로 바뀌어있음
 test_file.type = LabelEncoder().fit_transform(test_file.type)   # 상동
 
-x['quality'] = y         # x의 데이터셋에 y값을 price라는 이름의 칼럼으로 추가한다. 
+#-----------------------------------------------------------------------------------------------------------------------
 
+#x['quality'] = y            # x의 데이터셋에 y값을 quality라는 이름의 칼럼으로 추가한다.  -> 원래 있던걸 다시 붙임 확인용으로.
+#test_file['quality'] = y    # test_file에 quality열을 붙여준다.
+#x['quality'] = [6. if grade == 6 else 0. for grade in x['quality']]                 #새로붙인 quality열의 6만 그대로 나머지는 다 0
+#test_file['quality'] = [6. if grade == 6 else 0. for grade in test_file['quality']] # 상동
+y = [6. if grade == 6 else 0. for grade in y] # 상동
+
+#print(x.quality)
 #print(x)              #pandas형 데이터라 index와 colmuns의 이름이 나옴. quality열이 추가되어 있는 것 확인.
+
 
 #print(x.corr())      # price와 어떤 열이 제일 상관관계가 적은지 확인.   .corr() -> 컬럼들의 상관관계를 수치로 보여주는 함수
 
@@ -44,33 +56,33 @@ x['quality'] = y         # x의 데이터셋에 y값을 price라는 이름의 �
 # sulphates 0.027 pH 0.036 total sulfur dioxide 0.044 free sulfur dioxide 0.068 residual sugar 0.045 
 # citric acid 0.067 fixed acidity 0.082
 
-#x = x.drop(['pH','sulphates','total sulfur dioxide','free sulfur dioxide','residual sugar','citric acid','fixed acidity','quality'], axis=1)
-#test_file = test_file.drop(['pH','sulphates','total sulfur dioxide','free sulfur dioxide','residual sugar','citric acid','fixed acidity'],axis=1)
-x = x.drop(['quality'], axis=1) 
+x = x.drop(['pH','sulphates'], axis=1) #,'total sulfur dioxide','free sulfur dioxide','residual sugar','citric acid','fixed acidity'
+test_file = test_file.drop(['pH','sulphates'],axis=1) #,'total sulfur dioxide','free sulfur dioxide','residual sugar','citric acid','fixed acidity'
+#x = x.drop(['quality'], axis=1) 
 
 #print(x.shape,test_file.shape) #drop 잘되었나 확인.
 y = get_dummies(y)  # 원한인코딩 해준후 확인.(3231,5)
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49)  
 
-scaler =RobustScaler()   #MinMaxScaler()MaxAbsScaler()StandardScaler()
+# scaler =RobustScaler()   #MinMaxScaler()MaxAbsScaler()StandardScaler()
 
-# cnn방식 scaler    
-# x_train = scaler.fit_transform(x_train).reshape(len(x_train),5,2,1)
-# x_test = scaler.transform(x_test).reshape(len(x_test),5,2,1)  
-# test_file = scaler.transform(test_file).reshape(len(test_file),5,2,1)
+# # cnn방식 scaler    
+# # x_train = scaler.fit_transform(x_train).reshape(len(x_train),5,2,1)
+# # x_test = scaler.transform(x_test).reshape(len(x_test),5,2,1)  
+# # test_file = scaler.transform(test_file).reshape(len(test_file),5,2,1)
 
-# dnn방식 scaler
-x_train = scaler.fit_transform(x_train)
-x_test = scaler.transform(x_test)  
-test_file = scaler.transform(test_file)
+# # dnn방식 scaler
+# x_train = scaler.fit_transform(x_train)
+# x_test = scaler.transform(x_test)  
+# test_file = scaler.transform(test_file)
 
 
 #2. 모델링
 
 # Sequtial모델링 이게 더편하긴함
 model = Sequential()
-model.add(Dense(40, input_dim=12))    
+model.add(Dense(40, input_dim=10))    
 model.add(Dense(60, activation='relu')) # 
 model.add(Dropout(0.5))
 model.add(Dense(80)) #
@@ -79,7 +91,7 @@ model.add(Dense(60, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(40))
 model.add(Dropout(0.5))
-model.add(Dense(5, activation='softmax'))
+model.add(Dense(2, activation='sigmoid'))       # 6과 0을 반환해준다.
 
 
 # Model함수 써서 Input 사용해서 모델링
@@ -111,14 +123,14 @@ loss = model.evaluate(x_test,y_test)
 print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
-acc = str(round(loss[1],4))
-model.save(f"./_save/keras32_8_wine{acc}.h5")
+#acc = str(round(loss[1],4))
+#model.save(f"./_save/keras32_8_wine{acc}.h5")
 
 
 ############################# 제출용 제작 ####################################
-results = model.predict(test_file)
+#results = model.predict(test_file)
 
-results_int = np.argmax(results, axis=1).reshape(-1,1) + 4 
+#results_int = np.argmax(results, axis=1).reshape(-1,1) + 4 
 
 # submit_file['quality'] = results
 

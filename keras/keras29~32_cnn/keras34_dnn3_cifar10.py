@@ -34,7 +34,7 @@ x_test = scaler.transform(x_test)
 
 #2.모델링
 
-input1 = Input(shape=(x_train.shape[1],))
+input1 = Input(shape=(x_train.shape[13],))
 dense1 = Dense(100)(input1)
 dense6 = Dropout(0.2)(dense1)
 dense2 = Dense(80)(dense6)
