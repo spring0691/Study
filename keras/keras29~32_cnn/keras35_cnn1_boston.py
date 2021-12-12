@@ -24,7 +24,7 @@ y = datasets.target
 # cnn 만들기
 # img           (1000, 32,32,3) -> (1000, 3072) -> 4차원에서 2차원으로변환  dnn
 # 2차원         (1000, 3072)  -> (1000, 32,32,3) -> 2차원에서 4차원으로 형태변환 한후 conv2D 하다가 다시 flatten써서 dnn
-'''
+
 # numpy pandas로 변환후 pandas의 제공기능인 index정보와 columns정보를 확인할수있다.
 xx = pd.DataFrame(x, columns=datasets.feature_names)    # x가 pandas로 바껴서 xx에 저장, columns를 칼럼명이 나오게 지정해준다.
 #print(type(xx))         # pandas.core.frame.DataFrame
@@ -39,12 +39,12 @@ xx['price'] = y         # xx의 데이터셋에 y값을 price라는 이름의 �
 # print(xx.corr())      # price와 어떤 열이 제일 상관관계가 적은지 확인.
 
 #########################################################
-# import matplotlib.pyplot as plt
-# import seaborn as sns   # 조금 더 이쁘게 만들게 도와줌.
-# plt.figure(figsize=(10,10))
-# sns.heatmap(data=xx.corr(), square=True, annot=True, cbar=True)
-# # seaborn heatmap 개념정리
-# plt.show()
+import matplotlib.pyplot as plt
+import seaborn as sns   # 조금 더 이쁘게 만들게 도와줌.
+plt.figure(figsize=(10,10))
+sns.heatmap(data=xx.corr(), square=True, annot=True, cbar=True)
+# seaborn heatmap 개념정리
+plt.show()
 ###########################################################
 xx= xx.drop(['CHAS','price'], axis=1)    # x데이터에서 CHAS열 제거
 #print(xx)     #CHAS열이 제거되고 12개의 columns가 있는것 확인.
@@ -71,7 +71,7 @@ x_test = scaler.transform(x_test).reshape(len(x_test),3,4,1)
 #print(x_test.shape)     # (51, 3, 4, 1)
 
 
-
+'''
 #2.모델링
 
 model = Sequential()

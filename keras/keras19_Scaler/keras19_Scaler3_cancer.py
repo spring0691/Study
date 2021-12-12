@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
 from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
+from tensorflow.keras.utils import to_categorical  
 
 #1.데이터 로드 및 정제
 
@@ -12,15 +13,15 @@ datasets = load_breast_cancer()
 x = datasets.data
 y = datasets.target
 
+#print(x.shape, y.shape) #(569, 30) (569,)
+#print(np.unique(y))    # [0 1]     2개의 값 -> one hot encoding
+y = to_categorical(y)
+
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49) 
 
-#scaler = MinMaxScaler()   
-#scaler = StandardScaler()
-#scaler = RobustScaler()
-#scaler = MaxAbsScaler()
-#scaler.fit(x_train)       
-#x_train = scaler.transform(x_train)  
-#x_test = scaler.transform(x_test)    
+scaler =MinMaxScaler()   #StandardScaler()RobustScaler()MaxAbsScaler() 
+x_train = scaler.fit_transform(x_train)    
+x_test = scaler.transform(x_test) 
 
 
 #2. 모델구성,모델링
@@ -70,22 +71,22 @@ print(loss)
 결과정리                일반레이어                      relu
 
 안하고 한 결과 
-loss :              0.10503589361906052         0.09570938348770142
-accuracy :          0.9298245906829834          0.9473684430122375
+loss :                                          0.17505894601345062
+accuracy :                                      0.9298245906829834
 
 MinMax
-loss :              0.15491396188735962         0.2635115385055542
-accuracy :          0.9649122953414917          0.9298245906829834
+loss :                                          0.21379293501377106
+accuracy :                                      0.9298245906829834
 
 Standard
-loss :              0.1441478282213211          0.1753963828086853
-accuracy :          0.9122806787490845          0.9473684430122375
+loss :             
+accuracy :         
 
 Robust
-loss :              0.1427469253540039          0.19655252993106842
-accuracy :          0.9298245906829834          0.9122806787490845
+loss :             
+accuracy :         
 
 MaxAbs
-loss :              0.18201416730880737         0.27999693155288696
-accuracy :          0.9298245906829834          0.9298245906829834
+loss :             
+accuracy :         
 ''' 
