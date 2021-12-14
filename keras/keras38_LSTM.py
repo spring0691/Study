@@ -1,3 +1,24 @@
+# LSTM
+# LSTM은 RNN의 문제를 셀상태(Cell state)와 여러 개의 게이트(gate)를 가진 셀이라는 유닛을 통해 해결
+# 이 유닛은 시퀀스 상 멀리 있는 요소를 잘 기억할 수 있도록 함
+# 셀 상태는 기존 신경망의 은닉층이라고 생각할 수 있음
+# 셀상태를 갱신하기 위해 기본적으로 3가지의 게이트가 필요함
+
+# Forget, input, output 게이트
+# Forget : 이전 단계의 셀 상태를 얼마나 기억할 지 결정함. 0(모두 잊음)과 1(모두 기억) 사이의 값을 가짐
+# input : 새로운 정보의 중요성에 따라 얼마나 반영할지 결정
+# output : 셀 상태로부터 중요도에 따라 얼마나 출력할지 결정함
+
+# 게이트는 가중치를 가진 은닉층으로 생각할 수 있음. 각 가중치는 sigmoid층에서 갱신되며 0과 1사이의 값을 가짐
+# 이 값에 따라 입력되는 값을 조절하고, 오차에 의해 각 단계(time step)에서 갱신됨
+
+# activation tanh Function
+
+# sigmoid fuction을 보완하고자 나온 함수. 입력신호를 (−1,1) 사이의 값으로 normalization 해줌.
+# 거의 모든 방면에서 sigmoid보다 성능이 좋음.
+# 수식 : tanh(x) = e^x - e^-x / e^x + e^-x
+#      d/dx tanh(x) = 1-tanh(x)^2
+
 import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, SimpleRNN, Dropout, LSTM
@@ -34,4 +55,3 @@ y_pred = np.array([5,6,7,8]).reshape(1,2,2)
 result = model.predict(y_pred)  
 print(result)
 
-# LSTM이 뭐인지 찾아보자.
