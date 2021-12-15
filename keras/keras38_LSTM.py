@@ -3,6 +3,8 @@
 # 이 유닛은 시퀀스 상 멀리 있는 요소를 잘 기억할 수 있도록 함
 # 셀 상태는 기존 신경망의 은닉층이라고 생각할 수 있음
 # 셀상태를 갱신하기 위해 기본적으로 3가지의 게이트가 필요함
+# 3 개의 게이트와 1개의 cell state가 있어서 4배가 됨.
+# sigmoid와 tanh 적절히 사용.
 
 # Forget, input, output 게이트
 # Forget : 이전 단계의 셀 상태를 얼마나 기억할 지 결정함. 0(모두 잊음)과 1(모두 기억) 사이의 값을 가짐
@@ -35,7 +37,7 @@ x = x.reshape(4,2,2)
 
 #2. 모델구성
 model = Sequential()
-model.add(LSTM(32,input_shape=(2,2))) 
+model.add(LSTM(32,input_shape=(2,2)))   # input_shape는 행 빼고 들어가서 형태는 -1차원이 된다.
 model.add(Dense(10))        
 model.add(Dense(8))                 
 model.add(Dense(4))                 

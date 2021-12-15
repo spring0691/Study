@@ -2,6 +2,7 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, SimpleRNN, Dropout, LSTM, GRU
 from tensorflow.keras.callbacks import EarlyStopping
+import time
 
 #1. 데이터
 
@@ -13,7 +14,7 @@ x = x.reshape(13,3,1)
 
 #2. 모델구성
 model = Sequential()
-model.add(LSTM(5,activation='relu',input_shape=(3,1)))     # activation = 'tanh'가 고정이 아니다.
+model.add(GRU(5,activation='relu',input_shape=(3,1)))     
 model.add(Dense(80))
 model.add(Dense(60,activation='relu',))
 model.add(Dense(40))
@@ -22,13 +23,15 @@ model.add(Dense(10))
 model.add(Dense(5))                 
 model.add(Dense(1))    
                      
-model.summary()
 
-'''
 #3. 컴파일,훈련
 model.compile(loss='mse', optimizer='adam') #mae도있다.
-es = EarlyStopping(monitor="loss", patience=500, mode='min',verbose=1,baseline=None, restore_best_weights=True)
+es = EarlyStopping(monitor="loss", patience=500, mode='min',verbose=2,baseline=None, restore_best_weights=True)
+
+start = time.time()
 model.fit(x,y, epochs=10000, batch_size=1, callbacks=[es])  
+end = time.time() - start
+print("걸린시간 : ", round(end, 3), '초')
 
 #4. 평가, 예측
 
@@ -41,4 +44,3 @@ result = model.predict(y_pred)
 print(result)
 
 # Dropout을 하면 더 낮아짐. relu는 좋아짐 왜??
-'''
