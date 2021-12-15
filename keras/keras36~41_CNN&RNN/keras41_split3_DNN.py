@@ -1,5 +1,15 @@
-# 모델 한번 구성해봐~
- 
+# RNN - > DNN으로 변경
+'''
+id    x1 x2 x3 x4   y
+0    [ 1  2  3  4] [5]
+1    [ 2  3  4  5] [6]
+2    [ 3  4  5  6] [7]
+3    [ 4  5  6  7] [8]      로 이해하고
+
+   y = w1x1 + w2x2 + w3x3 + w4x4의 칼럼이 4개인 데이터셋으로 이해하면 
+   충분히 DNN방식으로 변경 할 수 있다.
+
+''' 
 #0. 내가쓸 기능들 import 및 함수 선언  
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, SimpleRNN, LSTM, GRU
@@ -27,56 +37,14 @@ usedata = split_x(load_data,5)          # RNN에 쓸수있게 연속된 데이�
 x = usedata[:,:4]               # 바꾼 데이터를 다시 쪼개서 x와 y로 만들어줌
 y = usedata[:,4]
 #print(x,y)     # 잘된것 확인.
+real_x_predict = split_x(x_predict,4)   # usedata로 담아서 x,y나누듯이 use_x_p~~에 연속된 값으로 담아준다.
 
-#print(len(x))  # 일일이 몇행인지 셀수 없으니까. x의 행의 개수 체크 96개 확인.
-x = x.reshape(len(x),4,1)   # x를 RNN모델로 돌리기 위해 96,4,1의 3차원 형태로 만들어준다.
-#print(x.shape) #확인.       
-'''
-96,4,1은 이런형태
-[[[ 1]
-  [ 2]
-  [ 3]
-  [ 4]]
-
- [[ 2]
-  [ 3]
-  [ 4]
-  [ 5]]
-
- [[ 3]
-  [ 4]
-  [ 5]
-  [ 6]]     
-
-96,2,2
-[[[ 1  2]
-  [ 3  4]]
-
- [[ 2  3]
-  [ 4  5]]
-
- [[ 3  4]
-  [ 5  6]]
-  
-96,1,4
-[[[ 1  2  3  4]]
-
- [[ 2  3  4  5]]
-'''
-use_x_predict = split_x(x_predict,4)   # usedata로 담아서 x,y나누듯이 use_x_p~~에 연속된 값으로 담아준다.
-#print(len(use_x_predict))      # len이용해서 개수 확인 7.
-
-real_x_predict = use_x_predict.reshape(len(use_x_predict),4,1)      # x데이터와 같이 none,4,1로 변환 뒤의 4,1은 유동적.
-#print(real_x_predict.shape)
-
+# DNN은 이 아래부터 바꿔줄 이유가 없다. 이 아래는 삭제한다. 보고 싶으면 split2 확인.
 
 #2. 모델링
 
 model = Sequential()   
-model.add(SimpleRNN(10,activation='relu' ,input_shape=(4,1),return_sequences=True))
-model.add(LSTM(10,activation='relu' ,input_shape=(4,1),return_sequences=True))
-model.add(GRU(10,activation='relu' ,input_shape=(4,1),return_sequences=False))
-model.add(Dense(60,activation='relu',))
+model.add(Dense(60,input_dim=4,activation='relu',))
 model.add(Dense(40))                                                
 model.add(Dense(20,activation='relu',))        
 model.add(Dense(10))                
