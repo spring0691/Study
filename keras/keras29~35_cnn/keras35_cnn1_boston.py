@@ -6,7 +6,6 @@ from sklearn.metrics import r2_score
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
-from sklearn.metrics import r2_score
 import time
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
