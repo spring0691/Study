@@ -2,9 +2,9 @@
   
 import numpy as np
 
-#a = np.array(range(1, 11))                              # 데이터로드
+a = np.array(range(1, 11))                              # 데이터로드
 
-#size = 5                                                # timestep 값 
+size = 5                                                # timestep 값 
 
 def split_x(dataset, size):                             # 함수선언 + 데이터,timestep 값 입력.
     aaa = []                                            # aaa라는 리스트 선언
@@ -13,6 +13,12 @@ def split_x(dataset, size):                             # 함수선언 + 데이�
         aaa.append(subset)                              # aaa라는 리스트에 subset을 추가하겠다.
     return np.array(aaa)                                # 구해낸 aaa값을 반환해준다.
 
-cc = split_x(np.array(range(1,20)), 7)
+cc = split_x(a, size)
 
-print(cc)
+#print(cc.shape)  #(6, 5)
+
+x = cc[:,:4]       #행과 열을 각각 슬라이싱해줘야 한다. ,로 구분하고 :만 쓰는건 전체를 다 쓰겠다는 뜻.
+y = cc[:, 4]
+
+print(x.shape)      # (6, 4)
+print(y.shape)      # (6,)
