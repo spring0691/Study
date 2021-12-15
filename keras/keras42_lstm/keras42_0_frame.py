@@ -15,10 +15,10 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 ### 1-2. RNN하기위해 shape변환
 
-#x값 관측.    x의 shape를 기록해주세요. 
+#x값 관측.    x의 shape를 기록해주세요.     :
 #print(x.shape)      
 
-#y값 관측.    y의 shape를 기록해주세요. 
+#y값 관측.    y의 shape를 기록해주세요.     :
 
 #numpy      
 #print(np.unique(y,return_counts=True))       
@@ -41,7 +41,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 
 ### 1-4. x의 shape변환
-#x = x.reshape(len(x),1,1)      #len(x)뒤의 영역은 사용자 지정입니다!
+#x = x.reshape(len(x),1,1)      #len(x)뒤의 영역은 사용자 지정입니다!   DNN모델일 경우 주석처리.
 
 
 ### 1-5. train & test분리 
@@ -49,11 +49,14 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 
 ### 1-6. scaler적용. 스킵 가능----------------------------------------------------------------------
-# 자동으로 3차원데이터를 2차원으로 만들어서 스케일링 적용하고 다시 3차원으로 적용해줌.
+
 #scaler =MinMaxScaler()   #StandardScaler()RobustScaler()MaxAbsScaler()
+
 # RNN사용시 
+# 자동으로 3차원데이터를 2차원으로 만들어서 스케일링 적용하고 다시 3차원으로 적용해줌.
 #x_train = scaler.fit_transform(x_train.reshape(len(x_train),-1)).reshape(x_train.shape)
 #x_test = scaler.transform(x_test.reshape(len(x_test),-1)).reshape(x_test.shape)
+
 # DNN사용시
 #x_train = scaler.fit_transform(x_train.reshape(len(x_train),-1))
 #x_test = scaler.transform(x_test.reshape(len(x_test),-1))
@@ -73,20 +76,25 @@ model.add(Dense(8,activation="relu")) #
 model.add(Dense(4))
 model.add(Dense(1,activation = 'linear'))    # 이진분류 = 'sigmoid' , 다중분류 = 'softmax' 
 
-'''
+
 #3.컴파일,훈련
 model.compile(loss='', optimizer='adam')    # 회귀모델 = mse, 이진분류 = binary_crossentropy, 다중분류 = categorical_crossentropy, 분류는 metrics=['accuracy']
 es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 #model.fit(x_train,y_train, epochs=10000, batch_size=10,validation_split=0.2,verbose=1,callbacks=[es])        # batch_size 센스껏 조절!  
 
 #4.평가,예측        회귀모델은 r2,  분류모델은 accuracy
+
 loss = model.evaluate(x_test,y_test)
 print("----------------------loss값-------------------------")
 print(round(loss,4))
 
+#분류모델일때 주석 해제.
+#print(round(loss[0],4))
+#print(round(loss[1],4))
+
 y_predict = model.predict(x_test)
 
-### 회귀모델 
+### 회귀모델 분류모델일 경우 주석처리.
 r2 = r2_score(y_test,y_predict)
 
 print("=====================r2score=========================")
@@ -101,4 +109,3 @@ print(round(r2,4))
 #                                                                                       
 #                                                                                      
 #              
-'''
