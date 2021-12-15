@@ -20,7 +20,8 @@ y = datasets.target
 ### 1-2. RNN하기위해 shape변환
 
 #x값 관측.    x의 shape를 기록해주세요. (442, 10)
-#print(x.shape)      
+#
+# print(x.shape)      
 
 #y값 관측.    y의 shape를 기록해주세요. 이 모델은 -> y label값이 수도없이 많다. -> 회귀모델
 
