@@ -12,9 +12,9 @@ from sklearn.datasets import load_boston
 from sklearn.metrics import r2_score
 import numpy as np
 
-#1.데이터로드 및 정제
+#1.데이터로드 및 정제 
 
-### 1-1.로드영역
+### 1-1.로드영역    데이터 형태를 x,y로 정의해주세요.
 datasets = load_boston()
 x = datasets.data          
 y = datasets.target 
@@ -77,7 +77,7 @@ model.add(Dense(30))
 model.add(Dense(15,activation="relu")) #
 model.add(Dense(8,activation="relu")) #
 model.add(Dense(5))
-model.add(Dense(1,activation = 'linear'))    # 이진분류 = 'sigmoid' , 다중분류 = 'softmax' 
+model.add(Dense(1,activation = 'linear'))    # default = 'linear' 이진분류 = 'sigmoid' , 다중분류 = 'softmax' 
 
 
 #3.컴파일,훈련
@@ -85,17 +85,23 @@ model.compile(loss='mse', optimizer='adam')    # 회귀모델 = mse, 이진분�
 es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 model.fit(x_train,y_train, epochs=10000, batch_size=10,validation_split=0.2,verbose=1,callbacks=[es])        # batch_size 센스껏 조절!
 
-#4.평가,예측
+#4.평가,예측        회귀모델은 r2,  분류모델은 accuracy
+
 loss = model.evaluate(x_test,y_test)
-print("----------------------loss값-------------------------")
-print(round(loss,4))
 
-y_predict = model.predict(x_test)
+###분류모델일때 주석 해제.
+# print("----------------------loss & accuracy-------------------------")
+# print(round(loss[0],4))
+# print(round(loss[1],4))
 
-r2 = r2_score(y_test,y_predict)
+### 회귀모델일때 주석 해제.
+# print("----------------------loss값-------------------------")
+# print(round(loss,4))
+# y_predict = model.predict(x_test)
 
-print("=====================r2score=========================")
-print(round(r2,4))
+# print("=====================r2score=========================")
+# r2 = r2_score(y_test,y_predict)
+# print(round(r2,4))
 
 #5.결과 정리 창
 
