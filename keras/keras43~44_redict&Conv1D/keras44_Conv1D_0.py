@@ -2,7 +2,7 @@
 
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, SimpleRNN, Bidirectional, Conv1D, Flatten
+from tensorflow.keras.layers import Dense, SimpleRNN, Bidirectional, Conv1D, Flatten, MaxPooling1D
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.datasets import cifar10
 
@@ -22,13 +22,13 @@ y = np.array([4,5,6,7])
 
 #print(x.shape, y.shape)     # (4,3) (4,)
 
-x = x.reshape(len(x),192,16)    
+x = x.reshape(len(x),16,192)    
 
 #2. 모델구성
-model = Sequential()
-#model.add(SimpleRNN(10,input_shape=(3,1), return_sequences=True)) 
-#model.add(Bidirectional(SimpleRNN(10), input_shape=(3,1)))   
-model.add(Conv1D(10,7,input_shape=(192,16)))
+model = Sequential() 
+model.add(Conv1D(10,7,input_shape=(16,192)))    # -> 186,10
+model.add(Conv1D(5,2))
+model.add(Conv1D(8,8))
 model.add(Flatten())
 model.add(Dense(10))        # Dense는 3차도 입력받는다. Dense는 무조건 그대로. 근데 위에서 flatten 해주는게 좋다.                                         
 model.add(Dense(8))                 

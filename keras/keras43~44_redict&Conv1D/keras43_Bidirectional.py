@@ -17,8 +17,8 @@ x = x.reshape(4,3,1)
 
 #2. 모델구성
 model = Sequential()
-#model.add(SimpleRNN(10,input_shape=(3,1), return_sequences=True)) 
-model.add(Bidirectional(SimpleRNN(10), input_shape=(3,1)))   # layer의 instance값을 적어야한다. 어떤 RNN을 쓸것인지 명시해줘야한다. 원래의 RNN에
+#model.add(SimpleRNN(20,input_shape=(3,1), return_sequences=True)) 
+model.add(Bidirectional(SimpleRNN(20), input_shape=(3,1)))   # layer의 instance값을 적어야한다. 어떤 RNN을 쓸것인지 명시해줘야한다. 원래의 RNN에
 model.add(Dense(10))                                         # (Bidirectional)더 감싸주고 뒤에 input_shape 값을 넣어준다. 
 model.add(Dense(8))                 
 model.add(Dense(4))                 
