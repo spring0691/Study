@@ -1,3 +1,5 @@
+# 드디어 궁금증 해결 완료. <-- 파일이 계속 리젝당했던 이유 + 왜 y에 log값 씌웠었는지 그에 대한 이유.
+
 #0.내가쓸 기능들 import
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense,Dropout ,SimpleRNN, LSTM, GRU, Activation, Conv1D, Flatten

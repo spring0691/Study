@@ -25,7 +25,7 @@ y = datasets.target
 #print(x.shape)      
 
 #y값 관측.    y의 shape를 기록해주세요.     :   array([0, 1]), array([212, 357]     이진분류 모델. -> 원핫인코딩
-y = get_dummies(y)
+#y = get_dummies(y)
 
 #numpy      
 #print(np.unique(y,return_counts=True))       
@@ -83,7 +83,7 @@ model.add(Dense(32))
 model.add(Dense(16,activation="relu")) #
 model.add(Dense(8,activation="relu")) #
 model.add(Dense(4))
-model.add(Dense(2,activation = 'sigmoid'))    # 이진분류 = 'sigmoid' , 다중분류 = 'softmax' 
+model.add(Dense(1,activation = 'sigmoid'))    # 이진분류 = 'sigmoid' , 다중분류 = 'softmax' 
 
 
 #3.컴파일,훈련
