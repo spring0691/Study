@@ -26,7 +26,7 @@ x = x.reshape(len(x),16,192)
 
 #2. 모델구성
 model = Sequential() 
-model.add(Conv1D(10,7,input_shape=(16,192)))    # -> 186,10
+model.add(Conv1D(10,7,input_shape=(16,192)))    # -> 186,10 
 model.add(Conv1D(5,2))
 model.add(Conv1D(8,8))
 model.add(Flatten())

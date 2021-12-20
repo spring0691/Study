@@ -2,7 +2,7 @@
   
 import numpy as np
 
-a = np.array(range(1, 11))                              # 데이터로드
+a = np.array(range(1, 15))                              # 데이터로드
 
 size = 5                                                # timestep 값 
 
@@ -20,5 +20,5 @@ cc = split_x(a, size)
 x = cc[:,:4]       #행과 열을 각각 슬라이싱해줘야 한다. ,로 구분하고 :만 쓰는건 전체를 다 쓰겠다는 뜻.
 y = cc[:, 4]
 
-print(x.shape)      # (6, 4)
-print(y.shape)      # (6,)
+print(x)      # (6, 4)
+print(y)      # (6,)
