@@ -1,0 +1,13 @@
+프로그램을 2개깔면 충돌날수도 있다.
+
+가상환경을 하나 더 만들어서 작업하면 충돌나지않게 이용할 수 있다.
+
+명령프롬프트(cmd)를 실행해서,	blog.naver.com/gema0000	참고.
+
+2020.1.10에 슨 포스팅  참고해서 가상환경 2개만들어서 작업할수 있다. <-- 하나의 vscode에서 여러개의 환경가능.
+
+conda create -n 이름명 python=3.8.5 anaconda
+
+activate base	activate torch 등 각 가상환경을 바꿔가면서 작업할 수 있다.
+
+deactivate	 가상환경을 나갈수있다.	
