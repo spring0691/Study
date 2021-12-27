@@ -1,6 +1,5 @@
 import numpy as np
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.backend import binary_crossentropy
 
 #1. DATA
 train_datagen = ImageDataGenerator(
@@ -23,15 +22,15 @@ test_datagen = ImageDataGenerator(
 #이미지 폴더 정의 # D:\_data\image\brain
 xy_train = train_datagen.flow_from_directory(
     '../_data/image/brain/train/',
-    target_size=(10, 10), #사이즈는 지정된대로 바꿀수있다
+    target_size=(150, 150), #사이즈는 지정된대로 바꿀수있다
     batch_size=5,
     class_mode='binary',
     shuffle=True,) #Found 160 images belonging to 2 classes.
 
 xy_test = test_datagen.flow_from_directory(
     '../_data/image/brain/test/',
-    target_size=(10, 10),
-    batch_size=1, #짜투리 남는것도 한배치로 돈다
+    target_size=(150, 150),
+    batch_size=5, #짜투리 남는것도 한배치로 돈다
     class_mode='binary',) #셔플은 필요없음
     #Found 120 images belonging to 2 classes.
 
