@@ -5,14 +5,16 @@ import numpy as np
 
 (x_train, y_train),(x_test,y_test) = fashion_mnist.load_data()
 
+print(type(x_train),len(x_train))
+
 train_datagen = ImageDataGenerator(    
     rescale=1./255,                    
     horizontal_flip=True,               
     #vertical_flip=True,                                      
-    width_shift_range=0.1,            
-    height_shift_range=0.1,   
+    width_shift_range=0.3,            
+    height_shift_range=0.3,   
     #rotation_range=5,               
-    zoom_range=0.1,                 
+    zoom_range=0.3,                 
     #shear_range=0.7,                    
     fill_mode='nearest'        
 )
@@ -71,3 +73,5 @@ y_train = np.concatenate((y_train, y_augmented))
 # print(y_train[80000])
 # print(y_train[90000])
 # print(y_train[99999])
+
+print(type(x_train),len(x_train))

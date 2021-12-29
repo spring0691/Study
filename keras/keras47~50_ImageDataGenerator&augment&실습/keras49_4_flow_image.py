@@ -45,5 +45,4 @@ for i in range(10):
     plt.subplot(2,10,i+1)
     plt.axis('off')
     plt.imshow(x_augmented[i],cmap='gray')
-    plt.imshow(x_augmented[i],cmap='gray')
 plt.show()   
