@@ -54,7 +54,7 @@ model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일, 훈련
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['acc'])     # sparse_cate~~ 해주면 원핫인코딩 안해줘도 돌아간다.
-model.fit_generator(xy_train,epochs=10,steps_per_epoch=len(xy_train))  
+model.fit_generator(xy_train,epochs=10,steps_per_epoch=len(xy_train)//50)  
 
 #4. 훈련,평가
 loss = model.evaluate_generator(xy_test)
