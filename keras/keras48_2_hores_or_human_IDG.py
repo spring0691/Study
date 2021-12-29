@@ -57,7 +57,7 @@ test_datagen = ImageDataGenerator(
     rescale=1./255                      
 )
 
-b = 5
+b = 3
 
 xy_train_train = train_datagen.flow_from_directory(      
     '../_data/image/horse-or-human/training_set/',
@@ -84,15 +84,19 @@ xy_test = test_datagen.flow_from_directory(
     class_mode='categorical',                            
 )  
 
-if len(xy_train_train)%b == 0:
-    spe = len(xy_train_train)//b
-else:
-    spe = len(xy_train_train)//b + 1
+# if len(xy_train_train)%b == 0:                  # <--- 왜 spe를 len값에다 다시 batch나눠서 batch의 batch값으로 하는지 질문
+#     spe = len(xy_train_train)//b                # 왜 len값 그대로 안 넣는지.
+# else:
+#     spe = len(xy_train_train)//b + 1
 
-if len(xy_train_val)%b == 0:
-    vs = len(xy_train_val)//b
-else:
-    vs = len(xy_train_val)//b + 1
+# if len(xy_train_val)%b == 0:
+#     vs = len(xy_train_val)//b
+# else:
+#     vs = len(xy_train_val)//b + 1
+
+spe = len(xy_train_train)
+vs = len(xy_train_val)
+
 
 # xy_train_train,xy_train_val,xy_test    3개의 파일이 생긴다
 
@@ -114,11 +118,11 @@ model.add(Dense(2,activation='softmax'))
 #3. 컴파일,훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
 es = EarlyStopping(monitor = "acc", patience=50, mode='max',verbose=1,restore_best_weights=True)
-model.fit(xy_train_train,epochs=10000,steps_per_epoch=spe,validation_data=xy_train_val,validation_steps=vs,callbacks=[es])            
+model.fit(xy_train_train,epochs=1,steps_per_epoch=spe,validation_data=xy_train_val,validation_steps=vs,callbacks=[es])            
                      
 #4. 평가,예측.
 
-loss = model.evaluate(xy_test)  
+loss = model.evaluate(xy_test,batch_size=1)  
 print(loss)                     # [0.1567889153957367, 0.946601927280426]
 
 pic_path = '../_data/image/증사.jpg'

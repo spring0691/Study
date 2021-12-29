@@ -11,10 +11,10 @@ import numpy as np
 # np.save('./_save_npy/keras47_5_test_x.npy', arr=xy_test[0][0])      
 # np.save('./_save_npy/keras47_5_test_y.npy', arr=xy_test[0][1]) 
 
-x_train = np.load('./_save_npy/keras47_5_train_x.npy')      #(160, 150, 150, 3)
-y_train = np.load('./_save_npy/keras47_5_train_y.npy')      #(160,)
-x_test = np.load('./_save_npy/keras47_5_test_x.npy')        #(120, 150, 150, 3)
-y_test = np.load('./_save_npy/keras47_5_test_y.npy')        #(120,)
+x_train = np.load('../_data/_save_npy/keras47_5_train_x.npy')      #(160, 150, 150, 3)
+y_train = np.load('../_data/_save_npy/keras47_5_train_y.npy')      #(160,)
+x_test = np.load('../_data/_save_npy/keras47_5_test_x.npy')        #(120, 150, 150, 3)
+y_test = np.load('../_data/_save_npy/keras47_5_test_y.npy')        #(120,)
 
 #print(x_train.shape,y_train.shape,x_test.shape,y_test.shape)
 #print(x_train)
@@ -38,7 +38,7 @@ model.add(Dense(1,activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 es = EarlyStopping(monitor ="val_loss", patience=50, mode='min',verbose=1,restore_best_weights=True)
-model.fit(x_train, y_train, epochs=10000, batch_size=32, validation_split=0.2, callbacks=[es])  
+model.fit(x_train, y_train, epochs=1, batch_size=10, validation_split=0.2, callbacks=[es])  
 
 #4. 평가,예측
 
