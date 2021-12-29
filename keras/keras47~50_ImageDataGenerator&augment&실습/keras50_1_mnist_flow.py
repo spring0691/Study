@@ -14,10 +14,12 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, Activation,MaxPooling2D
 import numpy as np
-from pandas import get_dummies
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
+import warnings
+
+warnings.filterwarnings(action='ignore')
 
 #1.데이터 로드 및 전처리.
 
@@ -60,15 +62,13 @@ all_datagen = ImageDataGenerator(
     validation_split=0.2 
 )
 
-x_train = x_train.reshape(60000,28,28,1)
-x_test = x_test.reshape(len(x_test),28,28,1)     # x_test 개수 까먹음. 10000개
 
 '''
 flow로 데이터 x,y따로 받아와서 이미지제너레이터 해주는 작업은 여기 단계가 아니고 그 이후.       
 원본6만개 + 증폭변환4만개 할꺼고 10만개 완성되면 그걸 train&val&test 나눠줄거니까.
 '''
 
-# 지금부터 증폭을 해보겠습니다. 
+# 지금부터 변환을 해보겠습니다. 
 
 augment_size = 100000 - x_train.shape[0]                        # 증폭할 데이터의 개수 지정 총 10만개해주기 위해서 40000개 지정.
 randidx = np.random.randint(x_train.shape[0],size=augment_size) # 랜덤하게 x_train에서 40000개를 뽑음 -> 각 1장마다 변환을 할거임.
@@ -83,9 +83,8 @@ y_augmented = y_train[randidx].copy()
 #print(type(x_augmented))  <class 'numpy.ndarray'>
 
 x_augmented = x_augmented.reshape(x_augmented.shape[0],x_augmented.shape[1],x_augmented.shape[2],1)
-
-#x_train = x_train.reshape(60000,28,28,1)
-#x_test = x_test.reshape(x_test.shape[0],28,28,1)
+x_train = x_train.reshape(60000,28,28,1)            # 변환된 값 원래 트레인에 더해주기위해 변환
+x_test = x_test.reshape(x_test.shape[0],28,28,1)    # train과 똑같은 상태로변환
 # x를 flow로 받아서 이미지제네레이터 하기 위해 4차원으로 형태 변환. (samples, height, width, channels)
 
 # fit,flow,flow_from_dataframe,flow_from_directory 4개가 있는데 
@@ -100,6 +99,8 @@ x_augmented = train_augment_datagen.flow(
     # shuffle의 의미 : x,y각각 가져와서 변환후 짝 지어줄때 train_test_split했을때처럼 그 index상의 순서를 셔플해준다.변환값들은 자기가 알아서 임의로 뽑아서 변환해준다.
 ).next()[0]     
 #next()와 [0] 을 해준이유 이미지제너레이터한 결과물을 넘파이형태로 x값만 따와서 저장하기위해.
+#변환전의 x_train데이터는 x값만 있는 형태기때문에 갑자기 xy묶어서 변환하면 변환 전후의 type이 바뀌고 원래의 train데이터도 xy로 합쳐준 후
+#변환된 xy를 합춰줘야 한다. -> 이 방법이 가능하긴한가?
 #batch_size = augment_size 한 이유. 배치사이즈를 데이터 전체개수만큼 줘서 1개로 묶기위해. 그 후 x값만 따와서 리스트로 해주면 각 x를 하나씩 카운트할수있다.
 #이터러블?이터레이터?한 자료형 -> 넘파이로 바뀐다. -> x,y를 각각 넣는 fit연산을 할 수 있다.(x_train과x_augment)를 더할수있다. 이 작업을 증폭이라한다.
 
@@ -191,21 +192,20 @@ model.add(Dense(10, activation='softmax'))
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
 
 es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
-model.fit_generator(xy_train_train,epochs=10000,steps_per_epoch=len(xy_train_train),validation_data=xy_train_val, validation_steps=len(xy_train_val),callbacks=[es])
+model.fit_generator(xy_train_train,epochs=1,steps_per_epoch=len(xy_train_train)//2,validation_data=xy_train_val, validation_steps=len(xy_train_val),callbacks=[es])
 
 #4. 평가 예측
 loss = model.evaluate_generator(xy_test, steps=len(xy_test))
 print('loss : ', loss[0])
 print('accuracy : ', loss[1])
 
-y_pred = model.predict(x_test)
+y_pred = model.predict_generator(x_test)
 
-# y_test_int = np.argmax(y_test,axis=1) 
-# y_pred_int = np.argmax(y_pred,axis=1)        
+y_pred_int = np.argmax(y_pred,axis=1)        
 
-# acc = accuracy_score(y_test_int,y_pred_int)
+acc = accuracy_score(y_test,y_pred_int)
 
-#print('acc_scroe : ',acc)
+print('acc_scroe : ',acc)
 
 '''
 # 현재        증폭시키기전 값.
@@ -213,7 +213,7 @@ y_pred = model.predict(x_test)
 # accuracy :  0.8934000134468079        0.8866000175476074      0.888700008392334
 
 # train 60000 -> 100000만으로 증폭시킨 후 .
-# loss :      
-# accuracy :  0.32162612676620483
-# acc_score:  0.8866999745368958                          
+# loss :     0.3264023959636688 
+# accuracy : 0.891700029373169 
+# acc_score: 0.6707  왜 차이나지?                         
 '''
