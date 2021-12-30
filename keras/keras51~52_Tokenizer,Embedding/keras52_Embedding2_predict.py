@@ -34,7 +34,6 @@ model.fit(pad_x, labels, epochs=100, batch_size=2)
 acc = model.evaluate(pad_x, labels,batch_size=1)[1]
 
 print('acc : ',acc)
-
 x_predict = ['반장이 재미없어요 어색해요 글쎄요 재미없다']    # 이거를 죽이되든 밥이되든 (1,5)로 만들어야한다.
 #ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ [ ] 하나씌워주면 되는데 이걸 몰라서 20분을 고민하네.
 token.fit_on_texts(x_predict)
