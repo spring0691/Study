@@ -18,19 +18,18 @@ x = token.texts_to_sequences(docs)
 pad_x = pad_sequences(x, padding='pre', maxlen=5)      
 word_size = len(token.word_index)
 
-pad_x = pad_x.reshape(1,pad_x.shape[0],pad_x.shape[1])
+pad_x = pad_x.reshape(pad_x.shape[0],1,pad_x.shape[1])
 
 
 #2. 모델
 model = Sequential()
 #model.add(Embedding(28,10,input_length=5))      
-model.add(LSTM(10, input_shape=(13,5)))
+model.add(LSTM(10, input_shape=(1,5)))
 model.add(Flatten())
 model.add(Dense(16, activation='relu'))
 model.add(Dense(2,activation='softmax'))
 
 #3. 컴파일, 훈련
-
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['acc'])
 model.fit(pad_x, labels, epochs=100, batch_size=2)
 
@@ -39,10 +38,11 @@ acc = model.evaluate(pad_x, labels,batch_size=1)[1]
 
 print('acc : ',acc)
 
-x_predict = ['반장이 재미없어요 어색해요 글쎄요 재미없다']    
+x_predict = ['반장이 재미없어요 어색해요 글쎄요 재미없다']
 token.fit_on_texts(x_predict)
-x_predict = token.texts_to_sequences(x_predict)
-y_pred = model.predict(x_predict)
+x_predict = [token.texts_to_sequences(x_predict)]         # 요거를 죽이되든 밥이되든 1,1,5로 만들어야한다.
+# ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ 이거도 [ ] 하나 더 씌워주면 끝나는거였네 완전 허무...
+y_pred = model.predict(x_predict)                           
 
 #결과는 부정? 긍정?
 부정 = round(y_pred[0][0]*100,2)
