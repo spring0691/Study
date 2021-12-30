@@ -1,4 +1,4 @@
-from typing import Tuple
+import tensorflow as tf
 from tensorflow.keras import datasets
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -31,7 +31,7 @@ warnings.filterwarnings(action='ignore')
 
 
 train_augment_datagen = ImageDataGenerator(    
-    #rescale=1./255,       
+    rescale=1./255,       
     horizontal_flip=True,  
     rotation_range=3,       
     width_shift_range=0.3, 
@@ -57,7 +57,7 @@ before_x_augmented = x_augmented.copy()
 
 x_augmented = train_augment_datagen.flow(
     x_augmented, y_augmented,
-    batch_size=augment_size, shuffle=False, 
+    batch_size=augment_size, #shuffle=True, seed=66,      # 5만장뽑고 여기서 다시 셔플하면 그게 곧 랜덤
 ).next()[0]     
 
 after_x_augmented = x_augmented.copy()
@@ -68,30 +68,24 @@ after_x_augmented = x_augmented.copy()
  [148.8631   117.10439   86.10439 ]
  [138.37119  107.37119   76.37119 ]  
  왜지 값들이 정수가 아니라 부동소수점으로 나오지? 변환하면서 여러 값들이 먹여지는데 이게
- 각각의 픽셀값들을 소수점으로 넘겨줘버리는거 같다. -> 처음부터 rescale해서 작업하고 나중에 추가할때 dategen따로해주자.
+ 각각의 픽셀값들을 소수점으로 넘겨줘버리는거 같다. -> 처음부터 rescale해서 작업하고 나중에 255곱해주고 all_data_gen에 넣는다.
 '''
 
-'''
-plt.figure(figsize=(10,10))
-for i in range(10):
-    plt.subplot(8,8,i+1)
-    plt.axis('off')
-    plt.imshow(before_x_augmented[i])
-plt.show()       
+# plt.figure(figsize=(10,10))
+# for i in range(10):
+#     plt.subplot(8,8,i+1)
+#     plt.axis('off')
+#     plt.imshow(before_x_augmented[i])
+# plt.show()       
+#하... 한번에 2줄로 깔끔하게 변환 전후 출력되게 하고싶은데 숙제때문에 일단 접어두도록 하겠습니다...  
 
-plt.figure(figsize=(10,10))
+print(x_augmented[0])
+x_augmented = x_augmented * 255.     # x_train에 추가해줘서 증폭시킨 후 다시 alldata_gen으로 할건데 거기서 rescale다시 넣어줄거기때문에 255곱해줌.
 
-for i in range(10):
-    plt.subplot(8,8,i+1)
-    plt.axis('off')
-    plt.imshow(after_x_augmented[i])
-    #plt.imshow((after_x_augmented[i] * 255).astype(np.uint8))    
-plt.show()   
-'''
+print('----------줄바꿈 입니다----------')
+print(x_augmented[0])
 
 '''
-#하... 한번에 2줄로 깔끔하게 변환 전후 출력되게 하고싶은데 숙제때문에 일단 접어두도록 하겠습니다...
-
 real_x_train = np.concatenate((x_train, x_augmented))   
 real_y_train = np.concatenate((y_train, y_augmented))
 #print(len(real_x_train),type(real_x_train))        #100000 <class 'numpy.ndarray'>

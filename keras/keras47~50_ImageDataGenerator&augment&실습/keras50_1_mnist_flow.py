@@ -110,17 +110,21 @@ after_x_augmented = x_augmented.copy()
 '''
 plt.figure(figsize=(10,10))
 for i in range(10):
-    plt.subplot(8,8,i+1)
+    plt.subplot(2,10,i+1)
+    plt.subplot(2,10,i+1)
     plt.axis('off')
     plt.imshow(before_x_augmented[i])
+    plt.imshow(after_x_augmented[i])
 plt.show()       
 plt.figure(figsize=(10,10))
+
 for i in range(10):
     plt.subplot(8,8,i+1)
     plt.axis('off')
     plt.imshow(after_x_augmented[i])    
 plt.show()   
 '''
+
 #하... 한번에 2줄로 깔끔하게 변환 전후 출력되게 하고싶은데 숙제때문에 일단 접어두도록 하겠습니다...
 
 real_x_train = np.concatenate((x_train, x_augmented))   
