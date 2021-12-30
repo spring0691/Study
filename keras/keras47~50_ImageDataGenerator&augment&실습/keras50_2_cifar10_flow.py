@@ -18,7 +18,7 @@ warnings.filterwarnings(action='ignore')
 # print(x_train.shape,y_train.shape)     #(50000, 32, 32, 3) (50000, 1)    5만장의 사진과 그에 대한 답입니다~
 # print(x_test.shape,y_test.shape)       #(10000, 32, 32, 3) (10000, 1)
 
-#print(np.unique(y_train,return_counts=True))   0가지 종류가 각각 5000장씩들어가있다.
+#print(np.unique(y_train,return_counts=True))   10가지 종류가 각각 5000장씩들어가있다.
 
 #그림을 직접 한번 보고 가겠습니다.
 # plt.figure(figsize=(10,10))
@@ -31,7 +31,7 @@ warnings.filterwarnings(action='ignore')
 
 
 train_augment_datagen = ImageDataGenerator(    
-    rescale=1./255,       
+    rescale=1./255.,       
     horizontal_flip=True,  
     rotation_range=3,       
     width_shift_range=0.3, 
@@ -40,7 +40,7 @@ train_augment_datagen = ImageDataGenerator(
     fill_mode='nearest',                   
 )
 all_datagen = ImageDataGenerator(
-    rescale=1./255,
+    rescale=1./255.,
     validation_split=0.2 
 )
 
@@ -75,67 +75,39 @@ after_x_augmented = x_augmented.copy()
 # for i in range(10):
 #     plt.subplot(8,8,i+1)
 #     plt.axis('off')
-#     plt.imshow(before_x_augmented[i])
+#     plt.imshow(x_augmented[i])
 # plt.show()       
 #하... 한번에 2줄로 깔끔하게 변환 전후 출력되게 하고싶은데 숙제때문에 일단 접어두도록 하겠습니다...  
 
-print(x_augmented[0])
-x_augmented = x_augmented * 255.     # x_train에 추가해줘서 증폭시킨 후 다시 alldata_gen으로 할건데 거기서 rescale다시 넣어줄거기때문에 255곱해줌.
 
-print('----------줄바꿈 입니다----------')
-print(x_augmented[0])
+#print(x_augmented[0])
+#[0.8848486  0.8964759  0.92488873]
+#[0.88406044 0.9132987  0.9232761 ]
+#[0.8406846  0.8784677  0.8863108 ]
+x_augmented = x_augmented * 255.        # x_train에 추가해줘서 증폭시킨 후 다시 alldata_gen으로 할건데 거기서 rescale다시 넣어줄거기때문에 255곱해줌.
+#print(x_augmented[0])
+# [225.6364   228.60136  235.84662 ]
+# [225.43541  232.89117  235.43541 ]
+# [214.37457  224.00926  226.00926 ]    # 잘 바뀐것을 확인.
 
-'''
+
 real_x_train = np.concatenate((x_train, x_augmented))   
 real_y_train = np.concatenate((y_train, y_augmented))
-#print(len(real_x_train),type(real_x_train))        #100000 <class 'numpy.ndarray'>
-#print(len(real_y_train),type(real_y_train))        #100000 <class 'numpy.ndarray'>
-
-#이제야 비로소 진짜 x_train과 y_train이 10만개씩 만들어졌으므로 이미지제너레이터를 새로해서 작업해보도록하겠습니다.
 
 xy_train_train = all_datagen.flow(
     real_x_train,real_y_train,
     batch_size=100,shuffle=True,seed=66,
     subset='training'
-)#.next()[0] 
+) 
 xy_train_val = all_datagen.flow(
     real_x_train,real_y_train,
     batch_size=100,shuffle=True,seed=66,
     subset='validation'
-)#.next()[0]
+)
 xy_test = all_datagen.flow(
     x_test,y_test,
     batch_size=100
-)#.next()[0]
-# all_datagen에 validation_split써놓긴 했지만 subset으로 딱딱 명시해줘야 작동하지 굳이 명시 안하면 스킵하고 잘 작동한다.
-#print(len(xy_train_train),len(xy_train_val),len(xy_test)) #80000 20000 10000
-#flow 그냥 하는것과 .next() .next()[0]의 차이
-#그냥 할 경우
-# 80000 길이
-# <class 'keras.preprocessing.image.NumpyArrayIterator'>
-# 2
-# <class 'tuple'>
-# 1
-# <class 'numpy.ndarray'>
-
-#.next()
-# 2 길이
-# <class 'tuple'>
-# 1
-# <class 'numpy.ndarray'>
-# 28
-# <class 'numpy.ndarray'>
-
-#.next()[0]     [0]을 쓰면 x값만 가져오겠다는 의미 
-# 1 길이 
-# <class 'numpy.ndarray'>
-# 28
-# <class 'numpy.ndarray'>
-# 28
-# <class 'numpy.ndarray'>
-# keras49_1_flow에 적은내용이 그대로 나타난다. next() 메소드는 선택한 요소의 바로 다음에 위치한 형제 요소를 선택한다.
-# 클래스를 가진 요소의 바로 다음 형제 요소 하나를 선택하여, 해당 요소의 CSS 스타일을 변경한다.
-
+)
 
 #2. 모델링
 
@@ -154,9 +126,9 @@ model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일 훈련
-model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
+model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',metrics=['acc']) 
 
-es = EarlyStopping(monitor="val_loss", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
+es = EarlyStopping(monitor="val_acc", patience=50, mode='min',verbose=1,baseline=None, restore_best_weights=True)
 model.fit_generator(xy_train_train,epochs=10000,steps_per_epoch=len(xy_train_train)//2,validation_data=xy_train_val, validation_steps=len(xy_train_val),callbacks=[es])
 
 #4. 평가 예측
@@ -171,7 +143,7 @@ y_pred_int = np.argmax(y_pred,axis=1)
 acc = accuracy_score(y_test,y_pred_int)
 
 print('acc_scroe : ',acc)
-'''
+
 
 
 '''
