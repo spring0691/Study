@@ -51,3 +51,4 @@ if y_pred[0][0] > y_pred[0][1]:
 else : 
     print(f'{긍정}% 의 확률로 긍정적')
 
+

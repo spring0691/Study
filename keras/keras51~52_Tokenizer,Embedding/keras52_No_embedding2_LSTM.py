@@ -52,4 +52,3 @@ if y_pred[0][0] > y_pred[0][1]:
     print(f'{부정}% 의 확률로 부정적')
 else : 
     print(f'{긍정}% 의 확률로 긍정적')
-
