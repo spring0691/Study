@@ -36,10 +36,12 @@ y_test = to_categorical(y_test)
 #print(x_train.shape,y_train.shape)  # (8982, 140) (8982, 46)
 #print(x_test.shape,y_test.shape)    # (2246, 140) (2246, 46)
 
+
 '''
 # sort 오름차순... 이거 파이썬 기초때 베움... 근데 까먹고있었네
 # word_to_index = reuters.get_word_index()
 # print(type(word_to_index))
+#print(len(word_to_index))      30979개.
 # print(sorted(word_to_index.items()))    딕셔너리는 key와 values가 있는데 이렇게 하면 key들이 나온다.
 # import operator # 이 기능을 import해서 retuers자료형이 가지고 있는 모든 어절들을 순.서.대.로. 확인할수있다 
 # 'The'가 1번 , 'of'가 2번, ..... '뭐뭐뭐'가 30979번 이런식으로 

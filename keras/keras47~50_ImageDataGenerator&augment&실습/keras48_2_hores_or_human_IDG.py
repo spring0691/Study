@@ -20,7 +20,7 @@ import shutil
 path = "../_data/image/horse-or-human"      
 
 hores = os.listdir(path+'/horses')          # 500장
-humans = os.listdir(path+'./humans')        # 527장
+humans = os.listdir(path+'/humans')        # 527장
 
 hores_train, hores_test = train_test_split(hores, train_size=0.8, shuffle=True, random_state=49)
 humans_train, humans_test = train_test_split(humans, train_size=0.8, shuffle=True, random_state=49)

@@ -1,7 +1,7 @@
 # 함수형으로 구현할것!!!
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Embedding, LSTM
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Embedding, LSTM, Input
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences  
 import numpy as np
@@ -18,13 +18,21 @@ x = token.texts_to_sequences(docs)
 pad_x = pad_sequences(x, padding='pre', maxlen=5)      
 word_size = len(token.word_index)
 
-#print(pad_x.shape) (13,5)
+#print(pad_x.shape) #(13,5) 인풋
+# output 2개 
 
 #2. 모델
-model = Sequential()
-model.add(Embedding(28,10))   
-model.add(LSTM(32))
-model.add(Dense(2,activation='softmax'))
+
+input1 = Input(shape=(5,))
+Embed = Embedding(28,10)(input1)
+LM = LSTM(32)(Embed)
+dense = Dense(2,activation='softmax')(LM)
+model = Model(inputs = input1, outputs = dense)
+
+# model = Sequential()
+# model.add(Embedding(28,10))   
+# model.add(LSTM(32))
+# model.add(Dense(2,activation='softmax'))
 
 
 #3. 컴파일, 훈련

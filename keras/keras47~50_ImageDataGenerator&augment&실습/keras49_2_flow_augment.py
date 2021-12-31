@@ -5,7 +5,7 @@ import numpy as np
 
 (x_train, y_train),(x_test,y_test) = fashion_mnist.load_data()
 
-print(type(x_train),len(x_train))
+print(type(x_train),len(x_train),x_train.shape)
 
 train_datagen = ImageDataGenerator(    
     rescale=1./255,                    
