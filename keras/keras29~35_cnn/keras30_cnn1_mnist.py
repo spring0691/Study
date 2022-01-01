@@ -29,7 +29,7 @@ y_test = to_categorical(y_test)
 print(y_train.shape)
 print(y_train[:5])
 print(y_test[:5])
-'''
+
 #2. 모델링
 
 model = Sequential()
@@ -45,7 +45,7 @@ model.add(Dense(64))
 model.add(Dropout(0.2))
 model.add(Dense(16))
 model.add(Dense(10, activation='softmax'))
-
+'''
 #3. 컴파일 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
 
