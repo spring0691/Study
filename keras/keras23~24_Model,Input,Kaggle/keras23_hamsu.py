@@ -20,6 +20,7 @@ dense3 = Dense(8, activation='relu')(dense2)    # 이런식으로 activaiton적�
 output1 = Dense(1)(dense3)      
 model = Model(inputs=input1,outputs=output1)   #함수형 모델 inputs시작과 outputs 끝을 지정해준다.
 model.summary()
+
 """
 Model: "model"
 _________________________________________________________________
