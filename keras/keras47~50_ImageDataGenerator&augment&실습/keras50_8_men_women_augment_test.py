@@ -12,28 +12,26 @@ import os
 #1. 데이터 로드 및 전처리
 
 path = '../_data/image/men_women'
+all_datagen = ImageDataGenerator(               # 2000장 된 후 쓸거
+    rescale=1/255.,
+    validation_split=0.2
+)
 
+# #나중에 사진 변환하고 저장할때 비교를 쉽게하기 위해 기존 사진들의 이름을 따서 저장.
 men = os.listdir(path+'/men')          # 1418장
 women = os.listdir(path+'/women')      # 1912장
 
-#나중에 사진 변환하고 저장할때 비교를 쉽게하기 위해 기존 사진들의 이름을 따서 저장.
-men_name = []
-for i in men:
-    men_name.append(i.replace(".jpg",""))
-women_name = []
-for i in women:
-    women_name.append(i.replace(".jpg",""))
 #증폭배웠으니까 각각 증폭시켜서 2000장맞춰서 가자.
 #일단 이미지를 numpy형태로 변환 후, 이미지제너레이트해야 증폭까지 가능하다.
 
 m = []
 for i in men:
-    m.append(np.array(Image.open(f'{path}/men/{i}').convert('RGB').resize((400,400))))    #반복문 써서 1418장 변환
+    m.append(np.array(Image.open(f'{path}/men/{i}').convert('RGB').resize((300,300))))    #반복문 써서 1418장 변환
 # Image.open으로 이미지를 불러오고 컬러형태이기때문에 convert로 RGB계산해서 불러오고 300,300으로 사이즈 조정해준다.
 mm = np.array(m)
 w = []
 for i in women:
-    w.append(np.array(Image.open(f'{path}/women/{i}').convert('RGB').resize((400,400))))  #반복문 써서 1912장 변환
+    w.append(np.array(Image.open(f'{path}/women/{i}').convert('RGB').resize((300,300))))  #반복문 써서 1912장 변환
 ww = np.array(w)
 
 mw_augment_datagen = ImageDataGenerator(        # 남녀 사진 변환용 
@@ -44,7 +42,9 @@ mw_augment_datagen = ImageDataGenerator(        # 남녀 사진 변환용
     height_shift_range=0.3, 
     zoom_range=(0.3),       
     fill_mode='nearest',  
+    #samplewise_center=gen_keras_mean_norm_sample_wise
 )
+
 all_datagen = ImageDataGenerator(               # 2000장 된 후 쓸거
     rescale=1./255.
 )
@@ -61,20 +61,21 @@ w_randidx = np.random.randint(len(ww),size=w_augmented_size)    # 1~1912개중�
 
 #print(w_augmented[1])    w_augmented 88,300,300,3의 순서는 0~87까지 있겠지만 그 순서는 사실 ww1912개에서 뽑아낸 랜덤의 순서이다. 
 
-# m_augmented = mw_augment_datagen.flow(
-#     mm[m_randidx], np.ones(m_augmented_size),
-#     batch_size=m_augmented_size, shuffle=False,#,seed=66,
-#     save_to_dir=f'{path}/men/',save_prefix='m_aug_',
-#     save_format='jpg'
-# ).next()[0] # 변환 후 다시 x값만 저장.
+m_augmented = mw_augment_datagen.flow(
+    mm[m_randidx], np.ones(m_augmented_size),
+    batch_size=m_augmented_size, shuffle=False,
+    save_to_dir=f'{path}/men/',save_prefix='m_aug_',
+    save_format='jpg'
+).next()[0] # 변환 후 다시 x값만 저장.
 w_augmented = mw_augment_datagen.flow(
     ww[w_randidx], np.zeros(w_augmented_size),
-    batch_size=w_augmented_size, shuffle=False,#,seed=66,
-    save_to_dir=f'{path}/women/',save_prefix='w_aug_',
+    batch_size=w_augmented_size, shuffle=False,
+    save_to_dir=f'{path}/women/',save_prefix='w_aug',
     save_format='jpg'
 ).next()[0]
 
-
+# ex_women = os.listdir(path+'/women')[-len(w_randidx):-1]
+# print(ex_women)
 
 
 ### 여기서부터 내용은 앙상블로 할 경우.
@@ -151,7 +152,19 @@ men_y = np.load(f'{path}/men_y.npy')
 ### fit_generation 방식.
 # 기존 폴더에 변환된 사진들 그대로 원본 폴더에 이름만 m_augmented_원본명 이렇게 추가해서 2000장씩 만들고 하자.
 
+b = 1
+xy_train = all_datagen.flow_from_directory(
+    path,target_size=(250,250),batch_size=b,
+    class_mode='categorical',shuffle=False,# seed=66,
+    subset = 'training'
+)
+xy_test = all_datagen.flow_from_directory(
+    path,target_size=(250,250),batch_size=b,
+    class_mode='categorical',shuffle=False,#seed=66,
+    subset='validation'
+)
 
+print(len(xy_train),len(xy_test))
 '''
 #2. 모델링
 
