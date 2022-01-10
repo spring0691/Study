@@ -1,4 +1,0 @@
-1. 블록체인 개념
-2. Flask
-3. flask 기반 blockchain 구현
-4. 거래소 api를 이용한 가상화폐 자동매매
