@@ -16,7 +16,7 @@ all_datagen = ImageDataGenerator(               # 2000장 된 후 쓸거
     rescale=1/255.,
     validation_split=0.2
 )
-'''
+
 # #나중에 사진 변환하고 저장할때 비교를 쉽게하기 위해 기존 사진들의 이름을 따서 저장.
 men = os.listdir(path+'/men')          # 1418장
 women = os.listdir(path+'/women')      # 1912장
@@ -76,7 +76,7 @@ w_augmented = mw_augment_datagen.flow(
 
 # ex_women = os.listdir(path+'/women')[-len(w_randidx):-1]
 # print(ex_women)
-'''
+
 
 ### 여기서부터 내용은 앙상블로 할 경우.
 '''
