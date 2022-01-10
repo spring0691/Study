@@ -34,11 +34,11 @@ model.add(Dense(1))
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
 
-#model.fit(x_train,y_train,epochs=50, batch_size=1,validation_split=0.25) 
+model.fit(x_train,y_train,epochs=50, batch_size=1,validation_split=0.25) 
 
 #model.save("./_save/keras25_3_save_model.h5")
 #model.save_weights("./_save/keras25_3_save_weights.h5")
-#model.load_weights('./_save/keras25_3_save_weights.h5')
+model.load_weights('./_save/keras25_3_save_weights.h5')
 # loss :  29.492328643798828
 # r2스코어 :  0.6471489918709401
 
