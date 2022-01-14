@@ -1,5 +1,6 @@
 import numpy as np
-from sklearn.svm import LinearSVC   #아주 예전모델  support vector machine
+from sklearn.svm import LinearSVC   #아주 예전모델  support vector machine   선 긋는다. 선 그어서 분류한다.
+from sklearn.linear_model import Perceptron     # 퍼셉트론을 가져왔다
 from sklearn.metrics import accuracy_score
 
 #1. 데이터  AND 
@@ -7,7 +8,8 @@ x_data = [[0, 0], [0, 1], [1, 0], [1, 1]]
 y_data = [0, 0, 0, 1]
 
 #2. 모델
-model = LinearSVC()
+# model = LinearSVC()
+model = Perceptron()
 
 #3. 훈련
 model.fit(x_data,y_data)

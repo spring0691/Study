@@ -1,6 +1,6 @@
 import numpy as np
-from sklearn.svm import LinearSVC               # 선 긋는다. 선 그어서 분류한다.
-from sklearn.linear_model import Perceptron     # 퍼셉트론을 가져왔다
+from sklearn.svm import LinearSVC,SVC               # SVC 넌 도대체 뭐냐? 어떻게 잡은거지? 다항식, 곡선?
+from sklearn.linear_model import Perceptron         
 from sklearn.metrics import accuracy_score
 
 #1. 데이터  XOR
@@ -9,7 +9,8 @@ y_data = [0, 1, 1, 0]
 
 #2. 모델
 # model = LinearSVC()
-model = Perceptron()
+# model = Perceptron()
+model = SVC()                                       # 넌 뭐니 SVC야?
 
 #3. 훈련
 model.fit(x_data,y_data)
@@ -23,5 +24,4 @@ print("model.score : ", results)
 acc = accuracy_score(y_data, y_predict)
 print("accuracy_score : ", acc)
 
-# 우리눈엔 쉬워보이지만 이 간단한걸 못한다 
-# xor 연산이란 같으면 0 = False, 다르면 1 = True를 반환해준다.
+# 이걸 잡네
