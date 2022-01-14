@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.utils import all_estimators
 from sklearn.metrics import r2_score,accuracy_score
-import numpy as np
+import numpy as np,pandas as pd
 import warnings
 warnings.filterwarnings(action='ignore')
 
@@ -11,6 +11,12 @@ dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(
 scaler = MinMaxScaler()
 classifier_all = all_estimators(type_filter='classifier')  
 regressor_all = all_estimators(type_filter='regressor')
+
+'''     kaggle bike 데이터
+path = 'D:\Project\Kaggle_Project\bike'
+train = pd.read_csv(path + 'train.csv')                 
+test_file = pd.read_csv(path + 'test.csv')   
+'''
 
 for name,data in dd.items():
     datasets = data
@@ -32,8 +38,7 @@ for name,data in dd.items():
                 acc = accuracy_score(y_test,y_predict)
                 print(cn, '의 정답률 : ', acc)
             except:
-                # print(cn,'에서 오류떴어~')
-                pass
+                print(cn,'에서 오류떴어~')
         print('\n\n')
         
     elif choice > 10:
@@ -45,7 +50,6 @@ for name,data in dd.items():
                 r2 = r2_score(y_test,y_predict)
                 print(rn, '의 정답률 : ', r2)
             except:
-                # print(rn,'에서 오류떴어~')
-                pass
+                print(rn,'에서 오류떴어~')
         print('\n\n')
 
