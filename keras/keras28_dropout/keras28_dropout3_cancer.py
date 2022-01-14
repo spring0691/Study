@@ -14,6 +14,8 @@ datasets = load_boston()
 x = datasets.data
 y = datasets.target
 
+#print(np.unique(y))
+'''
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.9, shuffle=True, random_state=49)    
 
@@ -84,7 +86,7 @@ print('r2스코어 : ', r2)
 
 # r2 = r2_score(y_test,y_predict3) 
 # print('r2스코어 : ', r2)
-
+'''
 '''
 결과정리                일반레이어                      relu
 
