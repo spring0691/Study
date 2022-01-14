@@ -1,6 +1,8 @@
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_iris  
+import warnings
 
+warnings.filterwarnings(action='ignore')
 #1. 데이터 로드
 
 datasets = load_iris()
