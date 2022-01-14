@@ -334,4 +334,21 @@ LabelSpreading 에서 오류떴어~
 LinearDiscriminantAnalysis 의 정답률 :  0.6797931206595355
 LinearSVC 의 정답률 :  0.7124084576129704
 LogisticRegression 의 정답률 :  0.7194220459024294
+LogisticRegressionCV 의 정답률 :  0.7246370575630577
+MLPClassifier 의 정답률 :  0.8300904451692297
+MultiOutputClassifier 에서 오류떴어~
+MultinomialNB 의 정답률 :  0.6410247583969433
+NearestCentroid 의 정답률 :  0.38585062347787924
+NuSVC 에서 오류떴어~
+OneVsOneClassifier 에서 오류떴어~
+OneVsRestClassifier 에서 오류떴어~
+OutputCodeClassifier 에서 오류떴어~
+PassiveAggressiveClassifier 의 정답률 :  0.6005266645439447
+Perceptron 의 정답률 :  0.6010257910725196
+QuadraticDiscriminantAnalysis 의 정답률 :  0.08459334096365842
+RadiusNeighborsClassifier 에서 오류떴어~
+RandomForestClassifier 의 정답률 :  0.9555949502164316
+RidgeClassifier 의 정답률 :  0.7008510967875184
+RidgeClassifierCV 의 정답률 :  0.7008424911577154
+SGDClassifier 의 정답률 :  0.7129334010309545
 '''
