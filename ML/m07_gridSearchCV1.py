@@ -1,19 +1,11 @@
 # grid Search Cross Validation의 약자이다.  모든 경우의 수를 전부 실행함으로써 최적의 1값만을 뽑아내서 저장한다. One for All. 하나의 최적을 위해서 모든 경우의 수를 다 계산한다.
 
-from itertools import repeat
-from tabnanny import verbose
 from sklearn.datasets import load_iris
 from sklearn.svm import SVC   
 import numpy as np, pandas as pd
 import warnings
 from sklearn.metrics import accuracy_score,r2_score
 warnings.filterwarnings(action='ignore')
-# encoding=utf8 
-import sys 
-reload(sys) 
-sys.setdefaultencoding('utf8')
-
-
 
 datasets = load_iris()
 
@@ -37,7 +29,8 @@ parameters = [
 
 parameters = [{ "C":[1, 10, 100, 1000], "kernel":["linear","rbf","sigmoid"], "gamma":[0.01, 0.001, 0.0001], "degree":[3,4,5]}]
 #2. 모델구성
-model = GridSearchCV(SVC(), parameters, cv=kfold, verbose=1, refit=True , n_jobs=-1)
+
+model = GridSearchCV(SVC(), parameters, cv=kfold, verbose=1,n_jobs=4, refit=True ) #, n_jobs=-1
 # 여기 단계에서 cross validation까지 때려버린다  GridSearchCV로 래핑해준거다.  verbose로 내용볼수있다. refit=True 여기서 best값 줄지 말지 결정한다.
 # 병렬 CPU지원을 한다.  이 기능을 활용하면 병렬식으로 여러개 사용해서 더 빠르게 작업 할 수 있다. n_jobs = 1~ 내 장비가 사용가능한 값까지. -1하면 내 장비의 코어 다 사용한다
 
@@ -65,7 +58,7 @@ print("acc_score : ", accuracy_score(y_test,y_pred))
 
 y_pred_best = model.best_estimator_.predict(x_test)         
 print("최적 튠 ACC : ", accuracy_score(y_test,y_pred_best))     # 각기 다른방식으로 값을 뽑아봄으로써 model에서 최고값을 주는지 평균값을 주는지 확인할 수 있다.
-print("걸린시간 : ", end - start)
+#print("걸린시간 : ", float(end) - float(start))
 ############################################################################################
 '''
 #print(model.cv_results_)   cv의 결과값을 dict형태로 볼 수 있다.
