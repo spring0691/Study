@@ -113,4 +113,12 @@ Diabets 데이터셋의 결과를 소개합니다~
 model.score로 구한 값은요~ :  0.39491478167108496
 r2_score :  0.39491478167108496
 최적 튠 R2 :  0.39491478167108496
+
+Fetch_covtype 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=12, min_samples_leaf=3, n_estimators=200)
+최적의 파라미터는요~ :  {'max_depth': 12, 'min_samples_leaf': 3, 'min_samples_split': 2, 'n_estimators': 200}
+model.score로 구한 값은요~ :  0.7834049034878617
+acc_score :  0.7834049034878617
+최적 튠 ACC :  0.7834049034878617
 '''
