@@ -36,11 +36,29 @@ for name,data in dd.items():
         model.fit(x_train,y_train)
         print('나는 분류모델!')
         print(model.score(x_test,y_test))
-        print('\n\n')
+        print('\n')
         
     elif choice > 10:
         model = regressor_model      
         model.fit(x_train,y_train)
         print('나는 회귀모델!')      
         print(model.score(x_test,y_test))
-        print('\n\n')
+        print('\n')
+
+'''
+Iirs 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+0.9666666666666667
+
+
+
+Breast_cancer 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+0.9649122807017544
+
+
+
+Wine 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+1.0
+'''
