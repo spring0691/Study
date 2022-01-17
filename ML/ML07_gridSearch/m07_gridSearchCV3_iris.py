@@ -1,5 +1,5 @@
 from sklearn.datasets import load_iris,load_breast_cancer,load_wine,fetch_covtype,load_boston,load_diabetes
-from sklearn.model_selection import train_test_split,KFold, cross_val_score, GridSearchCV, StratifiedKFold
+from sklearn.model_selection import train_test_split,KFold,GridSearchCV, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import r2_score,accuracy_score,f1_score
