@@ -2,14 +2,19 @@ from sklearn.datasets import load_iris,load_breast_cancer,load_wine,fetch_covtyp
 from sklearn.model_selection import train_test_split,KFold, cross_val_score,StratifiedKFold
 from sklearn.utils import all_estimators
 from sklearn.preprocessing import MinMaxScaler
-import numpy as np
+import numpy as np, pandas as pd
 import warnings
-
 warnings.filterwarnings(action='ignore')
+
+# kaggle_bike_dataset 
+path = '../Project/Kaggle_Project/bike/'
+train = pd.read_csv(path + 'train.csv')                 
+x = train.drop(['datetime','casual','registered','count'], axis=1)  
+y = train['count']  # np.unique(y, return_counts = True 누가봐도 회귀모델
 
 n_splits = 5
 kfold = KFold(n_splits=n_splits, shuffle=True, random_state=66)             # 회귀모델에서 씀
-Skfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=66)  # 분류모델에서 씀
+Skfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=66)  # 분류모델에서 씀 <-- ex 데이터셋 비율 8:2 9:1 이런거 때메 ㅇㅇ
 
 dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Fetch_covtype':fetch_covtype()} # 
 
@@ -23,7 +28,8 @@ for name,data in dd.items():
     x = datasets.data
     y = datasets.target
     x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)
-  
+    x_train = scaler.fit_transform(x_train)
+    x_test = scaler.transform(x_test)
     choice = len(np.unique(y))
     
     print(f'{name} 데이터셋의 결과를 소개합니다~\n')
