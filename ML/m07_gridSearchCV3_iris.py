@@ -15,10 +15,13 @@ Skfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=66)
 dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Fetch_covtype':fetch_covtype()}
 
 parameters = [{'n_estimators' : [100,200], 'max_depth' : [6, 8, 10, 12], 'min_samples_leaf' : [3, 5, 7, 10], 
-               'min_samples_split' : [2, 3, 5, 10]}]    # , 'n_jobs : ' : [-1, 2, 4, 6]
+               'min_samples_split' : [2, 3, 5, 10] }]    # , 'n_jobs : ' : [-1, 2, 4, 6]
 
-regressor_model = GridSearchCV(RandomForestClassifier(), parameters, cv=kfold)       # 회귀모델
-classifier_model = GridSearchCV(RandomForestClassifier(), parameters, cv=Skfold)     # 분류모델
+#print(RandomForestClassifier().get_params().keys())   # estimator의 파라미터 값들을 확인할 수 있다.
+
+
+regressor_model = GridSearchCV(RandomForestClassifier(), parameters, cv=kfold, n_jobs=-1)       # 회귀모델
+classifier_model = GridSearchCV(RandomForestClassifier(), parameters, cv=Skfold, n_jobs=-1)     # 분류모델
 
 for name,data in dd.items():
     datasets = data
@@ -48,14 +51,12 @@ for name,data in dd.items():
 '''
 Iirs 데이터셋의 결과를 소개합니다~
 나는 분류모델!
-0.9666666666666667
-
+1.0
 
 
 Breast_cancer 데이터셋의 결과를 소개합니다~
 나는 분류모델!
 0.9649122807017544
-
 
 
 Wine 데이터셋의 결과를 소개합니다~
