@@ -74,3 +74,13 @@ print("걸린시간 : ", end - start)
 #ccc = aaa[['params','rank_test_score']]             
 #print(ccc)
 
+'''
+Fitting 3 folds for each of 20 candidates, totalling 60 fits            n_iter의 개수 20이candidates값
+최적의 매개변수 :  SVC(C=1000, degree=6, gamma=0.001)
+최적의 파라미터 :  {'kernel': 'rbf', 'gamma': 0.001, 'degree': 6, 'C': 1000}
+best_score_ :  0.9916666666666667
+model.score :  0.9666666666666667
+acc_score :  0.9666666666666667
+최적 튠 ACC :  0.9666666666666667
+걸린시간 :  1.2366352081298828                  
+'''

@@ -1,6 +1,5 @@
 from sklearn.datasets import load_iris,load_breast_cancer,load_wine,fetch_covtype,load_boston,load_diabetes
-from sklearn.experimental import enable_halving_search_cv
-from sklearn.model_selection import train_test_split,KFold,StratifiedKFold,HalvingGridSearchCV
+from sklearn.model_selection import train_test_split,KFold,StratifiedKFold,RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import r2_score,accuracy_score,f1_score
@@ -21,8 +20,8 @@ dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(
 
 parameters = {'n_estimators' : [100,200], 'max_depth' : [6, 8, 10, 12], 'min_samples_leaf' : [3, 5, 7, 10], 'min_samples_split' : [2, 3, 5, 10] }
 
-regressor_model = HalvingGridSearchCV(RandomForestRegressor(), parameters, cv=kfold, n_jobs=-1)        # 회귀 Regressor
-classifier_model = HalvingGridSearchCV(RandomForestClassifier(), parameters, cv=Skfold, n_jobs=-1)     # 분류 classifier
+regressor_model = RandomizedSearchCV(RandomForestRegressor(), parameters, cv=kfold, n_jobs=-1, n_iter=30)        # 회귀 Regressor
+classifier_model = RandomizedSearchCV(RandomForestClassifier(), parameters, cv=Skfold, n_jobs=-1, n_iter=30)     # 분류 classifier
 
 for name,data in dd.items():
     
@@ -79,5 +78,74 @@ for name,data in dd.items():
         print('\n')
 
 '''
+Iirs 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=12, min_samples_leaf=10, min_samples_split=5)        
+최적의 파라미터는요~ :  {'n_estimators': 100, 'min_samples_split': 5, 'min_samples_leaf': 10, 'max_depth': 12}
+model.score로 구한 값은요~ :  1.0
+걸린 시간은요~ :  3.017430543899536
+acc_score :  1.0
+최적 튠 ACC :  1.0
 
+
+Breast_cancer 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=8, min_samples_leaf=3, n_estimators=200)
+최적의 파라미터는요~ :  {'n_estimators': 200, 'min_samples_split': 2, 'min_samples_leaf': 3, 'max_depth': 8}
+model.score로 구한 값은요~ :  0.9649122807017544
+걸린 시간은요~ :  2.820464611053467
+acc_score :  0.9649122807017544
+최적 튠 ACC :  0.9649122807017544
+
+
+Wine 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=8, min_samples_leaf=3, min_samples_split=3,
+                       n_estimators=200)
+최적의 파라미터는요~ :  {'n_estimators': 200, 'min_samples_split': 3, 'min_samples_leaf': 3, 'max_depth': 8}
+model.score로 구한 값은요~ :  1.0
+걸린 시간은요~ :  2.1341235637664795
+acc_score :  1.0
+최적 튠 ACC :  1.0
+
+
+Boston 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+최적의 매개변수는요~ :  RandomForestRegressor(max_depth=10, min_samples_leaf=3, min_samples_split=5)
+최적의 파라미터는요~ :  {'n_estimators': 100, 'min_samples_split': 5, 'min_samples_leaf': 3, 'max_depth': 10}
+model.score로 구한 값은요~ :  0.9170530437643981
+걸린 시간은요~ :  3.2036356925964355
+r2_score :  0.9170530437643981
+최적 튠 R2 :  0.9170530437643981
+
+
+Diabets 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+최적의 매개변수는요~ :  RandomForestRegressor(max_depth=8, min_samples_leaf=5)
+최적의 파라미터는요~ :  {'n_estimators': 100, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_depth': 8}
+model.score로 구한 값은요~ :  0.3933093885334348
+걸린 시간은요~ :  2.62687087059021
+r2_score :  0.3933093885334348
+최적 튠 R2 :  0.3933093885334348
+
+
+Bike 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+최적의 매개변수는요~ :  RandomForestRegressor(max_depth=10, min_samples_leaf=3, min_samples_split=5,
+                      n_estimators=200)
+최적의 파라미터는요~ :  {'n_estimators': 200, 'min_samples_split': 5, 'min_samples_leaf': 3, 'max_depth': 10}
+model.score로 구한 값은요~ :  0.35375609942096864
+걸린 시간은요~ :  16.16627025604248
+r2_score :  0.35375609942096864
+최적 튠 R2 :  0.35375609942096864
+
+Fetch_covtype 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=12, min_samples_leaf=3, min_samples_split=10,
+                       n_estimators=200)
+최적의 파라미터는요~ :  {'n_estimators': 200, 'min_samples_split': 10, 'min_samples_leaf': 3, 'max_depth': 12}
+model.score로 구한 값은요~ :  0.7827508756228324
+걸린 시간은요~ :  1740.1251466274261
+acc_score :  0.7827508756228324
+최적 튠 ACC :  0.7827508756228324
 '''
