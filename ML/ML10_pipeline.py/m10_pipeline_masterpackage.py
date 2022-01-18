@@ -30,7 +30,7 @@ for name,data in dd.items():
 
     if choice > 4:       
         print('나는 분류모델!')                                             # 분류는 acc, 혹시 모르니까 f1~
-        model = make_pipeline(MinMaxScaler(),RandomForestClassifier())                                           
+        model = make_pipeline(MinMaxScaler(),RandomForestClassifier(random_state=66))                                           
         start = time.time()
         model.fit(x_train,y_train)
         end = time.time()
@@ -40,7 +40,7 @@ for name,data in dd.items():
         
     else:                    
         print('나는 회귀모델!')                                             # 회귀는 r2 ~ 
-        model = make_pipeline(MinMaxScaler(),RandomForestRegressor())                                             
+        model = make_pipeline(MinMaxScaler(),RandomForestRegressor(random_state=66))                                             
         start = time.time()
         model.fit(x_train,y_train)
         end = time.time()      
@@ -51,12 +51,12 @@ for name,data in dd.items():
 '''
 Iirs 데이터셋의 결과를 소개합니다~
 나는 분류모델!
-model.score :  0.9333333333333333
+model.score :  0.9
 
 
 Breast_cancer 데이터셋의 결과를 소개합니다~
 나는 분류모델!
-model.score :  0.9649122807017544
+model.score :  0.9736842105263158
 
 
 Wine 데이터셋의 결과를 소개합니다~
@@ -66,20 +66,20 @@ model.score :  1.0
 
 Boston 데이터셋의 결과를 소개합니다~
 나는 회귀모델!
-model.score :  0.9214523351463726
+model.score :  0.9266400209761564
 
 
 Diabets 데이터셋의 결과를 소개합니다~
 나는 회귀모델!
-model.score :  0.3773261303083336
+model.score :  0.36921653933532395
 
 
 Bike 데이터셋의 결과를 소개합니다~
 나는 회귀모델!
-model.score :  0.2584368540610499
+model.score :  0.2609731458217943
 
 
 Fetch_covtype 데이터셋의 결과를 소개합니다~
 나는 분류모델!
-model.score :  0.9549409223514023
+model.score :  0.9556207671058407
 '''

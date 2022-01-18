@@ -1,6 +1,6 @@
 from sklearn.datasets import load_iris,load_breast_cancer,load_wine,fetch_covtype,load_boston,load_diabetes
 from sklearn.experimental import enable_halving_search_cv
-from sklearn.model_selection import train_test_split,KFold,StratifiedKFold,HalvingGridSearchCV
+from sklearn.model_selection import train_test_split,KFold,StratifiedKFold,HalvingGridSearchCV,RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
 from sklearn.pipeline import make_pipeline,Pipeline
 from sklearn.preprocessing import MinMaxScaler
@@ -25,8 +25,8 @@ parameters = {'n_estimators' : [100,200], 'max_depth' : [6, 8, 10, 12], 'min_sam
 reg_model = make_pipeline(MinMaxScaler(),RandomForestRegressor())
 cla_model = make_pipeline(MinMaxScaler(),RandomForestClassifier())
 
-regressor_model = HalvingGridSearchCV(reg_model, parameters, cv=kfold, n_jobs=-1)       # 회귀 Regressor
-classifier_model = HalvingGridSearchCV(cla_model, parameters, cv=Skfold, n_jobs=-1)     # 분류 classifier
+regressor_model = RandomizedSearchCV(reg_model, parameters, cv=kfold, n_jobs=-1)       # 회귀 Regressor
+classifier_model = RandomizedSearchCV(cla_model, parameters, cv=Skfold, n_jobs=-1)     # 분류 classifier
 
 for name,data in dd.items():
     
