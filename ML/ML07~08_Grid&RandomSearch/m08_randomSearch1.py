@@ -33,7 +33,7 @@ parameters = { "C":[1, 10, 100, 1000], "kernel":["linear","rbf","sigmoid"], "gam
 #2. 모델구성
 
 #model = GridSearchCV(SVC(), parameters, cv=kfold, verbose=1,n_jobs=4, refit=True ) #, n_jobs=-1
-model = RandomizedSearchCV(SVC(), parameters, cv=kfold, verbose=1,n_jobs=4, refit=True, n_iter = 15 ) #, n_jobs=-1
+model = RandomizedSearchCV(SVC(), parameters, cv=kfold, verbose=1,n_jobs=-1, refit=True, n_iter = 20, random_state=66) #, n_jobs=-1
 # 여기 단계에서 cross validation까지 때려버린다  GridSearchCV로 래핑해준거다.  verbose로 내용볼수있다. refit=True 여기서 best값 줄지 말지 결정한다.
 # 병렬 CPU지원을 한다.  이 기능을 활용하면 병렬식으로 여러개 사용해서 더 빠르게 작업 할 수 있다. n_jobs = 1~ 내 장비가 사용가능한 값까지. -1하면 내 장비의 코어 다 사용한다
 
