@@ -18,7 +18,7 @@ Skfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=66)
 
 parameters = {'n_estimators' : [100,200], 'max_depth' : [6, 8, 10, 12], 'min_samples_leaf' : [2, 5, 7, 10], 'min_samples_split' : [2, 3, 5, 10] }
 
-regressor_model = HalvingGridSearchCV(RandomForestRegressor(), parameters, cv=kfold, n_jobs=-1)        # 회귀 Regressor
+regressor_model = HalvingGridSearchCV(RandomForestRegressor(), parameters, cv=n_splits, n_jobs=-1)        # 회귀 Regressor
 
 datasets = load_diabetes()
 x = datasets.data

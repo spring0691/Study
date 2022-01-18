@@ -34,8 +34,15 @@ regressor_model = RandomizedSearchCV(reg_model, parameters, cv=n_splits, n_jobs=
 for name,data in dd.items():
     
     if name == 'Bike':
-        x = Bikedata.drop(['datetime','casual','registered','count'], axis=1)  
+        x = Bikedata.drop(['casual','registered','count'], axis=1)  
+        x['datetime'] = pd.to_datetime(x['datetime'])
+        x['year'] = x['datetime'].dt.year
+        x['month'] = x['datetime'].dt.month
+        x['day'] = x['datetime'].dt.day
+        x['hour'] = x['datetime'].dt.hour
+        x = x.drop('datetime', axis=1)
         y = Bikedata['count']  # np.unique(y, return_counts = True 누가봐도 회귀모델
+        y = np.log1p(y)
     else:
         datasets = data
         x = datasets.data
@@ -160,8 +167,11 @@ Bike 데이터셋의 결과를 소개합니다~
                                        min_samples_split=3,
                                        n_estimators=200))])
 최적의 파라미터는요~ :  {'Rfcl__n_estimators': 200, 'Rfcl__min_samples_split': 3, 'Rfcl__min_samples_leaf': 3, 'Rfcl__max_depth': 12}
-model.score로 구한 값은요~ :  0.3540650648912831
+model.score로 구한 값은요~ :  0.3540650648912831    -> 0.7977909159939425
 걸린 시간은요~ :  22.579800128936768
-r2_score :  0.3540650648912831
-최적 튠 R2 :  0.3540650648912831
+r2_score :  0.3540650648912831          -> 0.7977909159939425
+최적 튠 R2 :  0.3540650648912831        -> 0.7977909159939425      전처리해주니까 값이 팍 뛴다 와 대박...
+
+
+
 '''
