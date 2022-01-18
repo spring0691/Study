@@ -3,7 +3,7 @@ import numpy as np
 import warnings
 warnings.filterwarnings(action='ignore')
 
-datasets = load_iris()
+datasets = load_diabetes()
 x = datasets.data
 y = datasets.target
 
