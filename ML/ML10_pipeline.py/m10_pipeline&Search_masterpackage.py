@@ -2,6 +2,7 @@ from sklearn.datasets import load_iris,load_breast_cancer,load_wine,fetch_covtyp
 from sklearn.experimental import enable_halving_search_cv
 from sklearn.model_selection import train_test_split,KFold,StratifiedKFold,HalvingGridSearchCV
 from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
+from sklearn.pipeline import make_pipeline,Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import r2_score,accuracy_score,f1_score
 import numpy as np, pandas as pd, warnings, time
@@ -13,16 +14,19 @@ scaler = MinMaxScaler()
 path = '../Project/Kaggle_Project/bike/'
 Bikedata = pd.read_csv(path + 'train.csv')                 
 
-n_splits = 4
-kfold = KFold(n_splits=n_splits, shuffle=True, random_state=66)             
-Skfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=66) 
+n_splits = 5
+kfold = KFold(n_splits=n_splits, shuffle=True, random_state=66)                        # 회귀 Regressor
+Skfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=66)             # 분류 calssifier    편향막기위해(한쪽 데이터셋의 비율이 큼) Stratified
 
-dd =  {'Boston':load_boston(),'Diabets':load_diabetes(),'Bike':Bikedata,'Fetch_covtype':fetch_covtype()}
-#'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),
+dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Bike':Bikedata,'Fetch_covtype':fetch_covtype()}
+
 parameters = {'n_estimators' : [100,200], 'max_depth' : [6, 8, 10, 12], 'min_samples_leaf' : [3, 5, 7, 10], 'min_samples_split' : [2, 3, 5, 10] }
 
-regressor_model = HalvingGridSearchCV(RandomForestRegressor(), parameters, cv=kfold, n_jobs=-1)        # 회귀 Regressor
-classifier_model = HalvingGridSearchCV(RandomForestClassifier(), parameters, cv=Skfold, n_jobs=-1)     # 분류 classifier
+reg_model = make_pipeline(MinMaxScaler(),RandomForestRegressor())
+cla_model = make_pipeline(MinMaxScaler(),RandomForestClassifier())
+
+regressor_model = HalvingGridSearchCV(reg_model, parameters, cv=kfold, n_jobs=-1)       # 회귀 Regressor
+classifier_model = HalvingGridSearchCV(cla_model, parameters, cv=Skfold, n_jobs=-1)     # 분류 classifier
 
 for name,data in dd.items():
     
@@ -34,8 +38,6 @@ for name,data in dd.items():
         x = datasets.data
         y = datasets.target
     x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)
-    x_train = scaler.fit_transform(x_train)
-    x_test = scaler.transform(x_test)
     choice = np.unique(y, return_counts=True)[1].min()    # 회귀모델인지 분류모델인지 판별해주는 변수 y값 라벨들의 개수 중 제일 적은 개수를 보고판단
     
     print(f'{name} 데이터셋의 결과를 소개합니다~')
