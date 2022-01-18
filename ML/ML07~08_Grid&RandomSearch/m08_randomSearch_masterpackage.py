@@ -35,11 +35,11 @@ for name,data in dd.items():
     x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)
     x_train = scaler.fit_transform(x_train)
     x_test = scaler.transform(x_test)
-    choice = len(np.unique(y))
+    choice = np.unique(y, return_counts=True)[1].min()    # 회귀모델인지 분류모델인지 판별해주는 변수 y값 라벨들의 개수 중 제일 적은 개수를 보고판단
     
     print(f'{name} 데이터셋의 결과를 소개합니다~')
     
-    if choice <= 10:        
+    if choice > 4:        
         model = classifier_model                                           # 분류는 acc, 혹시 모르니까 f1~
         start = time.time()
         model.fit(x_train,y_train)
@@ -59,7 +59,7 @@ for name,data in dd.items():
         #print("최적 튠 F1 : ", f1_score(y_test,y_pred_best))
         print('\n')
         
-    elif choice > 10:                                                      
+    else:                                                      
         model = regressor_model                                             # 회귀는 r2 ~ 
         start = time.time()
         model.fit(x_train,y_train)
@@ -76,3 +76,66 @@ for name,data in dd.items():
         y_pred_best = model.best_estimator_.predict(x_test)                
         print("최적 튠 R2 : ", r2_score(y_test,y_pred_best))              
         print('\n')
+
+'''
+Iirs 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=12, min_samples_leaf=10, min_samples_split=5)        
+최적의 파라미터는요~ :  {'n_estimators': 100, 'min_samples_split': 5, 'min_samples_leaf': 10, 'max_depth': 12}
+model.score로 구한 값은요~ :  1.0
+걸린 시간은요~ :  3.017430543899536
+acc_score :  1.0
+최적 튠 ACC :  1.0
+
+
+Breast_cancer 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=8, min_samples_leaf=3, n_estimators=200)
+최적의 파라미터는요~ :  {'n_estimators': 200, 'min_samples_split': 2, 'min_samples_leaf': 3, 'max_depth': 8}
+model.score로 구한 값은요~ :  0.9649122807017544
+걸린 시간은요~ :  2.820464611053467
+acc_score :  0.9649122807017544
+최적 튠 ACC :  0.9649122807017544
+
+
+Wine 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+최적의 매개변수는요~ :  RandomForestClassifier(max_depth=8, min_samples_leaf=3, min_samples_split=3,
+                       n_estimators=200)
+최적의 파라미터는요~ :  {'n_estimators': 200, 'min_samples_split': 3, 'min_samples_leaf': 3, 'max_depth': 8}
+model.score로 구한 값은요~ :  1.0
+걸린 시간은요~ :  2.1341235637664795
+acc_score :  1.0
+최적 튠 ACC :  1.0
+
+
+Boston 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+최적의 매개변수는요~ :  RandomForestRegressor(max_depth=10, min_samples_leaf=3, min_samples_split=5)
+최적의 파라미터는요~ :  {'n_estimators': 100, 'min_samples_split': 5, 'min_samples_leaf': 3, 'max_depth': 10}
+model.score로 구한 값은요~ :  0.9170530437643981
+걸린 시간은요~ :  3.2036356925964355
+r2_score :  0.9170530437643981
+최적 튠 R2 :  0.9170530437643981
+
+
+Diabets 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+최적의 매개변수는요~ :  RandomForestRegressor(max_depth=8, min_samples_leaf=5)
+최적의 파라미터는요~ :  {'n_estimators': 100, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_depth': 8}
+model.score로 구한 값은요~ :  0.3933093885334348
+걸린 시간은요~ :  2.62687087059021
+r2_score :  0.3933093885334348
+최적 튠 R2 :  0.3933093885334348
+
+
+Bike 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+최적의 매개변수는요~ :  RandomForestRegressor(max_depth=10, min_samples_leaf=3, min_samples_split=5,
+                      n_estimators=200)
+최적의 파라미터는요~ :  {'n_estimators': 200, 'min_samples_split': 5, 'min_samples_leaf': 3, 'max_depth': 10}
+model.score로 구한 값은요~ :  0.35375609942096864
+걸린 시간은요~ :  16.16627025604248
+r2_score :  0.35375609942096864
+최적 튠 R2 :  0.35375609942096864
+'''
