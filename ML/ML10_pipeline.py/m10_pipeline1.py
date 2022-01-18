@@ -21,6 +21,7 @@ x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=Tr
 
 from sklearn.linear_model import Perceptron
 from sklearn.svm import LinearSVC,SVC   
+from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
 from sklearn.pipeline import make_pipeline,Pipeline   # 이걸로 파이프라인을 만들어줄거다.
 
 #model = SVC()

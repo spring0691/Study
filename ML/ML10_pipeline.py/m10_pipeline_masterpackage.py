@@ -5,6 +5,7 @@ from sklearn.pipeline import make_pipeline,Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import r2_score,accuracy_score,f1_score
 import numpy as np, pandas as pd, warnings, time
+from sklearn.decomposition import PCA
 warnings.filterwarnings(action='ignore')
 
 scaler = MinMaxScaler()
@@ -30,7 +31,7 @@ for name,data in dd.items():
 
     if choice > 4:       
         print('나는 분류모델!')                                             # 분류는 acc, 혹시 모르니까 f1~
-        model = make_pipeline(MinMaxScaler(),RandomForestClassifier(random_state=66))                                           
+        model = make_pipeline(MinMaxScaler(),PCA(),RandomForestClassifier(random_state=66,n_jobs=-1))                                           
         start = time.time()
         model.fit(x_train,y_train)
         end = time.time()
@@ -40,7 +41,7 @@ for name,data in dd.items():
         
     else:                    
         print('나는 회귀모델!')                                             # 회귀는 r2 ~ 
-        model = make_pipeline(MinMaxScaler(),RandomForestRegressor(random_state=66))                                             
+        model = make_pipeline(MinMaxScaler(),PCA(),RandomForestRegressor(random_state=66,n_jobs=-1))                                             
         start = time.time()
         model.fit(x_train,y_train)
         end = time.time()      
@@ -82,4 +83,39 @@ model.score :  0.2609731458217943
 Fetch_covtype 데이터셋의 결과를 소개합니다~
 나는 분류모델!
 model.score :  0.9556207671058407
+
+PCA() 넣고 난 후-----------------------------------------------------------
+Iirs 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+model.score :  0.9666666666666667
+
+
+Breast_cancer 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+model.score :  0.9385964912280702
+
+
+Wine 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+model.score :  0.9722222222222222
+
+
+Boston 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+model.score :  0.8790489448743192
+
+
+Diabets 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+model.score :  0.4284711709200252
+
+
+Bike 데이터셋의 결과를 소개합니다~
+나는 회귀모델!
+model.score :  0.2998708954532694
+
+
+Fetch_covtype 데이터셋의 결과를 소개합니다~
+나는 분류모델!
+model.score :  0.9547774153851449
 '''
