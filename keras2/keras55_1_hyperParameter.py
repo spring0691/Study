@@ -32,11 +32,12 @@ def build_model(drop=0.5, optimizer='adam', activation='relu'):
     
     model.compile(optimizer=optimizer, metrics=['acc'],
                   loss='categorical_crossentropy')
+    
     return model
 
 def create_hyperparameter():
     batchs = [100,200,300,400,500]
-    optimizers = ['adam', 'rmsprop', 'adadelta']
+    optimizers = ['adam', 'rmsprop', 'adadelta']                # 그라디언트 폭발과 소멸 optimizers를 진짜 잘 조정해야 튜닝의 고수다.
     dropout = [0.3, 0.4, 0.5]
     activation = ['relu','linear','sigmoid','selu','elu']
     return {"batch_size" : batchs, "optimizer" : optimizers, "drop" : dropout,
@@ -68,6 +69,7 @@ y_predict = model.predict(x_test)
 print("accuracy_score : ", accuracy_score(y_test,y_predict))
 
 # 가중치 save
-
-model.save("./_save/keras55_1_save_model.h5")
-model.save_weights("./_save/keras55_1_save_weights.h5")
+import os
+path = os.getcwd() + '/'
+model.save(path + "keras55_1_save_model.h5")
+model.save_weights(path + "keras55_1_save_weights.h5")
