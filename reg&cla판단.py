@@ -10,7 +10,7 @@ y = datasets.target
 choice = np.unique(y, return_counts=True)[1].min()
 
 print(np.unique(y,return_counts=True))
-
+print('\n\n',choice)
 '''
 if choice <= 3:
     print('나는야 회귀모델')
