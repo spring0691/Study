@@ -37,7 +37,7 @@ result = model.score(x_test,y_test)
 print("model_score : ", result)
 
 print(model.feature_importances_)   #[0.         0.0125026  0.53835801 0.44913938]  4개의 피쳐중에 뭐가 중요한지 보여준다.
-                                    # fit 돌리고 나서 각 피쳐의 정확도를 보여준다.
+                                    # fit 돌리고 나서 각 피쳐의 연관성을 보여준다.
                                     
 '''
 DecisionTreeClassifier
