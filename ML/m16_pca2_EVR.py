@@ -16,14 +16,20 @@ print(x.shape)
 # from sklearn.datasets import fetch_openml
 # housing = fetch_openml(name="house_prices", as_frame=True)
 
-pca = PCA(n_components=14)
+pca = PCA(n_components=14)              # 절대 성능이 향상되지는 않지만 성능은 살짝저하되는 대신 많은 자원을 아낄수있다.
 x = pca.fit_transform(x)    
 print(x.shape)
 # print(x[:5])
 
 pca_EVR = pca.explained_variance_ratio_ # 설명가능한 변화율?
 #print(pca_EVR)                          # 어떤 값들이 나온다. 이게 뭐지? 줄인 칼럼들에 대한 개수별 정확도?
-print(sum(pca_EVR))
+'''
+[9.82044672e-01 1.61764899e-02 1.55751075e-03 1.20931964e-04
+ 8.82724536e-05 6.64883951e-06 4.01713682e-06 8.22017197e-07
+ 3.44135279e-07 1.86018721e-07 6.99473205e-08 1.65908880e-08
+ 6.99641650e-09 4.78318306e-09]
+'''
+#print(sum(pca_EVR))    
 
 cumsum = np.cumsum(pca_EVR)             # 누적합을 구해준다.
 print(cumsum)                           # 이런식으로 누적합을 보면서 몇개의 칼럼까지 빼도 성능이 괜찮은지 확인 할 수 있다.

@@ -1,10 +1,10 @@
 from tensorflow.keras.datasets import mnist
-from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Input, Dropout
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler,StandardScaler,RobustScaler,MaxAbsScaler
-import time
+import time, numpy as np
 # 실습!!!
 
 #1. 데이터 로드 및 전처리
@@ -20,8 +20,8 @@ x_test = x_test.reshape(len(x_test),-1)
 #print(x_test.shape)        #(10000, 784)
 
 
-y_train = to_categorical(y_train)
-y_test = to_categorical(y_test)
+# y_train = to_categorical(y_train)
+# y_test = to_categorical(y_test)
 
 #print(y_train.shape)   결과확인
 
@@ -32,6 +32,8 @@ x_test = scaler.transform(x_test)
 
 
 #2.모델링
+
+#model = load_model("./_save/keras34_1_save_mnist.h5")
 
 input1 = Input(shape=(784,))
 dense1 = Dense(100)(input1)
@@ -55,7 +57,7 @@ model = Model(inputs=input1,outputs=output1)
 # model.add(Dense(10,activation="softmax"))
 
 #3.컴파일,훈련
-model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy']) 
+model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',metrics=['acc']) 
 
 ############################################################################
 # import datetime
@@ -69,26 +71,28 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accura
 #                    # ./_ModelCheckPoint/k32_cifar10_1206_1656_2500-0.3724.hdf5
 #############################################################################
 
-ti = time.time()
-kr = time.localtime(ti)
-krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
-acc = '{accuracy:.4f}'
-fn = "".join([krtime,acc])
+# ti = time.time()
+# kr = time.localtime(ti)
+# krtime = time.strftime('%m-%d-%X',kr).replace(":", "_")
+# acc = '{accuracy:.4f}'
+# fn = "".join([krtime,acc])
 
-es = EarlyStopping(monitor="val_loss", patience=100, mode='min',verbose=1,baseline=None, restore_best_weights=True)
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras34_1_mnist{fn}_MCP.hdf5')
-model.fit(x_train,y_train,epochs=10000, batch_size=100,validation_split=0.1111111111, callbacks=[es])#,mcp
-
-model.save(f"./_save/keras34_1_save_mnist{fn}.h5")
+es = EarlyStopping(monitor="val_acc", patience=50, mode='max',verbose=1,baseline=None, restore_best_weights=True)
+#mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath=f'./_ModelCheckPoint/keras34_1_mnist{fn}_MCP.hdf5')
+start = time.time()
+model.fit(x_train,y_train,epochs=10000, batch_size=100,validation_split=0.2, callbacks=[es])#,mcp
+end = time.time()
+#model.save(f"./_save/keras34_1_save_mnist111.h5")
 
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)
-print('loss : ', loss[0])
-print('accuracy : ', loss[1])
+#print('loss : ', loss[0])
+print('걸린시간 : ', np.round(end - start,4))
+print('accuracy : ', np.round(loss[1],4))
 
 '''
 결과정리
-                Minmax            
-loss :      0.1135585606098175
-accuracy :  0.9679999947547913
+             Minmax            
+loss :      0.11355
+accuracy :  0.96799
 '''
