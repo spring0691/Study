@@ -69,7 +69,6 @@ for name,data in dd.items():
     if choice > 4:       
         print('나는 분류모델!\n')                                             
         
-        
         for i,model in enumerate(cla_model_list,start=1):
             model.fit(x_train,y_train)
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   
@@ -83,7 +82,6 @@ for name,data in dd.items():
     else:                    
         print('나는 회귀모델!\n')  
                                                    
-        
         for i,model in enumerate(reg_model_list,start=1):
             model.fit(x_train,y_train)
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   

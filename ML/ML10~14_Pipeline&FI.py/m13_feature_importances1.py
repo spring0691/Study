@@ -23,8 +23,8 @@ from xgboost import XGBClassifier
 
 #model = DecisionTreeClassifier(max_depth=5,random_state=66)
 #model = RandomForestClassifier(max_depth=5,random_state=66)
-#model = XGBClassifier()
-model = GradientBoostingClassifier()
+model = XGBClassifier(random_state=66,eval_metric='error')
+#model = GradientBoostingClassifier()
 
 #3. 컴파일, 훈련
 

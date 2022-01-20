@@ -17,7 +17,6 @@ import matplotlib.pyplot as plt
 def plot_feature_importances_dataset(model):
     n_features = x.shape[1]
     plt.barh(np.arange(n_features),model.feature_importances_,align='center')
-    # plt.yticks(np.arange(n_features), datasets.feature_names)
     plt.yticks(np.arange(n_features), x.columns)
     plt.xlabel(f"{str(model).split('(')[0]}")
     plt.ylabel("Features Importances")
@@ -29,12 +28,12 @@ warnings.filterwarnings(action='ignore')
 np.set_printoptions(threshold=sys.maxsize)
 pd.set_option('display.max_row',50)
 pd.set_option('display.max_columns',50)
-
+pd.set_option('display.width', 190)
 #1. 데이터 로드
 
 path = '../Project/Kaggle_Project/bike/'
 Bikedata = pd.read_csv(path + 'train.csv')                 
-dd =  {'Breast_cancer':load_breast_cancer(),'Iirs':load_iris(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Bike':Bikedata,'Fetch_covtype':fetch_covtype()}
+dd =  {'Breast_cancer':load_breast_cancer(),'Iirs':load_iris(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Bike':Bikedata} # ,'Fetch_covtype':fetch_covtype()
 #
 #2. 모델링 설정
 cla_model_list = [DecisionTreeClassifier(max_depth=5,random_state=66),RandomForestClassifier(max_depth=5,random_state=66),
@@ -45,6 +44,8 @@ reg_model_list = [DecisionTreeRegressor(max_depth=5,random_state=66),RandomFores
 
 #3. 컴파일 훈련
 
+# del_list를 뽑기위한 반복문
+#all_del_list={}
 for name,data in dd.items():
     
     if name == 'Bike':
@@ -79,11 +80,21 @@ for name,data in dd.items():
         for i,model in enumerate(cla_model_list,start=1):
             model.fit(x_train,y_train)
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   
-            print(f'{model.feature_importances_}\n')
-            plt.subplot(2,2,i)
-            plot_feature_importances_dataset(model)
-        plt.show()
-        
+            #print(f'{model.feature_importances_}\n')
+            # Feature_importances를 dataframe으로 바꿔준 후 칼럼명 넣어주고 내림차순 정렬후 누적합 리스트로 만들어줌
+            Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns).sort_values(by=0,axis=1).cumsum(axis=1)            
+            del_num = np.argmax(Fi > 0.25)     # argmax이용하여 몇번째 칼럼에서 특정값 초과하는지 확인 -> 여기서 나오는 개수만큼 날려주면 된다.
+            del_list = Fi.columns[:del_num]    # 전체 컬럼명의 앞에서 del_num의 개수까지 담아오고 이 칼럼들을 모두 날려주면 된다.
+            
+            xx = x.drop(del_list,axis=1)
+            xx_train,xx_test = train_test_split(xx,train_size=0.8,shuffle=True, random_state=66)
+            model.fit(xx_train,y_train)
+            print(f'{str(model).split("(")[0]}.score : {model.score(xx_test,y_test)}')
+            exit()
+        #     plt.subplot(2,2,i)
+        #     plot_feature_importances_dataset(model)
+        # plt.show()
+
         print('\n')
         
     else:                    
@@ -92,30 +103,15 @@ for name,data in dd.items():
         for i,model in enumerate(reg_model_list,start=1):
             model.fit(x_train,y_train)
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   
-            print(f'{model.feature_importances_}\n')
-            plt.subplot(2,2,i)
-            plot_feature_importances_dataset(model)
-        plt.show()
+            #print(f'{model.feature_importances_}\n')
+            # Feature_importances를 dataframe으로 바꿔준 후 칼럼명 넣어주고 내림차순 정렬후 누적합 리스트로 만들어줌
+            Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns).sort_values(by=0,axis=1).cumsum(axis=1)            
+            del_num = np.argmax(Fi > 0.25)     # argmax이용하여 몇번째 칼럼에서 특정값 초과하는지 확인 -> 여기서 나오는 개수만큼 날려주면 된다.
+            del_list = Fi.columns[:del_num]    # 전체 컬럼명의 앞에서 del_num의 개수까지 담아오고 이 칼럼들을 모두 날려주면 된다.
+            
+        #     plt.subplot(2,2,i)
+        #     plot_feature_importances_dataset(model)
+        # plt.show()
         
         print('\n')
-
-  
-                  
-
-
-
-
-'''
-min_index_val = np.min(feature_importances_)
-min_index = np.where(feature_importances_ == min_index_val)[0][0]
-print("min_index_val ",min_index_val)
-print("min_index ",min_index)
-
-print("< min_index_val ",min_index_val)
-print("< min_index ",min_index)
-print(dataset.feature_names[min_index]) 
-x = np.delete(x,min_index,axis=1)
-
-feature_names = dataset.feature_names.remove(dataset.feature_names[min_index])
-'''
 
