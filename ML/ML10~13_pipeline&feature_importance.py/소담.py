@@ -71,16 +71,16 @@ for (dataset_name, dataset) in datasets.items():
     for i in range(4):        
         plt.subplot(2, 2, i+1)               # nrows=2, ncols=1, index=1
         if dataset_name == 'Cancer':
-            model_list[i].fit(x_train, y_train)
-            score = model_list[i].score(x_test, y_test)
-            feature_importances_ = model_list[i].feature_importances_
+            model_list_r[i].fit(x_train, y_train)
+            score = model_list_r[i].score(x_test, y_test)
+            feature_importances_ = model_list_r[i].feature_importances_
 
             # y_predict = model_list[i].predict(x_test)
             # acc = accuracy_score(y_test, y_predict)
             print("score", score)
             # print("accuracy_score", acc)
             print("feature_importances_", feature_importances_)
-            plot_feature_importances_dataset(model_list[i])    
+            plot_feature_importances_dataset(model_list_r[i])    
             
         else: 
             model_list[i].fit(x_train, y_train)

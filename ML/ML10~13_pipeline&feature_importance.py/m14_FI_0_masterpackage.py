@@ -2,3 +2,5 @@
 # 데이터셋 재구성 후 각 모델별로 돌려서 결과 도출!
 # 기존 모델결과와의 비교
 # DecisionTree,RandomForest,GradientBoosting,XGB 모델 4개 사용.
+#x = x.drop(columns=0,axis=1)  # 이부분에서 feature 제거 가능
+

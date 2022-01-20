@@ -12,10 +12,8 @@ import matplotlib.pyplot as plt
 def plot_feature_importances_dataset(model):
     n_features = x.shape[1]
     plt.barh(np.arange(n_features),model.feature_importances_,align='center')
-    try:
-        plt.yticks(np.arange(n_features), datasets.feature_names)
-    except:
-        plt.yticks(np.arange(n_features), x.coulmns)
+    # plt.yticks(np.arange(n_features), datasets.feature_names)
+    plt.yticks(np.arange(n_features), x.columns)
     plt.xlabel("Feature Importances")
     plt.ylabel("Features")
     plt.ylim(-1,n_features)
@@ -31,12 +29,11 @@ pd.set_option('display.max_columns',50)
 
 path = '../Project/Kaggle_Project/bike/'
 Bikedata = pd.read_csv(path + 'train.csv')                 
-dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Bike':Bikedata,'Fetch_covtype':fetch_covtype()}
-
-
+dd =  {'Breast_cancer':load_breast_cancer(),'Iirs':load_iris(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Bike':Bikedata,'Fetch_covtype':fetch_covtype()}
+#
 #2. 모델링 설정
 cla_model_list = [DecisionTreeClassifier(max_depth=5,random_state=66),RandomForestClassifier(max_depth=5,random_state=66),
-                  GradientBoostingClassifier(random_state=66),XGBClassifier(random_state=66)]   # objective='multi:softprob' objective='binary:logistic',
+                  GradientBoostingClassifier(random_state=66),XGBClassifier(random_state=66,eval_metric='error')]   # objective='multi:softprob' objective='binary:logistic', 
 reg_model_list = [DecisionTreeRegressor(max_depth=5,random_state=66),RandomForestRegressor(max_depth=5,random_state=66),
                   GradientBoostingRegressor(random_state=66),XGBRegressor(random_state=66)]
 
@@ -57,15 +54,15 @@ for name,data in dd.items():
     else:
         datasets = data
         x = datasets.data
+        x = pd.DataFrame(x, columns=datasets['feature_names'])
         y = datasets.target
         #print(datasets.feature_names) # feature의 이름들 확인 가능.
         
-    #x = np.delete(x,0,axis=1)  # 이부분에서 feature 제거 가능
     x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)
     choice = np.unique(y, return_counts=True)[1].min()    
     
     print(f'{name} 데이터셋의 결과를 소개합니다~')
-
+    
     if choice > 4:       
         print('나는 분류모델!')                                             
         
@@ -77,7 +74,6 @@ for name,data in dd.items():
             plt.subplot(2,2,i)
             plot_feature_importances_dataset(model)
         plt.show()
-    
         
         print('\n')
         
@@ -94,16 +90,20 @@ for name,data in dd.items():
         plt.show()
         
         print('\n')
-
+    
                                 
 
 
-           
-# min_index_val = np.min(feature_importances_)
-# min_index = np.where(feature_importances_ == min_index_val)[0][0]
-# print("min_index_val ",min_index_val)
-# print("min_index ",min_index)
+'''
+min_index_val = np.min(feature_importances_)
+min_index = np.where(feature_importances_ == min_index_val)[0][0]
+print("min_index_val ",min_index_val)
+print("min_index ",min_index)
 
+print("< min_index_val ",min_index_val)
+print("< min_index ",min_index)
+print(dataset.feature_names[min_index]) 
+x = np.delete(x,min_index,axis=1)
 
-
-
+feature_names = dataset.feature_names.remove(dataset.feature_names[min_index])
+'''
