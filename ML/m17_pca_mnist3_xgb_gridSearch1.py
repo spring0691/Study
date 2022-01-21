@@ -50,3 +50,16 @@ print("acc_score : ", accuracy_score(y_test,y_pred))
 
 y_pred_best = model.best_estimator_.predict(x_test)                
 print("최적 튠 ACC : ", accuracy_score(y_test,y_pred_best))        
+
+'''
+Fitting 3 folds for each of 10 candidates, totalling 30 fits
+[CV 1/3] END XGB__colsample_bylevel=0.7, XGB__colsample_bytree=0.9, XGB__eval_metric=error, XGB__learning_rate=0.01, XGB__max_depth=6, XGB__n_estimators=100, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.894 total time=19.8min
+[CV 3/3] END XGB__colsample_bylevel=0.7, XGB__colsample_bytree=0.9, XGB__eval_metric=error, XGB__learning_rate=0.01, XGB__max_depth=6, XGB__n_estimators=100, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.898 total time=19.8min
+[CV 2/3] END XGB__colsample_bylevel=0.7, XGB__colsample_bytree=0.9, XGB__eval_metric=error, XGB__learning_rate=0.01, XGB__max_depth=6, XGB__n_estimators=100, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.889 total time=19.9min
+[CV 1/3] END XGB__colsample_bylevel=0.6, XGB__colsample_bytree=1, XGB__eval_metric=error, XGB__learning_rate=0.001, XGB__max_depth=5, XGB__n_estimators=200, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.854 total time=25.8min
+[CV 3/3] END XGB__colsample_bylevel=0.6, XGB__colsample_bytree=1, XGB__eval_metric=error, XGB__learning_rate=0.001, XGB__max_depth=5, XGB__n_estimators=200, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.860 total time=25.9min
+[CV 2/3] END XGB__colsample_bylevel=0.6, XGB__colsample_bytree=1, XGB__eval_metric=error, XGB__learning_rate=0.001, XGB__max_depth=5, XGB__n_estimators=200, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.849 total time=25.9min
+[CV 2/3] END XGB__colsample_bylevel=0.6, XGB__colsample_bytree=0.6, XGB__eval_metric=error, XGB__learning_rate=0.1, XGB__max_depth=5, XGB__n_estimators=200, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.951 total time=26.5min
+[CV 3/3] END XGB__colsample_bylevel=0.6, XGB__colsample_bytree=0.6, XGB__eval_metric=error, XGB__learning_rate=0.1, XGB__max_depth=5, XGB__n_estimators=200, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.954 total time=26.5min
+[CV 1/3] END XGB__colsample_bylevel=0.6, XGB__colsample_bytree=0.6, XGB__eval_metric=error, XGB__learning_rate=0.1, XGB__max_depth=5, XGB__n_estimators=200, XGB__random_state=66, XGB__use_label_encoder=False;, score=0.954 total time=26.5min
+'''
