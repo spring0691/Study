@@ -60,6 +60,7 @@ for key, value in lda_result_dict.items():
         
 '''             DNN 기준 LDA
 칼럼개수        7               8               9
+
 time        
 
 acc        
