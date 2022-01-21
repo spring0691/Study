@@ -186,14 +186,6 @@ GradientBoostingClassifier.score : 0.9666666666666667
    petal length (cm)  petal width (cm)
 0           0.276106          0.723894
 
-[07:48:53] WARNING: C:/Users/Administrator/workspace/xgboost-win64_release_1.5.1/src/learner.cc:576:
-Parameters: { "scale_pos_weight" } might not be used.
-
-  This could be a false alarm, with some parameters getting used by language bindings but
-  then being mistakenly passed down to XGBoost core, or some parameter actually being used
-  but getting flagged wrongly here. Please open an issue if you find any such cases.
-
-
 feature 제거 전
 XGBClassifier.score : 0.9
 feature 제거 후

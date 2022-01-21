@@ -1,0 +1,5 @@
+PCA는 차원을 축소시키는 개념이고 Feature_importance는 각 칼럼을 일단 한번 돌려보고
+칼럼들이 y값에 미치는 영향을 %로 보여주는 형식이다. PCA는 fit이 들어가지않는다 비지도학습과 유사하다
+
+PCA가 근데 Feature_importance보다 더 정확성이 우위에 있다고 한다.
+

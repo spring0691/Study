@@ -28,4 +28,8 @@ sns.set(font_scale=1.2)
 sns.heatmap(data=x.corr(), square=True, annot=True, cbar=True)
 # cbar = 그림 옆에 나오는 색깔의 수치를 나타내 주는 표
 # 상관관계에서 주는 수치는 서로서로의 colmun에 대한 linear관계
+# 여기서 linear한 관계란 직관적인 상관관계를 의미한다 각 칼럼에 대한 y = wx + b
+# 더 직관적으로 풀어보자면 x1 = wx2 + b , x1 = wx3 + b, x1 = wx4 + b 이런식으로 
+# 모든 칼럼에 대한 grid 격자치기로 값을 나타내주기때문에 서로서로의 상관관계를 한번에 알 수 있다.
+# 이 상관관계로 서로 수치가 높은 칼럼들끼리 PCA로 묶어서 칼럼을 줄여주는 식으로 활용할 수 있다. 
 plt.show()
