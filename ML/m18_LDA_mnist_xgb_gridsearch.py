@@ -30,9 +30,9 @@ lda_name_dict = {'0.938':7,'0.973':8,'1,0':9}
 #2. 모델 설정
 
 parameters = {"LGBM__n_estimators":[100,200,300], "LGBM__learning_rate":[0.1,0.01,0.001],"LGBM__max_depth":[5,6,-1],
-            "LGBM__colsample_bytree":[0.6,0.9,1],"LGBM__random_state":[66],"LGBM__n_jobs":[-1]}  # ,"LGBM__colsample_bylevel":[0.6,0.7,0.9]
+            "LGBM__colsample_bytree":[0.6,0.9,1],"LGBM__random_state":[66],"LGBM__n_jobs":[-1]} 
 
-pipe_model = Pipeline([("mm",MinMaxScaler()),("PCA",LinearDiscriminantAnalysis(n_components=7)),("LGBM",LGBMClassifier())])  # random_state=66,eval_metric='error'
+pipe_model = Pipeline([("mm",MinMaxScaler()),("PCA",LinearDiscriminantAnalysis(n_components=8)),("LGBM",LGBMClassifier())])
 
 model = RandomizedSearchCV(pipe_model,parameters,cv=3,n_jobs=-1,verbose=3)
 
@@ -51,9 +51,19 @@ y_pred_best = model.best_estimator_.predict(x_test)
 print("최적 튠 ACC : ", accuracy_score(y_test,y_pred_best))        
 
 '''
+칼럼 7개 일때.
 최적의 파라미터는요~ :  {'LGBM__random_state': 66, 'LGBM__n_jobs': -1, 'LGBM__n_estimators': 300, 'LGBM__max_depth': 5, 'LGBM__learning_rate': 0.1, 'LGBM__colsample_bytree': 0.9}
 model.score로 구한 값은요~ :  0.8966
 걸린 시간은요~ :  156.09134650230408
 acc_score :  0.8966
 최적 튠 ACC :  0.8966
+
+칼럼 8개 일때.
+최적의 파라미터는요~ :  {'LGBM__random_state': 66, 'LGBM__n_jobs': -1, 'LGBM__n_estimators': 200, 'LGBM__max_depth': -1, 'LGBM__learning_rate': 0.1, 'LGBM__colsample_bytree': 0.6}
+model.score로 구한 값은요~ :  0.9113
+걸린 시간은요~ :  151.73151111602783
+acc_score :  0.9113
+최적 튠 ACC :  0.9113
+
+
 '''
