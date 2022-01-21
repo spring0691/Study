@@ -40,7 +40,6 @@ start = time.time()
 model.fit(x_train,y_train)
 end = time.time()
 
-print("최적의 매개변수는요~ : ", model.best_estimator_)
 print('최적의 파라미터는요~ : ', model.best_params_)
 print('model.score로 구한 값은요~ : ', model.score(x_test,y_test))   
 print('걸린 시간은요~ : ', end - start)
@@ -52,5 +51,9 @@ y_pred_best = model.best_estimator_.predict(x_test)
 print("최적 튠 ACC : ", accuracy_score(y_test,y_pred_best))        
 
 '''
-
+최적의 파라미터는요~ :  {'LGBM__random_state': 66, 'LGBM__n_jobs': -1, 'LGBM__n_estimators': 300, 'LGBM__max_depth': 5, 'LGBM__learning_rate': 0.1, 'LGBM__colsample_bytree': 0.9}
+model.score로 구한 값은요~ :  0.8966
+걸린 시간은요~ :  156.09134650230408
+acc_score :  0.8966
+최적 튠 ACC :  0.8966
 '''
