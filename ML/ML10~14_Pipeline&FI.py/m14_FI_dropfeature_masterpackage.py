@@ -129,6 +129,7 @@ for name,data in dd.items():
         print('\n')
 
 '''
+Breast_cancer 데이터셋의 결과를 소개합니다~
 나는 분류모델!
 
 feature 제거 전
