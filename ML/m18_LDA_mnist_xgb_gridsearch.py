@@ -66,5 +66,9 @@ acc_score :  0.9113
 최적 튠 ACC :  0.9113
 
 칼럼 9개 일때.
-
+최적의 파라미터는요~ :  {'LGBM__random_state': 66, 'LGBM__n_jobs': -1, 'LGBM__n_estimators': 200, 'LGBM__max_depth': -1, 'LGBM__learning_rate': 0.1, 'LGBM__colsample_bytree': 0.9}
+model.score로 구한 값은요~ :  0.9176
+걸린 시간은요~ :  173.905588388443
+acc_score :  0.9176
+최적 튠 ACC :  0.9176
 '''
