@@ -30,7 +30,7 @@ lda_name_dict = {'0.938':7,'0.973':8,'1,0':9}
 #2. 모델 설정
 
 parameters = {"LGBM__n_estimators":[100,200,300], "LGBM__learning_rate":[0.1,0.01,0.001],"LGBM__max_depth":[5,6,-1],
-            "LGBM__colsample_bytree":[0.6,0.9,1],"LGBM__colsample_bylevel":[0.6,0.7,0.9],"LGBM__random_state":[66],"n_jobs":[-1]} 
+            "LGBM__colsample_bytree":[0.6,0.9,1],"LGBM__random_state":[66],"LGBM__n_jobs":[-1]}  # ,"LGBM__colsample_bylevel":[0.6,0.7,0.9]
 
 pipe_model = Pipeline([("mm",MinMaxScaler()),("PCA",LinearDiscriminantAnalysis(n_components=7)),("LGBM",LGBMClassifier())])  # random_state=66,eval_metric='error'
 

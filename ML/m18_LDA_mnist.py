@@ -58,11 +58,11 @@ for lda_acc,lda_num in lda_name_dict.items():
 for key, value in lda_result_dict.items():
         print(key, value)
         
-'''             DNN 기준 LDA
+'''                     DNN 기준 LDA
 칼럼개수        7               8               9
 
-time        
+time        248.0194        575.2531        450.5493
 
-acc        
+acc         0.8888          0.9074          0.9114
 
 '''
