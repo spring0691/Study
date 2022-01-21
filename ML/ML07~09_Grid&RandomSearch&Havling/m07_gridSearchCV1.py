@@ -61,6 +61,14 @@ print("최적 튠 ACC : ", accuracy_score(y_test,y_pred_best))     # 각기 다�
 #print("걸린시간 : ", float(end) - float(start))
 ############################################################################################
 '''
+Fitting 5 folds for each of 108 candidates, totalling 540 fits
+최적의 매개변수 :  SVC(C=1, gamma=0.01, kernel='linear')
+최적의 파라미터 :  {'C': 1, 'degree': 3, 'gamma': 0.01, 'kernel': 'linear'}
+best_score_ :  0.9916666666666668
+model.score :  0.9666666666666667
+acc_score :  0.9666666666666667
+최적 튠 ACC :  0.9666666666666667
+
 #print(model.cv_results_)   cv의 결과값을 dict형태로 볼 수 있다.
 aaa = pd.DataFrame(model.cv_results_)       # 1번의 cv에대한 결과
 
