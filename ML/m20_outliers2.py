@@ -16,6 +16,20 @@ def outliers(data_out):
     upper_bound = quantile_3 + (iqr * 1.5)      
     return np.where((data_out>upper_bound) | (data_out<lower_bound))
 
+# case 1.
+# aaa = pd.DataFrame(aaa,columns=('x','y'))
+# a = aaa['x'].values
+# b = aaa['y'].values
+
+# case 2.
+a = []
+b = []
+for i in aaa:
+    a.append(i[0])
+    b.append(i[1])
+
+print(outliers(a))
+print(outliers(b))
 # import matplotlib.pyplot as plt
 
 # plt.boxplot(b,sym="bo")       

@@ -34,7 +34,7 @@ imputer = SimpleImputer(strategy='mean') # ,fill_value=777
 #print(type(data['a']))  # <class 'pandas.core.series.Series'> 
 data2 = data.copy()
 # data2[['a','b']] = imputer.fit_transform(data[['a','b']])
-data2[['a']] = imputer.fit_transform(data[['a']])
+data2[['a','c']] = imputer.fit_transform(data[['a','c']])
 
 print(data)
 print(data2)

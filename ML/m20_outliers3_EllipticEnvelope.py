@@ -10,8 +10,8 @@ b = []
 for i in aaa:
     a.append(i[0])
     b.append(i[1])
-a = np.array(a)
-a = a.reshape(-1,1)
+a = (np.array(a)).reshape(-1,1)
+b = (np.array(b)).reshape(-1,1)
 
 from sklearn.covariance import EllipticEnvelope
 
@@ -25,6 +25,6 @@ outliers = EllipticEnvelope(contamination=.4)  # contamination -> 오염
 #[ 1  1  1  1  1  1  1  1  1 -1 -1  1  1]   이렇게 위치를 반환해준다.
 print(type(a))
 print(a.shape)
-outliers.fit(a)
-rs = outliers.predict(a)
+outliers.fit(b)
+rs = outliers.predict(b)
 print(rs)
