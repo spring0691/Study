@@ -13,7 +13,7 @@ data.columns = ['a','b','c','d']
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import SimpleImputer,KNNImputer, IterativeImputer    # 결측치처리 도와주는넘
 
-imputer = SimpleImputer(strategy='constant',fill_value=777)     
+imputer = SimpleImputer(strategy='mean') # ,fill_value=777     
 # stratery = 전략 mean 평균,median 중위값most_frequent 가장많이 사용한, 'constant',fill_value=777 원하는 상수 사용.
 # fill_value만 단독사용 가능 + 먼저 우선순위에 있다.
 
@@ -33,7 +33,8 @@ imputer = SimpleImputer(strategy='constant',fill_value=777)
 # 1개의 열만 imputer하고 싶으면 어떻게 해야할까?
 #print(type(data['a']))  # <class 'pandas.core.series.Series'> 
 data2 = data.copy()
-data2[['a','b']] = imputer.fit_transform(data[['a','b']])
+# data2[['a','b']] = imputer.fit_transform(data[['a','b']])
+data2[['a']] = imputer.fit_transform(data[['a']])
 
 print(data)
 print(data2)
