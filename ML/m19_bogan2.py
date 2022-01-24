@@ -9,6 +9,14 @@ data = pd.DataFrame([[2, np.nan, np.nan, 8, 10],
 data = data.transpose()
 data.columns = ['a','b','c','d']
 # print(data)
+'''
+      a    b     c    d
+0   2.0  2.0   NaN  NaN
+1   NaN  4.0   4.0  4.0
+2   NaN  NaN   NaN  NaN
+3   8.0  8.0   8.0  8.0
+4  10.0  NaN  10.0  NaN
+'''
 
 # 결측치 위치 확인.
 #print(data.isnull())    # True로 표시되는 위치가 nan이다.
@@ -61,7 +69,7 @@ d    6.000000
 dtype: float64
 '''
 
-data = data.fillna(means)
+data1 = data.fillna(means)
 # print(data)
 '''
            a         b          c    d
@@ -70,5 +78,68 @@ data = data.fillna(means)
 2   6.666667  4.666667   7.333333  6.0
 3   8.000000  8.000000   8.000000  8.0
 4  10.000000  4.666667  10.000000  6.0
+'''
+
+meds = data.median()    # 중위값    nan을 제외한 중위값
+# print(meds)             # 짝수일 경우 중위2개값의 평균
+'''
+a    8.0
+b    4.0
+c    8.0
+d    6.0
+dtype: float64
+'''
+data2 = data.fillna(meds)
+# print(data2)
+'''
+      a    b     c    d
+0   2.0  2.0   8.0  6.0
+1   8.0  4.0   4.0  4.0
+2   8.0  4.0   8.0  6.0
+3   8.0  8.0   8.0  8.0
+4  10.0  4.0  10.0  6.0
+'''
+
+data2 = data.fillna(method='ffill')     # 앞의 값을 끌어다가 채워서 0행은 nan으로 뜬다.
+# print(data2)                            # 전의 값 그대로 끌어와도 상관없는 데이터에서 씀.(시계열 등...)
+'''
+      a    b     c    d
+0   2.0  2.0   NaN  NaN
+1   2.0  4.0   4.0  4.0
+2   2.0  4.0   4.0  4.0
+3   8.0  8.0   8.0  8.0
+4  10.0  8.0  10.0  8.0
+'''
+
+data2 = data.fillna(method='bfill')     # 뒤의 값을 끌어다가 채우서 제일 마지막행은 nan으로 뜬다.
+# print(data2)
+'''
+      a    b     c    d
+0   2.0  2.0   4.0  4.0
+1   8.0  4.0   4.0  4.0
+2   8.0  8.0   8.0  8.0
+3   8.0  8.0   8.0  8.0
+4  10.0  NaN  10.0  NaN
+'''
+
+data2 = data.fillna(method='ffill', limit=1)    # 1개만 하겠다.
+# print(data2)
+'''
+      a    b     c    d
+0   2.0  2.0   NaN  NaN
+1   2.0  4.0   4.0  4.0
+2   NaN  4.0   4.0  4.0
+3   8.0  8.0   8.0  8.0
+4  10.0  8.0  10.0  8.0
+'''
+data2 = data.fillna(method='bfill', limit=1)  
+# print(data2)
+'''
+      a    b     c    d
+0   2.0  2.0   4.0  4.0
+1   NaN  4.0   4.0  4.0
+2   8.0  8.0   8.0  8.0
+3   8.0  8.0   8.0  8.0
+4  10.0  NaN  10.0  NaN
 '''
 
