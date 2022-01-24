@@ -22,7 +22,7 @@ submit_file = pd.read_csv(path + 'sample_Submission.csv')
 
 
 x = train.drop(['id','quality'], axis=1)    # id와 quality열 제거
-
+ 
 Le = LabelEncoder()     # 함수 선언
 #라벨 인코딩은 n개의 범주형 데이터를 0부터 n-1까지의 연속적 수치 데이터로 표현 문자를 
 label = x['type']   # label안에 x의 type열 값들 저장.   x.type과 x['type']은 같다. 

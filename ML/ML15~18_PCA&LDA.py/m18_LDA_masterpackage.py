@@ -10,8 +10,8 @@ from xgboost import XGBRegressor,XGBClassifier
 
 path = '../Project/Kaggle_Project/bike/'
 Bikedata = pd.read_csv(path + 'train.csv') 
-dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),'California':fetch_california_housing(),'Boston':load_boston(),'Diabets':load_diabetes(),'Bike':Bikedata,'Fetch_covtype':fetch_covtype()}
-
+dd =  {'Bike':Bikedata,'Fetch_covtype':fetch_covtype()}
+#'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),'California':fetch_california_housing(),'Boston':load_boston(),'Diabets':load_diabetes(),
 
 for name,data in dd.items():
     
@@ -24,7 +24,7 @@ for name,data in dd.items():
         x['hour'] = x['datetime'].dt.hour
         x = x.drop('datetime', axis=1)
         y = Bikedata['count']  # np.unique(y, return_counts = True 누가봐도 회귀모델
-        y = np.log1p(y)
+
     else:
         datasets = data
         x = datasets.data
@@ -46,9 +46,9 @@ for name,data in dd.items():
     x_train = scaler.fit_transform(x_train)
     x_test = scaler.transform(x_test)
 
-    if choice < 4 :
-        print('회귀모델은 LDA하기 위해 y_train을 int로 바꿔줘야합니다.')   # 다양한 방법이 있지요
-        y_train = np.round(y_train)
+    #if choice < 4 :
+    #    print('회귀모델은 LDA하기 위해 y_train을 int로 바꿔줘야합니다.')   # 다양한 방법이 있지요
+    #    y_train = np.round(y_train)
         
     lda = LinearDiscriminantAnalysis()   
     x_train = lda.fit_transform(x_train, y_train)         # y를 보고 한다는게 어마어마한거다. 어마어마한 압축률과 성능을 자랑한다.
@@ -154,11 +154,10 @@ Bike 데이터셋의 결과를 소개합니다~
 
 나는 회귀모델! stratify 안해요~
 LDA 전 :  (8708, 12)
-회귀모델은 LDA하기 위해 y_train을 int로 바꿔줘야합니다.
-LDA 후 :  (8708, 6)
+LDA 후 :  (8708, 12)
 나는 회귀모델!
-model.score로 구한 값은요~ :  0.8189430469073561
-걸린 시간은요~ :  0.5407247543334961
+model.score로 구한 값은요~ :  0.7219145432281282
+걸린 시간은요~ :  0.5403232574462891
 
 
 Fetch_covtype 데이터셋의 결과를 소개합니다~
