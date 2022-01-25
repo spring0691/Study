@@ -10,26 +10,29 @@ import numpy as np,time,warnings
 import matplotlib.pyplot as plt
 # warnings.filterwarnings(action='ignore')
 
-# pickle로 저장하는 이유. data의 column과 속성 원본의 정보를 그대로 다 저장해준다.
-
 #1. 데이터
-datasets = fetch_covtype()   #,fetch_california_housing() load_boston()
+# datasets = fetch_covtype()   #,fetch_california_housing() load_boston()
+# x = datasets.data
+# y = datasets['target']
+# print(x.shape,y.shape)  # (581012, 54) (581012,)
+
+import pickle
+path = 'D:\_data\_save/'
+datasets = pickle.load(open(path + 'm23_pickle1_save_datasets.dat','rb'))
 x = datasets.data
 y = datasets['target']
-print(x.shape,y.shape)  # (581012, 54) (581012,)
-
 x_train,x_test,y_train,y_test = train_test_split(x,y,shuffle=True, random_state=66, train_size=0.8)#, stratify=y
+
 
 scaler = MinMaxScaler() #RobustScaler   MinMaxScaler
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 
 # 저장
-import pickle
 
-path = 'D:\_data\_save/'
-pickle.dump(datasets, open(path + 'm23_pickle1_save_datasets.dat','wb',))  # write binary
 
+# pickle.dump(datasets, open(path + 'm23_pickle1_save_datasets.dat','wb',))  # write binary
+# model = pickle.load(open(path+'m23_pickle1_save','rb'))
 #2. 모델
 # vervose가 보고싶은데 안나온다. 어떻게 해야할까? -> 어떤걸로 평가할건지 평가 지표를 설정해줘야 vervose가 나온다.
 # model = XGBRegressor()
@@ -47,9 +50,9 @@ model = XGBClassifier(
 #3. 훈련
 
 start = time.time()
-model.fit(x_train,y_train,verbose=1,eval_set=[(x_train,y_train),(x_test,y_test)],eval_metric='mae',
+model.fit(x_train,y_train,verbose=1,eval_set=[(x_train,y_train),(x_test,y_test)],eval_metric='merror',
          early_stopping_rounds=50) # loss기준으로 관측한다.  early_stopping_rounds=10
-# eval_metric -> loss같은 개념      # rmse, mae, logloss, error 
+# eval_metric -> loss같은 개념      # rmse, mae, logloss, error, merror, 
 end = time.time()
 
 print(f'걸린시간 : {np.round(end - start,2)}초')
