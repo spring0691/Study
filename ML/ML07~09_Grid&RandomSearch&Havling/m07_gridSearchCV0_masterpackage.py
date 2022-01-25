@@ -15,7 +15,7 @@ Skfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=66)
 
 dd =  {'Iirs':load_iris(),'Breast_cancer':load_breast_cancer(),'Wine':load_wine(),'Boston':load_boston(),'Diabets':load_diabetes(),'Fetch_covtype':fetch_covtype()}
 
-parameters = [{'n_estimators' : [100,200], 'max_depth' : [6, 8, 10, 12], 'min_samples_leaf' : [3, 5, 7, 10], 
+parameters = [{'n_estimators' : [100,200], 'max_depth' : [6, 8, 10, 12], 'min_samples_leaf' : [3, 5, 7, 10],
                'min_samples_split' : [2, 3, 5, 10] }]    # , 'n_jobs : ' : [-1, 2, 4, 6]
 
 #print(RandomForestClassifier().get_params().keys())   # estimator의 파라미터 값들을 확인할 수 있다.

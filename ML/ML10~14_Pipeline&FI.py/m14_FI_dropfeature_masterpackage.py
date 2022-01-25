@@ -13,6 +13,10 @@ from xgboost import XGBClassifier,XGBRegressor
 from sklearn.metrics import accuracy_score,r2_score,f1_score
 import matplotlib.pyplot as plt
 
+np.set_printoptions(threshold=sys.maxsize)
+pd.set_option('display.max_row',100)
+pd.set_option('display.max_columns',50)
+pd.set_option('display.width', 170)
 
 def plot_feature_importances_dataset1(model):
     n_features = x.shape[1]
@@ -83,9 +87,9 @@ for name,data in dd.items():
             model.fit(x_train,y_train)
             print('feature 제거 전')
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   
-            #print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
+            print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
             # Feature_importances를 dataframe으로 바꿔준 후 칼럼명 넣어주고 내림차순 정렬후 누적합 리스트로 만들어줌
-            Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns).sort_values(by=0,axis=1).cumsum(axis=1)            
+            Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns).sort_values(by=0,axis=1).cumsum(axis=1)         
             del_num = np.argmax(Fi > 0.25)     # argmax이용하여 몇번째 칼럼에서 특정값 초과하는지 확인 -> 여기서 나오는 개수만큼 날려주면 된다.
             del_list = Fi.columns[:del_num]    # 전체 컬럼명의 앞에서 del_num의 개수까지 담아오고 이 칼럼들을 모두 날려주면 된다.
             
@@ -110,7 +114,7 @@ for name,data in dd.items():
             model.fit(x_train,y_train)
             print('feature 제거 전')
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   
-            #print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
+            print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
             # Feature_importances를 dataframe으로 바꿔준 후 칼럼명 넣어주고 내림차순 정렬후 누적합 리스트로 만들어줌
             Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns).sort_values(by=0,axis=1).cumsum(axis=1)            
             del_num = np.argmax(Fi > 0.25)     # argmax이용하여 몇번째 칼럼에서 특정값 초과하는지 확인 -> 여기서 나오는 개수만큼 날려주면 된다.
