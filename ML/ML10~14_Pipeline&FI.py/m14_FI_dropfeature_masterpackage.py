@@ -84,53 +84,51 @@ for name,data in dd.items():
         print('나는 분류모델!\n')                                             
         
         for i,model in enumerate(cla_model_list,start=1):
+               
             model.fit(x_train,y_train)
             print('feature 제거 전')
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   
-            print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
+            # print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
             # Feature_importances를 dataframe으로 바꿔준 후 칼럼명 넣어주고 내림차순 정렬후 누적합 리스트로 만들어줌
             Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns).sort_values(by=0,axis=1).cumsum(axis=1)         
             del_num = np.argmax(Fi > 0.25)     # argmax이용하여 몇번째 칼럼에서 특정값 초과하는지 확인 -> 여기서 나오는 개수만큼 날려주면 된다.
             del_list = Fi.columns[:del_num]    # 전체 컬럼명의 앞에서 del_num의 개수까지 담아오고 이 칼럼들을 모두 날려주면 된다.
             
-            # plt.subplot(2,4,i)
-            # plot_feature_importances_dataset1(model)
             xx = x.drop(del_list,axis=1)
             xx_train,xx_test = train_test_split(xx,train_size=0.8,shuffle=True, random_state=66)
             model.fit(xx_train,y_train)
             print('feature 제거 후')
             print(f'{str(model).split("(")[0]}.score : {model.score(xx_test,y_test)}')
             print(f'{pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=xx.columns)}\n')
-            
-        #     plt.subplot(2,4,i)
-        #     plot_feature_importances_dataset2(model)
-        # plt.show()
-        print('\n')
-        
+            plt.subplot(2,2,i)
+            plot_feature_importances_dataset2(model)
+        plt.show()      
     else:                    
         print('나는 회귀모델!\n')  
                                                    
         for i,model in enumerate(reg_model_list,start=1):
+               
             model.fit(x_train,y_train)
             print('feature 제거 전')
             print(f'{str(model).split("(")[0]}.score : {model.score(x_test,y_test)}')   
-            print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
+            # print(pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns))
             # Feature_importances를 dataframe으로 바꿔준 후 칼럼명 넣어주고 내림차순 정렬후 누적합 리스트로 만들어줌
             Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns).sort_values(by=0,axis=1).cumsum(axis=1)            
             del_num = np.argmax(Fi > 0.25)     # argmax이용하여 몇번째 칼럼에서 특정값 초과하는지 확인 -> 여기서 나오는 개수만큼 날려주면 된다.
             del_list = Fi.columns[:del_num]    # 전체 컬럼명의 앞에서 del_num의 개수까지 담아오고 이 칼럼들을 모두 날려주면 된다.
             
+            
             xx = x.drop(del_list,axis=1)
             xx_train,xx_test = train_test_split(xx,train_size=0.8,shuffle=True, random_state=66)
             model.fit(xx_train,y_train)
             print('feature 제거 후')
             print(f'{str(model).split("(")[0]}.score : {model.score(xx_test,y_test)}')
             print(f'{pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=xx.columns)}\n')
-            
-        #     plt.subplot(2,2,i)
-        #     plot_feature_importances_dataset(model)
-        # plt.show()    
-        print('\n')
+            plt.subplot(2,2,i)
+            plot_feature_importances_dataset2(model)
+        plt.show()   
+         
+        
 
 '''
 Breast_cancer 데이터셋의 결과를 소개합니다~
