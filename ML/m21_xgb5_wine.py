@@ -41,7 +41,7 @@ model = XGBClassifier(
 #3. 훈련
 
 start = time.time()
-model.fit(x_train,y_train,verbose=1,eval_set=[(x_test,y_test)])
+model.fit(x_train,y_train,verbose=1,eval_set=[(x_test,y_test)],eval_metric='merror')
 end = time.time()
 
 print(f'걸린시간 : {np.round(end - start,2)}초')
@@ -53,4 +53,4 @@ y_predict = model.predict(x_test)
 acc = accuracy_score(y_test,y_predict)
 print(f'acc : {np.round(acc,4)}')
 
-# 다중분류 모델은 mlogloss. 회귀는 rmse
+# 다중분류 모델은 mlogloss. 회귀는 rmse  error mrror 분류에서씀

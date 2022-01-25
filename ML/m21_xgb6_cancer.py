@@ -54,3 +54,4 @@ acc = accuracy_score(y_test,y_predict)
 print(f'acc : {np.round(acc,4)}')
 
 # 다중분류는 mlogloss. 이진분류는 logloss. 회귀는 rmse
+# error mrror 이진분류 다중분류.    
