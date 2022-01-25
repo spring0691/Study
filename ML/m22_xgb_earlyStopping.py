@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 ### !!! QuantileTransformer,PowerTransformer,PolynomialFeatures가 뭐하는 기능인지 찾기
 
 #1. 데이터
-datasets = fetch_california_housing()   #,fetch_california_housing() load_boston()
+datasets = load_boston()   #,fetch_california_housing() load_boston()
 x = datasets.data
 y = datasets['target']
 # print(x.shape,y.shape)  # (20640, 8) (20640,) (506,13)
@@ -29,19 +29,20 @@ x_test = scaler.transform(x_test)
 # model = XGBRegressor()
 model = XGBRegressor(
     n_jobs = -1,
-    n_estimators = 200,      # epochs느낌
+    n_estimators = 1000,      # epochs느낌
     learning_rate = 0.075,
     max_depth = 5,          # 와 또 올라갔어    # tree깊이 몇개할거냐       LGBM은 비슷한 파라미터 하나 더 있다
     min_child_weight = 1,
     subsample=1,
     colsample_bytree = 1,
     reg_alpha = 0,          # 규제  L1       -> 둘 중에 하나만 할수도 있다.
-    reg_lambda = 1,          # 규제  L2      -> 응용해서 나온개념 릿지와 랏소
+    reg_lambda = 1,          # 규제  L2      -> 응용해서 나온개념 릿지와 랏소   가중치 규제하는것.
 )   # 온갖 파라미터들을 다 건드려보면서 값을 극한의 극한까지 끌어올릴수있다.
 #3. 훈련
 
 start = time.time()
-model.fit(x_train,y_train,verbose=1,eval_set=[(x_train,y_train),(x_test,y_test)],eval_metric='mae')  
+model.fit(x_train,y_train,verbose=1,eval_set=[(x_train,y_train),(x_test,y_test)],eval_metric='mae',
+         early_stopping_rounds=50) # loss기준으로 관측한다.  early_stopping_rounds=10
 # eval_metric -> loss같은 개념      # rmse, mae, logloss, error 
 end = time.time()
 
@@ -61,7 +62,7 @@ print('------------------------------------')
 hist = model.evals_result()     # tensorflow의 fit에서 반환된 hist와 같은 개념.
 # print(hist['validation_0']['mae'])
 
-plt.figure(figsize=(9,6))
+plt.figure(figsize=(18,18))
 plt.plot(hist['validation_0']['mae'], marker=".", c='red', label='train_set')
 plt.plot(hist['validation_1']['mae'], marker='.', c='blue', label='test_set')
 plt.grid() 
@@ -70,3 +71,4 @@ plt.ylabel('loss_mae')
 plt.xlabel('epoch')
 plt.legend(loc='upper right') 
 plt.show()
+
