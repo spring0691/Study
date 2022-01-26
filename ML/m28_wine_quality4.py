@@ -22,11 +22,12 @@ datasets = pd.read_csv(path + 'winequality-white.csv',sep=';', index_col=None, h
 # y = datasets[:, 11]     #(4898,)
 
 ################# 그래프 그려봐!!! ###################
+
 # pd.value_counts를 그래프로 구현하기. 단 value_counts사용금지
 # print(list[str(datasets['quality'].value_counts())])    # [6    2198\5    1457\7     880\8     175\4     163\3      20\9       5]
 # print(datasets.value_counts())    datasets전체에 value_counts를 하면 특정조건의 품질이 몇 종류가 몇개씩 있나 알려준다.    
 
-# groupby 와 count() 이용해서 그리기 기준 quality. plt.bar이용 
+### groupby 와 count() 이용해서 그리기 기준 quality. plt.bar이용 
 
 # groubby는 통계자료에서 굉장히 많이 사용한다. 그룹핑 시켜서 데이터의 합을 구하거나 평균치를 구하거나... 등등
 
@@ -44,3 +45,4 @@ datasets = pd.read_csv(path + 'winequality-white.csv',sep=';', index_col=None, h
 # datasets.groupby('quality')['quality'].count().plot(kind='bar',rot=0)
 # plt.show()
 ######################################################
+

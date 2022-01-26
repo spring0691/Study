@@ -22,9 +22,8 @@ y = datasets[:, 11]     #(4898,)
 
 ################# Outliers 확인 #######################
 
-#print(np.unique(y,return_counts=True))  # (array([3., 4., 5., 6., 7., 8., 9.]), array([  20,  163, 1457, 2198,  880,  175,    5], dtype=int64))
+#1. API이용하여 이상치의 위치를 구하고 그 이상치를 Nan으로 바꾼 후 다시 fillna이용하여 Nan값을 채운다.
 outliers = EllipticEnvelope(contamination=.1)
-
 for i in range(11):
     col = x[:,i].reshape(-1,1)
     outliers.fit(col)
@@ -33,6 +32,8 @@ for i in range(11):
     # Ol안에서 -1이 있는 index번호와 매칭되는 col의 자리를 Nan으로 바꿈.
     # col에 fillna를 이용하여 보간법해서 새로운 값을 채워줌.
     break
+
+#2. 이전수업에서 만든 함수를 이용하여 
 
 ################# Outliers 확인 #######################
 '''
