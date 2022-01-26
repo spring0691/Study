@@ -7,9 +7,9 @@ import numpy as np, pandas as pd, warnings
 from sklearn import datasets
 from sklearn.datasets import fetch_covtype
 from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler,MinMaxScaler
-from sklearn.metrics import r2_score,mean_squared_error
+from sklearn.model_selection import train_test_split,RandomizedSearchCV
+from sklearn.preprocessing import StandardScaler,MinMaxScaler,LabelEncoder
+from sklearn.metrics import f1_score,accuracy_score
 from sklearn.feature_selection  import SelectFromModel
 
 warnings.filterwarnings(action='ignore')
@@ -20,25 +20,27 @@ dataset = fetch_covtype()   # (506, 13) (506,)
 x = dataset.data
 x = pd.DataFrame(x, columns=dataset['feature_names'])
 y = dataset.target
-#print(y.min(),y.max()) # 5.0 50.0  요건 따로 log적용 안해줘도 되겠다.
+le = LabelEncoder()
+y = le.fit_transform(y)
 
-x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66)  
+x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66,stratify=y)  
 
-scaler = MinMaxScaler()
-x_train = scaler.fit_transform(x_train)
-x_test = scaler.transform(x_test)
-
+parameters = {"n_estimators":[100,200,300],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
+# 3*4*5*2*2 = 240
 #2. 모델
-model = XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror')
+model = RandomizedSearchCV(
+            XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
+            parameters,cv=5,random_state=66,n_iter=120,verbose=2,n_jobs=-1)
 
 #3. 훈련
 model.fit(x_train,y_train)
 
 #4. 평가,예측
-score = model.score(x_test,y_test)
-print(f'model.score : {np.round(score,4)}\n')         
-
-
+print(f"최적의 파라미터 : {model.best_params_}\n")     
+print(f"md.score : {model.score(x_test,y_test)}")
+print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")
+print(f"f1_score : {f1_score(y_test,model.predict(x_test))}")
+print(model.feature_importances_)
 
 '''
 Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns)#.sort_values(by=0,axis=1)
