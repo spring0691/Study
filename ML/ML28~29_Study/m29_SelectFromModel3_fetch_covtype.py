@@ -37,9 +37,10 @@ model.fit(x_train,y_train)
 
 #4. 평가,예측
 print(f"최적의 파라미터 : {model.best_params_}\n")     
-print(f"md.score : {model.score(x_test,y_test)}")
-print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")
-print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")
+# 최적의 파라미터 : {'reg_lambda': 0, 'reg_alpha': 1, 'n_estimators': 300, 'max_depth': 11, 'learning_rate': 0.075}
+print(f"md.score : {model.score(x_test,y_test)}")                              # 0.9501389809213188
+print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")            # 0.9501389809213188
+print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")  #0.937023407318619
 print(model.feature_importances_)
 
 '''
