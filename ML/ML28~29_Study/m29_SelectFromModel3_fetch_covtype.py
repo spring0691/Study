@@ -25,23 +25,46 @@ y = le.fit_transform(y)
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66,stratify=y)  
 
-parameters = {"n_estimators":[100,200,300],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
+# parameters = {"n_estimators":[100,200,300],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
 # 3*4*5*2*2 = 240
 #2. 모델
-model = RandomizedSearchCV(
-            XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
-            parameters,cv=5,random_state=66,n_iter=120,verbose=2,n_jobs=-1)
+# model = RandomizedSearchCV(
+#             XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
+#             parameters,cv=5,random_state=66,n_iter=120,verbose=2,n_jobs=-1)
+
+model = XGBClassifier(
+    n_estimators = 300,
+    max_depth = 11,
+    learning_rate = 0.075,
+    reg_lambda = 0,
+    reg_alpha = 1,
+    tree_method = 'gpu_hist',
+    predictor = 'gpu_predictor',
+    eval_metric='merror',
+    use_label_encoder=False
+)
 
 #3. 훈련
-model.fit(x_train,y_train)
+model.fit(x_train,y_train,verbose=2)
 
 #4. 평가,예측
-print(f"최적의 파라미터 : {model.best_params_}\n")     
+# print(f"최적의 파라미터 : {model.best_params_}\n")     
 # 최적의 파라미터 : {'reg_lambda': 0, 'reg_alpha': 1, 'n_estimators': 300, 'max_depth': 11, 'learning_rate': 0.075}
 print(f"md.score : {model.score(x_test,y_test)}")                              # 0.9501389809213188
 print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")            # 0.9501389809213188
 print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")  #0.937023407318619
-print(model.feature_importances_)
+print(f"FImports : {model.feature_importances_}")
+'''
+[0.05745561 0.00503909 0.00363101 0.0088873  0.00632344 0.01136255
+ 0.00604198 0.00747235 0.0041033  0.01096916 0.0496219  0.02683422
+ 0.02709791 0.02324314 0.00332961 0.04595555 0.02834694 0.04510794
+ 0.00718671 0.00659633 0.00189451 0.00732084 0.01035899 0.01301641
+ 0.01249388 0.04232163 0.01419861 0.00259816 0.         0.00662945
+ 0.01218787 0.00898904 0.01272047 0.01401906 0.02362804 0.0549636
+ 0.02125353 0.01937544 0.00806573 0.01046281 0.02884139 0.00472056
+ 0.02000729 0.01693291 0.02959202 0.04542591 0.01783742 0.01163635
+ 0.02336156 0.00480932 0.03960455 0.02509296 0.03946825 0.01156529]
+'''
 
 '''
 Fi = pd.DataFrame(model.feature_importances_.reshape(1,-1), columns=x.columns)#.sort_values(by=0,axis=1)
