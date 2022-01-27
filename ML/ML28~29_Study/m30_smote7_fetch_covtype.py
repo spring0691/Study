@@ -3,7 +3,7 @@
 # 데이터를 저장 한 후 load하여 사용해라
 
 import numpy as np, pandas as pd,warnings
-from sklearn.datasets import fetch_covtype,load_iris
+from sklearn.datasets import fetch_covtype
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split,RandomizedSearchCV
 from xgboost import XGBClassifier
@@ -12,17 +12,29 @@ from sklearn.metrics import accuracy_score,f1_score
 
 warnings.filterwarnings(action='ignore')
 
-datasets = load_iris()
+datasets = fetch_covtype()
 x = datasets.data
 y = datasets.target # [1, 2, 3, 4, 5, 6, 7] [211840, 283301, 35754, 2747, 9493, 17367, 20510]
 
+
+#절대 영역 - 여기서부터 smote까지는 k_neighbors의 값 차이만 있지 절대적인 데이터. 저장 후 load
 x_train,x_test,y_train,y_test = train_test_split(x,y,shuffle=True, random_state=66, train_size=0.8,stratify=y)
 
-smote = SMOTE(random_state=66,k_neighbors=5)    
-x_train,y_train = smote.fit_resample(x_train,y_train)
+k_num_list = [2,4,6,8,10]
 
+for k_num in k_num_list:
+    smote = SMOTE(random_state=66,k_neighbors=k_num)    
+    x_train,y_train = smote.fit_resample(x_train,y_train)
 
+    path = 'D:\_data\_save_npy'
 
+    np.save(f"{path}/cancer_x_train{k_num}.npy",x_train)
+    np.save(f"{path}/cancer_y_train{k_num}.npy",y_train)
+
+# x_train = np.load(f'{path}/파일이름 똑바로 쓰고~.npy') 
+# y_train = np.load(f'{path}/파일이름 똑바로 쓰고~.npy') 
+
+'''
 #<------------------------------------------------------ 이 시점에서 k_neighbors count별로 x_train,y_train 저장해줘야함.  
 
 # x_train,x_val,y_train,y_val = train_test_split(x_train,y_train, train_size=0.8, shuffle=True, random_state=66,stratify=y_train) 
@@ -47,3 +59,4 @@ print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")
 
 # 새로 best_params값으로 한번 다시돌려야 뽑을수있음 절대 이어서 못함.
 #print(f"FImports : {model.feature_importances_}")
+'''
