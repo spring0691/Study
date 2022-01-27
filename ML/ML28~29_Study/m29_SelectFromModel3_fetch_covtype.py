@@ -39,7 +39,7 @@ model.fit(x_train,y_train)
 print(f"최적의 파라미터 : {model.best_params_}\n")     
 print(f"md.score : {model.score(x_test,y_test)}")
 print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")
-print(f"f1_score : {f1_score(y_test,model.predict(x_test))}")
+print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")
 print(model.feature_importances_)
 
 '''
