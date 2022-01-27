@@ -21,6 +21,8 @@ y = datasets['quality']
 le = LabelEncoder()
 y = le.fit_transform(y)
 
+
+
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66,stratify=y)  
 # print(np.unique(y_train,return_counts=True)) [0, 1, 2, 3, 4, 5, 6]    [  16,  130, 1166, 1758,  704,  140,   4]
 

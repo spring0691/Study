@@ -25,24 +25,36 @@ le = LabelEncoder()
 y = le.fit_transform(y)
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66,stratify=y)  
-x_train,x_val,y_train,y_val = train_test_split(x_train,y_train, train_size=0.8, shuffle=True, random_state=66,stratify=y_train)  
+# x_train,x_val,y_train,y_val = train_test_split(x_train,y_train, train_size=0.8, shuffle=True, random_state=66,stratify=y_train)  
 
-parameters = {"n_estimators":[2000],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
+# parameters = {"n_estimators":[2000],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
 # 1*4*5*2*2 = 80
 #2. 모델
-model = RandomizedSearchCV(
-            XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
-            parameters,cv=5,random_state=66,n_iter=80,verbose=2,n_jobs=-1)
+# model = RandomizedSearchCV(
+#             XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
+#             parameters,cv=5,random_state=66,n_iter=80,verbose=2,n_jobs=-1)
+
+model = XGBClassifier(
+    n_estimators = 200,
+    max_depth = 9,
+    learning_rate = 0.05,
+    reg_lambda = 1,
+    reg_alpha = 1,
+    tree_method = 'gpu_hist',
+    predictor = 'gpu_predictor',
+    eval_metric='merror',
+    use_label_encoder=False,
+)
 
 #3. 훈련
-model.fit(x_train,y_train,verbose=1,early_stopping_rounds=100,eval_set=[(x_val,y_val)])
+model.fit(x_train,y_train,verbose=1) # ,early_stopping_rounds=100,eval_set=[(x_val,y_val)]
 
 #4. 평가,예측
-print(f"최적의 파라미터 : {model.best_params_}\n")     
+# print(f"최적의 파라미터 : {model.best_params_}\n")     
 #    {'reg_lambda': 1, 'reg_alpha': 1, 'n_estimators': 200, 'max_depth': 9, 'learning_rate': 0.05}
-print(f"md.score : {model.score(x_test,y_test)}")                       # 0.6571428571428571
-print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")     # 0.6571428571428571
-print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")
+print(f"md.score : {model.score(x_test,y_test)}")                               # 0.6571428571428571
+print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")             # 0.6571428571428571
+print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")   #f1_score : 0.4084644366910151
 print(model.feature_importances_)
 
 
