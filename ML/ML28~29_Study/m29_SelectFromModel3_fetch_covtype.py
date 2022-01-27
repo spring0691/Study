@@ -25,12 +25,12 @@ y = le.fit_transform(y)
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66,stratify=y)  
 
-# parameters = {"n_estimators":[100,200,300],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
+parameters = {"n_estimators":[10000],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
 # 3*4*5*2*2 = 240
-#2. 모델
-# model = RandomizedSearchCV(
-#             XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
-#             parameters,cv=5,random_state=66,n_iter=120,verbose=2,n_jobs=-1)
+# 2. 모델
+model = RandomizedSearchCV(
+            XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
+            parameters,cv=5,random_state=66,n_iter=120,verbose=2,n_jobs=-1)
 
 model = XGBClassifier(
     n_estimators = 300,

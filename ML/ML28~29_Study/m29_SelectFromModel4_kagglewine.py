@@ -3,6 +3,7 @@
 
 # feature 줄여가면서 최적의 값 뽑아보자. 
 
+from tabnanny import verbose
 import numpy as np, pandas as pd, warnings
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split,RandomizedSearchCV
@@ -24,16 +25,17 @@ le = LabelEncoder()
 y = le.fit_transform(y)
 
 x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=True, random_state=66,stratify=y)  
+x_train,x_val,y_train,y_val = train_test_split(x_train,y_train, train_size=0.8, shuffle=True, random_state=66,stratify=y_train)  
 
-parameters = {"n_estimators":[100,200,300],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
-# 3*4*5*2*2 = 240
+parameters = {"n_estimators":[2000],"learning_rate":[0.025,0.05,0.075,0.01],"max_depth":[3,5,7,9,11],"reg_alpha":[0,1],"reg_lambda":[0,1]}
+# 1*4*5*2*2 = 80
 #2. 모델
 model = RandomizedSearchCV(
             XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
-            parameters,cv=5,random_state=66,n_iter=120,verbose=2,n_jobs=-1)
+            parameters,cv=5,random_state=66,n_iter=80,verbose=2,n_jobs=-1)
 
 #3. 훈련
-model.fit(x_train,y_train)
+model.fit(x_train,y_train,verbose=1,early_stopping_rounds=100,eval_set=[(x_val,y_val)])
 
 #4. 평가,예측
 print(f"최적의 파라미터 : {model.best_params_}\n")     
