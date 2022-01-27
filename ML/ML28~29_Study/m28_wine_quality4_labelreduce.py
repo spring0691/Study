@@ -29,12 +29,21 @@ y = datasets['quality']
 
 # case2. 쌤 방법 예전에 내가 하던 방법. for문이용하는거
 
+
 for i,v in enumerate(y):
-    if v <= 5:
-        y[i] = 1
-    elif v == 6:
+    if v == 9:
+        y[i] = 8
+    elif v == 8:
         y[i] = 2
-    else:
+    elif v == 7:
+        y[i] = 7
+    elif v == 6:
+        y[i] = 6
+    elif v == 5:
+        y[i] = 5
+    elif v == 4:
+        y[i] = 4
+    elif v == 3:
         y[i] = 3
 print(np.unique(y,return_counts=True))
 
