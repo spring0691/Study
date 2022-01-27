@@ -25,19 +25,20 @@ y = datasets['quality']
 # 묶어주자!
 
 # case1. 내 방법!
-# y= y.apply(lambda x: 1 if x == 3 or x == 4 or x == 5 else 2 if x== 6 else 3)
+# y= y.apply(lambda x: 1 if x == 3 or x == 4 or x == 5 else 2 if x== 6 else 3)  # apply 적용하다
 
 # case2. 쌤 방법 예전에 내가 하던 방법. for문이용하는거
-# new_list = []
-# for i in y:
-#     if i <= 5:
-#         new_list += [1]
-#     elif i == 6:
-#         new_list += [2]
-#     else:
-#         new_list += [3]
-# y = np.array(new_list)    
 
+for i,v in enumerate(y):
+    if v <= 5:
+        y[i] = 1
+    elif v == 6:
+        y[i] = 2
+    else:
+        y[i] = 3
+print(np.unique(y,return_counts=True))
+
+'''
 # case3. 소담,명재 형님이 하던 np.where이용하는 방법
 y = np.where(y<=5,'Good',np.where(y==6,'Normal',np.where(y<=9,'Bad',y)))
 print(np.unique(y,return_counts=True))
@@ -57,3 +58,4 @@ model.fit(x_train,y_train)
 print(f"md.score : {model.score(x_test,y_test)}")                      
 print(f"ac_score : {accuracy_score(y_test,model.predict(x_test))}")     
 print(f"f1_score : {f1_score(y_test,model.predict(x_test),average='macro')}")
+'''
