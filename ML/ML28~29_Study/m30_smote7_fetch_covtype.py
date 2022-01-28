@@ -73,15 +73,16 @@ x_train,x_val,y_train,y_val = train_test_split(x_train,y_train, train_size=0.8, 
 #             XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='mlogloss',use_label_encoder=False),  # ,eval_metric='merror'
 #             parameters,cv=3,verbose=2,n_jobs=-1,random_state=66,n_iter=100, refit=True)
 
-model = XGBClassifier( 
-    tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False,
-    learning_rate = 0.01, max_depth = 12, reg_alpha = 0, reg_lambda = 1, n_estimators=100000
-)
+# model = XGBClassifier( 
+#     tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False,
+#     learning_rate = 0.075, max_depth = 15, reg_alpha = 0, reg_lambda = 1, n_estimators=100000
+# )
 
-model.fit(x_train,y_train,verbose=True,early_stopping_rounds = 100,eval_set = [(x_val,y_val)])
+# model.fit(x_train,y_train,verbose=True,early_stopping_rounds = 100,eval_set = [(x_val,y_val)])
 
-model.save_model(path + "/m30_covtype_xgb_model5.dat")
-# model.load_model(path + "m30_covtype_xgb_model.dat")
+# model.save_model(path + "/m30_covtype_xgb_model6.dat")
+model = XGBClassifier()
+model.load_model(path + "/m30_covtype_xgb_model4.dat")
 
 # print(f"최적의 파라미터 : {model.best_params_}\n")  
 print(f"md.score : {model.score(x_test,y_test)}")                               # 0.9485727562971696        
