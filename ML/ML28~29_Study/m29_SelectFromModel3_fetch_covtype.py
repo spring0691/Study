@@ -32,17 +32,17 @@ model = RandomizedSearchCV(
             XGBClassifier(tree_method = 'gpu_hist',predictor = 'gpu_predictor',eval_metric='merror',use_label_encoder=False),
             parameters,cv=5,random_state=66,n_iter=120,verbose=2,n_jobs=-1)
 
-model = XGBClassifier(
-    n_estimators = 300,
-    max_depth = 11,
-    learning_rate = 0.075,
-    reg_lambda = 0,
-    reg_alpha = 1,
-    tree_method = 'gpu_hist',
-    predictor = 'gpu_predictor',
-    eval_metric='merror',
-    use_label_encoder=False
-)
+# model = XGBClassifier(
+#     n_estimators = 300,
+#     max_depth = 11,
+#     learning_rate = 0.075,
+#     reg_lambda = 0,
+#     reg_alpha = 1,
+#     tree_method = 'gpu_hist',
+#     predictor = 'gpu_predictor',
+#     eval_metric='merror',
+#     use_label_encoder=False
+# )
 
 #3. 훈련
 model.fit(x_train,y_train,verbose=2)
