@@ -1,5 +1,7 @@
 import numpy as np, pandas as pd, time,os,warnings,sys
 from datetime import datetime
+from sklearn.feature_selection import SelectFromModel
+from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MaxAbsScaler, MinMaxScaler, PowerTransformer, QuantileTransformer, RobustScaler, StandardScaler
 from bayes_opt import BayesianOptimization
@@ -153,7 +155,7 @@ model = XGBRegressor(n_jobs=-1,
                     subsample = 0.905
                     )
 
-model.fit(x_train, y_train, early_stopping_rounds=100,eval_set=[(x_val,y_val)], eval_metric='mae')
+model.fit(x_train_train, y_train_train, early_stopping_rounds=100,eval_set=[(x_val,y_val)], eval_metric='mae')
 
 ########################    SelectFromModel 사용. ##############################
 
@@ -161,3 +163,29 @@ model.fit(x_train, y_train, early_stopping_rounds=100,eval_set=[(x_val,y_val)], 
 
 thresholds = np.sort(model.feature_importances_)
 
+for thresh in thresholds:
+    selection = SelectFromModel(model, threshold=thresh, prefit=True)
+  
+    selection_x_train = selection.transform(x_train)
+    selection_x_test = selection.transform(x_test)
+    print(selection_x_train.shape,selection_x_test.shape)
+    
+    selection_model = XGBRegressor(n_jobs=-1,
+                        colsample_bytree = 0.8819, 
+                        learning_rate = 0.119, 
+                        max_depth = 5, 
+                        min_child_weight = 1.7166, 
+                        n_estimators = 7421, 
+                        reg_lambda = 8.355, 
+                        subsample = 0.905)
+    
+    selection_model.fit(selection_x_train, y_train,
+            early_stopping_rounds = 100,
+            eval_set=[(x_test, y_test)],
+            eval_metric = 'mae')
+    
+    y_pred = selection_model.predict(selection_x_test)
+    
+    score = r2_score(y_test, y_pred)
+    
+    print('Thresh = %.3f, n=%d, R2: %.2f%%' %(thresh, selection_x_train.shape[1]))

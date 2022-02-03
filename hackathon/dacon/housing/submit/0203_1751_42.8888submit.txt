@@ -1,0 +1,12 @@
+
+==============================저장시간 : 0203_1751
+scaler : 안썼어용
+colsample_bytree : (0.8819,)
+learning_rate : (0.119,)
+max_depth : (5,)
+min_child_weight : (1.7166,)
+n_estimators : (7421,)
+reg_lambda : (8.355,)
+subsample : 0.905
+걸린시간 : 22.1918
+evaluate : [1.6015263795852661, 1.6015263795852661]NMAE : 42.8888

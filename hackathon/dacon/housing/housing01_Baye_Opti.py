@@ -183,11 +183,26 @@ for scaler in scaler_list:
   print(f"{scaler}모델의 최소값 : {min_dict}")
   
 '''
-StandardScaler()모델의 최소값 : {'target': 0.7316565413904664, 'params': {'colsample_bytree': 0.2077633591867084, 'learning_rate': 0.16559145282612253, 
-'max_depth': 6.877873727831008, 'min_child_weight': 2.946803641230582, 'reg_lambda': 4.787582138810322, 'subsample': 0.8624306289817945}}
+스케일러 안쓴 경우 상태 최소값 : {'target': 0.09381882007927493, 'params': {'colsample_bytree': 0.23946996029552725, 'learning_rate': 0.05620419620393713,
+'max_depth': 3.58738891270194, 'min_child_weight': 0.36607189144595764, 'reg_lambda': 0.7487824644704899, 'subsample': 0.7067141248397533}}
 
-MinMaxScaler()모델의 최소값 : {'target': 0.7336232035307443, 'params': {'colsample_bytree': 0.2077633591867084, 'learning_rate': 0.16559145282612253, 
-'max_depth': 6.877873727831008, 'min_child_weight': 2.946803641230582, 'reg_lambda': 4.787582138810322, 'subsample': 0.8624306289817945}} 
+StandardScaler()모델의 최소값 : {'target': 0.09366959028392545, 'params': {'colsample_bytree': 0.23946996029552725, 'learning_rate': 0.05620419620393713,
+'max_depth': 3.58738891270194, 'min_child_weight': 0.36607189144595764, 'reg_lambda': 0.7487824644704899, 'subsample': 0.7067141248397533}}
+
+MinMaxScaler()모델의 최소값 : {'target': 0.09400431470946025, 'params': {'colsample_bytree': 0.8970944438558832, 'learning_rate': 0.04121470647534586, 
+'max_depth': 4.68575309305597, 'min_child_weight': 0.3373284963987425, 'reg_lambda': 8.909261111801708, 'subsample': 0.8469448925799528}}
+
+MaxAbsScaler()모델의 최소값 : {'target': 0.09400431470946025, 'params': {'colsample_bytree': 0.8970944438558832, 'learning_rate': 0.04121470647534586, 
+'max_depth': 4.68575309305597, 'min_child_weight': 0.3373284963987425, 'reg_lambda': 8.909261111801708, 'subsample': 0.8469448925799528}}
+
+RobustScaler()모델의 최소값 : {'target': 0.09516356044924879, 'params': {'colsample_bytree': 0.5414997044907948, 'learning_rate': 0.04597330062303003, 
+'max_depth': 3.3217367167342533, 'min_child_weight': 0.7447957859317819, 'reg_lambda': 0.19649115105950682, 'subsample': 0.7699147764843034}}
+
+QuantileTransformer()모델의 최소값 : {'target': 0.09525317488555424, 'params': {'colsample_bytree': 0.22004175004873253, 'learning_rate': 0.04704296752856923, 
+'max_depth': 6.8013800407563725, 'min_child_weight': 1.7585067217568227, 'reg_lambda': 0.7027655815789241, 'subsample': 0.5209820669014462}}   
+
+PowerTransformer()모델의 최소값 : {'target': 0.09526880905879456, 'params': {'colsample_bytree': 0.8694452778558834, 'learning_rate': 0.11373676009655641, 
+'max_depth': 3.168123952261128, 'min_child_weight': 2.3144362776000023, 'reg_lambda': 1.3585904116868197, 'subsample': 0.8285134833322685}} 
 
 
 '''
