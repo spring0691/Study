@@ -14,7 +14,8 @@ optimizer = BayesianOptimization(
 
 optimizer.maximize(
     init_points=2,
-    n_iter=15
+    n_iter=15                   # 경우의 수 설정해주는 n_iter. Randomsearch는 어떻게 경우의 수가 몇개인지 감이라도 잡고
+                                # n_iter값을 설정이라도 해 줄수 있었지만 이거는 그냥 감으로 정해야한다...
 )
 '''  
 이런식으로 찾아준다.   가우시안 무슨 방식으로 값을 찾아간다. 경사하강법이랑 다른가보다.
