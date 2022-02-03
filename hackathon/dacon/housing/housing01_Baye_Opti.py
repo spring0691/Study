@@ -143,11 +143,11 @@ scaler_list = [StandardScaler(),MinMaxScaler(),MaxAbsScaler(),RobustScaler(),Qua
     #  포문 사용할 경우.
 for scaler in scaler_list:
 
-  # scaler = scaler
+  scaler = scaler
 
-  # x_train = scaler.fit_transform(x_train)
-  # x_test = scaler.transform(x_test)
-  # test = scaler.transform(test)
+  x_train_train = scaler.fit_transform(x_train_train)
+  x_test = scaler.transform(x_test)
+  test = scaler.transform(test)
 
   ######## 베이지안 옵티마이제이션 써보자 #########
   params = {    # 실수형으로 파라미터 값을 받아서 연산처리한다.
