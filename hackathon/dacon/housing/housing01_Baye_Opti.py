@@ -129,25 +129,27 @@ x = train.drop(['target'],axis=1)
 y = train['target']
 y = np.log1p(y)
 
-test = test.values  # numpy로 변경
+test = test.to_numpy()  # numpy로 변경
 
 x_train,x_test,y_train,y_test = train_test_split(x,y,shuffle=True, random_state=66, train_size=0.8)
-x_train_train,x_val,y_train_train,y_val = train_test_split(x_train,y_train,shuffle=True, random_state=66, train_size=0.8)
 
 # print(x_train.shape,y_train.shape)  # (1079, 22) (1079,)
 # print(x_test.shape,y_test.shape)    # (270, 22) (270,)
 
-scaler_list = [StandardScaler(),MinMaxScaler(),MaxAbsScaler(),RobustScaler(),QuantileTransformer(),
+scaler_list = [None,StandardScaler(),MinMaxScaler(),MaxAbsScaler(),RobustScaler(),QuantileTransformer(),
               PowerTransformer(method='yeo-johnson')] # PowerTransformer(method='box-cox')  # box-cox는 아마 error뜰것
 
     #  포문 사용할 경우.
 for scaler in scaler_list:
 
-  scaler = scaler
+  if scaler != None:
+    scaler = scaler
 
-  x_train_train = scaler.fit_transform(x_train_train)
-  x_test = scaler.transform(x_test)
-  test = scaler.transform(test)
+    x_train = scaler.fit_transform(x_train)
+    x_test = scaler.transform(x_test)
+    test = scaler.transform(test)
+    
+  x_train_train,x_val,y_train_train,y_val = train_test_split(x_train,y_train,shuffle=True, random_state=66, train_size=0.8)
 
   ######## 베이지안 옵티마이제이션 써보자 #########
   params = {    # 실수형으로 파라미터 값을 받아서 연산처리한다.
