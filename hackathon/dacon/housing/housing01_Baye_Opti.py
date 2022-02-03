@@ -5,6 +5,7 @@ from sklearn.preprocessing import MaxAbsScaler, MinMaxScaler, PowerTransformer, 
 from bayes_opt import BayesianOptimization
 from xgboost import XGBRegressor
 from catboost import CatBoostRegressor
+from bayes_opt import BayesianOptimization
 
 warnings.filterwarnings(action='ignore')
 np.set_printoptions(threshold=sys.maxsize)
@@ -23,6 +24,23 @@ def NMAE(true, pred):
     mae = np.mean(np.abs(true-pred))
     score = mae / np.mean(np.abs(true))
     return score
+  
+def xg_def(max_depth, learning_rate, min_child_weight, 
+              subsample, colsample_bytree,reg_lambda):
+    xg_model = XGBRegressor(
+      max_depth = int(max_depth),
+      learning_rate = learning_rate,
+      n_estimators = 3000,
+      min_child_weight = min_child_weight,
+      subsample = subsample,
+      colsample_bytree = colsample_bytree,
+      reg_lambda = reg_lambda
+    )
+    xg_model.fit(x_train_train,y_train_train,eval_set=[(x_val,y_val)],eval_metric='mae',verbose=False,early_stopping_rounds=100)
+    y_predict = xg_model.predict(x_test)
+    
+    nmae = NMAE(np.round(np.expm1(y_test)),np.round(np.expm1(y_predict)))
+    return nmae
   
 path = os.path.dirname(os.path.realpath(__file__)) + '/'
 train = pd.read_csv(path + 'data/train.csv').drop(['id'],axis=1)
@@ -109,7 +127,7 @@ test = pd.get_dummies(test, columns=['Exter Qual','Kitchen Qual','Bsmt Qual'])
 # x,y정의 후 y값에 로그(선택)
 x = train.drop(['target'],axis=1)
 y = train['target']
-# y = np.log1p(y)
+y = np.log1p(y)
 
 test = test.values  # numpy로 변경
 
@@ -122,48 +140,54 @@ x_train_train,x_val,y_train_train,y_val = train_test_split(x_train,y_train,shuff
 scaler_list = [StandardScaler(),MinMaxScaler(),MaxAbsScaler(),RobustScaler(),QuantileTransformer(),
               PowerTransformer(method='yeo-johnson')] # PowerTransformer(method='box-cox')  # box-cox는 아마 error뜰것
 
-'''     포문 사용할 경우.
+    #  포문 사용할 경우.
 for scaler in scaler_list:
 
-    scaler = scaler
+  # scaler = scaler
 
-    x_train = scaler.fit_transform(x_train)
-    x_test = scaler.transform(x_test)
-    test = scaler.transform(test)
-'''
+  # x_train = scaler.fit_transform(x_train)
+  # x_test = scaler.transform(x_test)
+  # test = scaler.transform(test)
 
-scaler = scaler_list[0]
-x_train = scaler.fit_transform(x_train)
-x_test = scaler.transform(x_test)
-test = scaler.transform(test)
-
-######## 베이지안 옵티마이제이션 써보자 #########
-params = {    # 실수형으로 파라미터 값을 받아서 연산처리한다.
-        'max_depth' : (3, 7),
-        'learning_rate' : (0.01, 0.2),
-        'min_child_weight' : (0, 3),
-        'subsample' : (0.5, 1),
-        'colsample_bytree' : (0.2, 1),
-        'reg_lambda' : (0.001, 10),   # 규제 2
-        #'reg_alpha' : (0.01, 50),    # 규제 1
-        #'gamma': (0,100)             성능차이가 딱히 없음
-}   
-
-def xg_def(max_depth, learning_rate, min_child_weight, 
-             subsample, colsample_bytree,reg_lambda):
-  xg_model = XGBRegressor(
-    max_depth = int(max_depth),
-    learning_rate = learning_rate,
-    n_estimators = 5000,
-    min_child_weight = min_child_weight,
-    subsample = subsample,
-    colsample_bytree = colsample_bytree,
-    reg_lambda = reg_lambda
-  )
+  ######## 베이지안 옵티마이제이션 써보자 #########
+  params = {    # 실수형으로 파라미터 값을 받아서 연산처리한다.
+          'max_depth' : (3, 7),
+          'learning_rate' : (0.01, 0.2),
+          'min_child_weight' : (0, 3),
+          'subsample' : (0.5, 1),
+          'colsample_bytree' : (0.2, 1),
+          'reg_lambda' : (0.001, 10),   # 규제 2
+          #'reg_alpha' : (0.01, 50),    # 규제 1
+          #'gamma': (0,100)             성능차이가 딱히 없음
+  }   
     
-  xg_model.fit(x_train_train,y_train_train,eval_set=[(x_val,y_val)],eval_metric='mae',verbose=100,early_stopping_rounds=100)
-  y_predict = xg_model.predict(x_test)
+  bo = BayesianOptimization(f=xg_def,pbounds=params,random_state=66,verbose=2)
+
+  bo.maximize(init_points=10, n_iter=200)   # 초기설정포인트 개수 몇가지 경우의 수로 스타트 할 것이냐?
+
+  # print("============ bo.res ==============")
+  # print(bo.res)                          # 모든 init_points + n_iter 경우의 수마다 어떤값이 들어갔는지 다 출력해준다.
+  # print("============파라미터 튜닝 결과=====================")
+  # print(bo.max)                            # best경우의 수를 출력해준다. 근데 target의 최대값을 best로 출력해준다.
+
+  # 최소값을 보고싶다면 다른방법을써야한다.
+  # bo.res의 모든 target값을 순.서대로 리스트에 담고 그 중에 최소값이 있는 위치의 index번호를 찾아내어 
+  # 다시 bo.res에 접근하여 모든 리스트중에서 최소값이 있는 index번호의 값을 꺼내어 min_dict에 담아준다.
+  target_list = []
+
+  for result in bo.res:
+      target = result['target']
+      target_list.append(target)
+
+  min_dict = bo.res[np.argmin(np.array(target_list))]
+  print(f"{scaler}모델의 최소값 : {min_dict}")
   
-  nmae = NMAE(y_test,y_predict)
-  return nmae
-  
+'''
+StandardScaler()모델의 최소값 : {'target': 0.7316565413904664, 'params': {'colsample_bytree': 0.2077633591867084, 'learning_rate': 0.16559145282612253, 
+'max_depth': 6.877873727831008, 'min_child_weight': 2.946803641230582, 'reg_lambda': 4.787582138810322, 'subsample': 0.8624306289817945}}
+
+MinMaxScaler()모델의 최소값 : {'target': 0.7336232035307443, 'params': {'colsample_bytree': 0.2077633591867084, 'learning_rate': 0.16559145282612253, 
+'max_depth': 6.877873727831008, 'min_child_weight': 2.946803641230582, 'reg_lambda': 4.787582138810322, 'subsample': 0.8624306289817945}} 
+
+
+'''
