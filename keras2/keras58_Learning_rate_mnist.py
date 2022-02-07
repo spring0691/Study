@@ -12,6 +12,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 x_train = x_train.reshape(60000,28,28,1)/255.
 x_test = x_test.reshape(10000,28,28,1)/255.
 
+#2. 모델
 model = Sequential()
 
 model.add(Conv2D(128,(2,2),padding='valid',activation='relu', input_shape=(28,28,1)))  
