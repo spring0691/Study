@@ -50,4 +50,4 @@ loss , acc = model.evaluate(x_test,y_test)
 
 print(f"lr : {learning_rate}, loss : {round(loss,4)}, acc : {round(acc,4)}, 걸린시간 : {round(end,4)}초")
 
-# 기존 acc 최대 0.88?   lr : 0.001, loss : 0.6474, acc : 0.7281, 걸린시간 : 28.6545초
+# 기존 acc 최대 0.88?   lr : 0.001, loss : 0.3425, acc : 0.8607, 걸린시간 : 281.686초
