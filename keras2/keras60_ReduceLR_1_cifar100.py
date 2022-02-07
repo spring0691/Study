@@ -26,8 +26,8 @@ model.add(Dropout(0.2))
 model.add(Conv2D(64,(2,2), activation='relu'))
 model.add(MaxPool2D())
 
-# model.add(Flatten())                  # Flatten은 쫙 펴서 데이터를 넘겨준다.
-model.add(GlobalAveragePooling2D())     # Global은 10개의 평균값을 넘겨준다?
+model.add(Flatten())                  # Flatten은 쫙 펴서 데이터를 넘겨준다.
+# model.add(GlobalAveragePooling2D())     # Global은 10개의 평균값을 넘겨준다?
 model.add(Dense(100, activation='softmax'))
 
 #3. 컴파일, 훈련
@@ -49,4 +49,8 @@ loss, acc = model.evaluate(x_test,y_test,batch_size=32)
 
 print(f"lr : {learning_rate}, loss : {round(loss,4)}, acc : {round(acc,4)}, 걸린시간 : {round(end,4)}초")
 
+# GlobalAveragePooling
 # lr : 0.001, loss : 2.2437, acc : 0.4225, 걸린시간 : 935.174초
+
+# Flatten 
+# lr : 0.001, loss : 2.5074, acc : 0.3822, 걸린시간 : 184.5592초
