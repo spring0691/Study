@@ -38,8 +38,8 @@ learning_rate = 0.001
 optimizer = Adam(learning_rate=learning_rate)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy']) 
 
-es = EarlyStopping(monitor="val_accuracy", patience=15, mode='min',verbose=1, restore_best_weights=True)
-reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', patience=5, mode='min',verbose=1,min_lr=0.0001,factor=0.5)   
+es = EarlyStopping(monitor="val_accuracy", patience=15, mode='max',verbose=1, restore_best_weights=True)
+reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', patience=5, mode='max',verbose=1,min_lr=0.0001,factor=0.5)   
 
 start = time.time()
 model.fit(x_train,y_train,epochs=1000, batch_size=1000,validation_split=0.2, callbacks=[reduce_lr,es])
