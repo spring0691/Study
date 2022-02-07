@@ -26,7 +26,7 @@ print(x.shape)
 #x_train = scaler.transform(x_train)   
 #x_test = scaler.transform(x_test)    
 
-'''
+
 #2. 모델구성,모델링
 model = Sequential()
 model.add(Dense(100, activation='linear', input_dim=54))    
@@ -48,7 +48,7 @@ model.fit(x_train,y_train,epochs=10000, batch_size=10000,validation_split=0.1111
 #4. 평가 예측
 loss = model.evaluate(x_test,y_test)
 print(loss)
-'''
+
 '''
 결과정리                일반레이어                  relu
 
