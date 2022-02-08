@@ -9,6 +9,8 @@ sess = tf.compat.v1.Session()
 
 a = tf.compat.v1.placeholder(tf.float32)
 b = tf.compat.v1.placeholder(tf.float32)
+c = tf.compat.v1.placeholder(tf.float32)
+
 # 메모리에 placeholder를 이용하여 위치를 잡아놓는다.
 # 새로운 개념의 자료형 placeholder. Tensorflow에만 존재함.
 
@@ -21,3 +23,5 @@ print(sess.run(adder_node, feed_dict={a:[1,3], b:[3,4]}))
 add_and_triple = adder_node * 3
 
 print(sess.run(add_and_triple,feed_dict={a:4,b:2}))
+
+# placeholder과 feed_dict는 짝이다.
