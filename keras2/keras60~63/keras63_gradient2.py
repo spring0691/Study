@@ -27,4 +27,4 @@ print("{:02d}\t {:6.5f}\t {:6.5f}\t".format(0,x,f(x)))      # 초기값 출력
 for i in range(epochs):
     x = x - learning_rate * gradient(x)
     
-    print("{:02d}\t {:6.5f}\t {:1.5f}\t".format(i+1,x,f(x)))
+    print("{:02d}\t  {:6.5f}\t {:1.5f}\t".format(i+1,x,f(x)))
