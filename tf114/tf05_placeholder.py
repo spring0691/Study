@@ -16,3 +16,8 @@ adder_node = a + b
 
 print(sess.run(adder_node, feed_dict={a:3, b:4.5})) # feed_dict로 메모리에 잡아놓은 placeholder에 값을 넣어줘서
 # sess.run 실행하기 직전에 값을 넘겨준다.
+print(sess.run(adder_node, feed_dict={a:[1,3], b:[3,4]})) 
+
+add_and_triple = adder_node * 3
+
+print(sess.run(add_and_triple,feed_dict={a:4,b:2}))
