@@ -36,6 +36,8 @@ for step in range(10):
     if step % 1 == 0:
         print(f"{step+1}, {sess.run(loss)}, {sess.run(w)}, {sess.run(b)}")
 
+sess.close()
+
 '''
 그래프 연산 작동순서
 1. x * w를 실행한다.
