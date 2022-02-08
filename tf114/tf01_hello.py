@@ -20,6 +20,7 @@ AAA = 22                            # 이렇게 쓰면 상수로 정의 된다.
 # 우리가 이제 어떤 로직을 만들고 그걸 돌려보고 output을 뽑고싶다면 텐서1에서는
 # 텐서머신을 사용하여야만 원하는 로직을 구동시켜볼수있다.   sess.run(op)    
 
-sess = tf.Session()             # sess.run을 만든다는 개념??
+# sess = tf.Session()             # sess.run을 만든다는 개념??
+sess = tf.compat.v1.Session()
 print(sess.run(hello))          # b'Hello World'으로 출력된다.
 print(tf.Session().run(hello))  # 이게 풀어서쓰는 경우.
