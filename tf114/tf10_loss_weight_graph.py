@@ -13,7 +13,8 @@ loss_history = []
 
 # print(mpl.matplotlib_fname())
 # C:\ProgramData\Anaconda3\envs\tf114\lib\site-packages\matplotlib\mpl-data\matplotlibrc
-print(mpl.get_cachedir())
+# print(mpl.get_cachedir())
+# C:\Users\비트캠프\.matplotlib
 '''
 with tf.compat.v1.Session() as sess:
     i = -48
