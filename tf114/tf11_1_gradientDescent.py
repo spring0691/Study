@@ -1,5 +1,5 @@
 import tensorflow as tf, matplotlib.pyplot as plt, os
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 tf.compat.v1.set_random_seed(77)
 
 x_train = [1,2,3]
