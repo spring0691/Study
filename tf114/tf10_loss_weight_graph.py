@@ -1,4 +1,4 @@
-import tensorflow as tf, matplotlib.pyplot as plt
+import tensorflow as tf, matplotlib.pyplot as plt, matplotlib as mpl
 
 x = [1,2,3]
 y = [1,2,3]
@@ -11,6 +11,10 @@ loss = tf.reduce_mean(tf.square(hypothesis-y))                     # loss, error
 w_history = []
 loss_history = []
 
+# print(mpl.matplotlib_fname())
+# C:\ProgramData\Anaconda3\envs\tf114\lib\site-packages\matplotlib\mpl-data\matplotlibrc
+print(mpl.get_cachedir())
+'''
 with tf.compat.v1.Session() as sess:
     i = -48
     while True:
@@ -29,13 +33,9 @@ print(w_history)
 print("====================== loss history =====================")
 print(loss_history)
 
-from matplotlib import font_manager, rc
-font_path = "C:\Windows\Fonts/NanumBarunGothic.ttf"
-font = font_manager.FontProperties(fname=font_path).get_name()
-rc('font', family=font)
-
 plt.plot(w_history,loss_history)
 plt.xlabel("Weight")
 plt.ylabel("Loss")
 plt.title('웨이트-로스 그래프')
 plt.show()
+'''
