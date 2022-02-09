@@ -8,7 +8,7 @@ y_train = [1,2,3]
 x = tf.compat.v1.placeholder(tf.float32)
 y = tf.compat.v1.placeholder(tf.float32)
 
-w = tf.compat.v1.Variable(-0.4266, dtype=tf.float32)
+w = tf.compat.v1.Variable(-10, dtype=tf.float32)
 # w = tf.compat.v1.Variable(tf.random_normal([1]), dtype=tf.float32)
 
 hypothesis = x * w
@@ -16,7 +16,7 @@ hypothesis = x * w
 # loss = tf.keras.losses.MeanAbsoluteError(hypothesis,y)  # MAE 어떻게 써야하나..
 loss = tf.reduce_mean(tf.square(hypothesis - y))          # MSE
 
-lr = 0.1
+lr = 0.21
 gradient = tf.reduce_mean(( x * w - y) * x)
 descent = w - lr * gradient
 update = w.assign(descent)      # w에 descent를 넣어주겠다. -> w = w - lr * gradient 
@@ -37,7 +37,7 @@ while True:
     
     # 내방식
     _,descent_val,gradient_val,loss_val,w_val = sess.run([update,descent,gradient,loss,w], feed_dict={x:x_train,y:y_train})
-    print(f"{step:04d}\t{descent_val:.7f} \t{gradient_val:.7f} \t{loss_val:.10f} \t{w_val:.5f}")
+    print(f"{step:04d}\t{descent_val:.7f} \t{gradient_val:.7f} \t{loss_val:.10f} \t{w_val:.7f}")
     
     w_history.append(w_val)
     loss_history.append(loss_val)
