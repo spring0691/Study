@@ -47,7 +47,6 @@ with tf.compat.v1.Session() as sess:
 
             print(step, loss_val, w_val, b_val) 
                   
-################    실습&과제  #################
         if loss_val <= 1e-8:                    # if w_val >= 0.999:
             
             # predict = x_test*w_val+b_val
