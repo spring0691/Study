@@ -26,7 +26,7 @@ hypothesis = x_train * w + b           # hypothesis(가설) = y_predict
 
 #3-1. 컴파일
 loss = tf.reduce_mean(tf.square(hypothesis - y_train))  
-optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.1)   
+optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.01)   
 train = optimizer.minimize(loss) 
 
 
@@ -47,9 +47,11 @@ with tf.compat.v1.Session() as sess:
 
             print(step, loss_val, w_val, b_val) 
                   
+################    실습&과제  #################
         if loss_val <= 1e-8:                    # if w_val >= 0.999:
             
-            predict = x_test*w+b
+            # predict = x_test*w_val+b_val
+            predict = x_test*w+b                # y_predict = model.predict 구현
             
             predict1 = sess.run(predict,feed_dict={x_test:[4]})
             predict2 = sess.run(predict,feed_dict={x_test:[5,6]})
