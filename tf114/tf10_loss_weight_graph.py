@@ -29,6 +29,11 @@ print(w_history)
 print("====================== loss history =====================")
 print(loss_history)
 
+from matplotlib import font_manager, rc
+font_path = "C:\Windows\Fonts/NanumBarunGothic.ttf"
+font = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font)
+
 plt.plot(w_history,loss_history)
 plt.xlabel("Weight")
 plt.ylabel("Loss")
