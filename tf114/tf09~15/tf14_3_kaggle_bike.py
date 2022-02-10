@@ -1,5 +1,7 @@
-import pandas as pd, numpy as np, tensorflow as tf
+import pandas as pd, numpy as np, tensorflow as tf,os
 from sklearn.metrics import r2_score,mean_absolute_error
+from sklearn.model_selection import train_test_split
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 tf.compat.v1.set_random_seed(66)
 
 path = '../Project/Kaggle_Project/bike/'
@@ -17,6 +19,8 @@ y = Bikedata['count']
 
 x_data = x.values                   # (10886, 12)
 y_data = y.values.reshape(-1,1)     # (10886,)
+
+x_train,x_test,y_train,y_test = train_test_split(x_data,y_data,train_size=0.8,shuffle=True,random_state=77)
 
 x = tf.compat.v1.placeholder(tf.float32, shape=[None,12])
 y = tf.compat.v1.placeholder(tf.float32, shape=[None,1])
@@ -57,12 +61,12 @@ while True:
     #     if val_loss_list[-p] < val_loss_list[-p+1:-1]:   # patience값번째 뒤의 값. vs 그 뒤의 patience개수만큼의 모든 값
     
     if loss_val < 21726:
-        predict = tf.matmul(x,w) + b
-        y_predict = sess.run(predict,feed_dict={x:x_data,y:y_data})
         
-        r2 = r2_score(y_data,y_predict)
-        
-        print(f"r2스코어는 : {r2}")
+        y_train_predict = sess.run(hypothesis,feed_dict={x:x_train})
+        y_test_predcit = sess.run(hypothesis,feed_dict={x:x_test})
+        train_r2 = r2_score(y_train,y_train_predict)
+        test_r2 = r2_score(y_test,y_test_predcit)
+        print(f"train_r2스코어 : {train_r2} test_r2스코어 : {test_r2}")
         
         break
 sess.close()
