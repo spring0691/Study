@@ -70,3 +70,27 @@ sess.close()
 # 각 데이터셋 별로 최소의 loss한계값은 정해져있는데 그 값을 우리가 모르는 상태에서 프로그램한테 조건문을 넣기가 힘들다. 
 # Earlystopping방식으로 모든 val_loss를 저장하고 1000번 전후의 val_loss를 비교하는 방식을 하면
 # 최소의 loss값을 몰라도 자동으로 정지시킬수가있다.
+
+'''
+class EarlyStopping():
+    def __init__(self, patience=0, verbose=0):
+        self._step = 0         
+        self._loss = float('inf')         
+        self.patience  = patience         
+        self.verbose = verbose      
+        
+    def validate(self, loss):         
+        if self._loss < loss:             
+            self._step += 1            
+             
+        if self._step > self.patience:                 
+            if self.verbose:                     
+                print(f'Training process is stopped early....') 
+                                
+            return True         
+        
+        else:             
+            self._step = 0             
+            self._loss = loss          
+            return False
+'''
