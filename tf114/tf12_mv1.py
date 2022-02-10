@@ -17,10 +17,10 @@ x3 = tf.compat.v1.placeholder(tf.float32)
 y = tf.compat.v1.placeholder(tf.float32)
 
 # w = tf.compat.v1.Variable(-10)                                    # 직접 값 주고 싶을때
-w1 = tf.compat.v1.Variable(tf.random_normal([1]), name='weight1')   # dtype=tf.float32가 default
-w2 = tf.compat.v1.Variable(tf.random_normal([1]), name='weight2')
-w3 = tf.compat.v1.Variable(tf.random_normal([1]), name='weight3')   # ([1])이 의미하는것 -> shape.  1개의 값을 주겠다
-b = tf.compat.v1.Variable(tf.random_normal([1]), name='bias')       
+w1 = tf.compat.v1.Variable(tf.random.normal([1]), name='weight1')   # dtype=tf.float32가 default
+w2 = tf.compat.v1.Variable(tf.random.normal([1]), name='weight2')
+w3 = tf.compat.v1.Variable(tf.random.normal([1]), name='weight3')   # ([1])이 의미하는것 -> shape.  1개의 값을 주겠다
+b = tf.compat.v1.Variable(tf.random.normal([1]), name='bias')       
 
 # sess = tf.compat.v1.Session()
 # sess.run(tf.compat.v1.global_variables_initializer())

@@ -10,7 +10,7 @@ print(변수)
 #1.
 sess = tf.compat.v1.Session()                           # 세션 선언
 sess.run(tf.compat.v1.global_variables_initializer())   # 파일 전역의 모든 변수 초기화
-aaa = sess.run(변수)                                       # tf형을 출력하기위해 실행
+aaa = sess.run(변수)                                    # tf형을 출력하기위해 실행
 print("aaa : ", aaa)                                    # random_seed를 66으로 고정해놔서 고정값 [0.06524777] 출력
 sess.close()
 
