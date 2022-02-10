@@ -20,7 +20,6 @@ y_data = [[0,0,1],      # 2
           [1,0,0],      # 0
           [1,0,0]]
 
-x_predict = [[1,11,7,9]] # (1,4) -> (N,4)
 #2. 모델구성
 x = tf.compat.v1.placeholder(tf.float32, shape=[None,4])
 y = tf.compat.v1.placeholder(tf.float32, shape=[None,3])
@@ -56,8 +55,12 @@ while True:
     if loss_val < 0.0047:
         #4. 평가, 예측
         
-        results = sess.run(hypothesis, feed_dict={x:x_predict})
-        print(results, sess.run(tf.math.argmax(results,1)))
+        y_predict = sess.run(hypothesis, feed_dict={x:x_data})
+        y_predict_int = sess.run(tf.math.argmax(y_predict,1))
+        y_data_int = np.argmax(y_data,axis=1)
+        acc = accuracy_score(y_data_int,y_predict_int)
+        
+        print(f"acc : {acc}")
         
         break
         
