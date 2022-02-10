@@ -65,7 +65,7 @@ while True:
         test_acc = accuracy_score(y_test_int,y_test_predict_int)
         
         print(f"train_acc : {train_acc} test_acc : {test_acc}")
-        
+        # train_acc : 1.0 test_acc : 1.0
         break
         
 sess.close()

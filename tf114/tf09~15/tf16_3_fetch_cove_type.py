@@ -32,7 +32,7 @@ hypothesis = tf.matmul(x,w) + b
 loss = tf.reduce_mean(tf.square(hypothesis-y))        # MSE
 
 # optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.005).minimize(loss)      
-optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=0.001).minimize(loss)       
+optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=0.1).minimize(loss)       
 
 #3-2. 훈련
 
@@ -48,7 +48,7 @@ while True:
     loss_val,_ = sess.run([loss,optimizer],feed_dict={x:x_data,y:y_data})
     print(f"{step:05d} \t{loss_val}")
     
-    if loss_val < 0.07:
+    if loss_val < 0.062:
         #4. 평가, 예측
         
         y_train_predict = sess.run(hypothesis, feed_dict={x:x_train})
@@ -62,7 +62,7 @@ while True:
         test_acc = accuracy_score(y_test_int,y_test_predict_int)
         
         print(f"train_acc : {train_acc} test_acc : {test_acc}")
-        
+        # train_acc : 0.6866497851805795 test_acc : 0.6869443990258427
         break
         
 sess.close()

@@ -60,13 +60,13 @@ while True:
     # if len(val_loss_list) > p:
     #     if val_loss_list[-p] < val_loss_list[-p+1:-1]:   # patience값번째 뒤의 값. vs 그 뒤의 patience개수만큼의 모든 값
     
-    if loss_val < 21726:
+    if loss_val < 21725.2305:
         
         y_train_predict = sess.run(hypothesis,feed_dict={x:x_train})
         y_test_predcit = sess.run(hypothesis,feed_dict={x:x_test})
         train_r2 = r2_score(y_train,y_train_predict)
         test_r2 = r2_score(y_test,y_test_predcit)
         print(f"train_r2스코어 : {train_r2} test_r2스코어 : {test_r2}")
-        
+        # train_r2스코어 : 0.34002185158992193 test_r2스코어 : 0.327923071346776
         break
 sess.close()

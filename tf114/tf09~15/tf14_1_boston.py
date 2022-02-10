@@ -56,6 +56,6 @@ while True:
         train_r2 = r2_score(y_train,y_train_predict)
         test_r2 = r2_score(y_test,y_test_predcit)
         print(f"train_r2스코어 : {train_r2} test_r2스코어 : {test_r2}")
-        
+        # train_r2스코어 : 0.739819088874253 test_r2스코어 : 0.7271981131877968
         break
 sess.close()

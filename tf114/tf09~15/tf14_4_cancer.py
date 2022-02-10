@@ -65,6 +65,7 @@ while True:
         # pred, acc = sess.run([y_predict,acc],feed_dict={x:x_data,y:y_data})
 
         print(f"train_acc는 : {train_acc} test_acc는 : {test_acc}")
+        # train_acc는 : 1.0 test_acc는 : 1.0
         break
     
 sess.close()
