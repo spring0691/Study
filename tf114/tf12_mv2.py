@@ -1,3 +1,5 @@
+# mulit_variable
+
 import tensorflow as tf,os,numpy as np
 from sklearn.metrics import r2_score,mean_absolute_error
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -50,7 +52,7 @@ while True:
     val_loss_list.append(loss_val)
     
     if len(val_loss_list) > p:
-        if val_loss_list[-p] < val_loss_list[-p+1:-1]:   # patience값번째 뒤의 값. vs 그 뒤의 patience개수만큼의 모든 값 
+        if val_loss_list[-p] < val_loss_list[-p+1:-1]:   # patience값번째 뒤의 값. vs 그 뒤의 patience개수만큼의 모든 값
             predict = tf.matmul(x,w) + b
             y_predict = sess.run(predict,feed_dict={x:x_data,y:y_data})
             

@@ -15,7 +15,9 @@ loss_history = []
 # C:\ProgramData\Anaconda3\envs\tf114\lib\site-packages\matplotlib\mpl-data\matplotlibrc
 # print(mpl.get_cachedir())
 # C:\Users\비트캠프\.matplotlib
-'''
+mpl.rcParams['font.family'] = 'NanumGothic'
+mpl.rcParams['font.size'] = 15
+
 with tf.compat.v1.Session() as sess:
     i = -48
     while True:
@@ -39,4 +41,3 @@ plt.xlabel("Weight")
 plt.ylabel("Loss")
 plt.title('웨이트-로스 그래프')
 plt.show()
-'''
