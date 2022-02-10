@@ -8,16 +8,11 @@ def Leaky_lelu(a,x):
 # 하이퍼파라미터 α가 이 함수가 새는(leaky) 정도를 결정한다. 새는 정도란 x<0일 때 이 함수의 기울기이며, 일반적으로 0.01로 설정
 
 def elu(a,x):
-    if x > 0:
-        return np.array(x)
-    else:
-        return np.array(a(np.exp(x)-1))
+    return (x>0)+x + (x<=0)*(a*(np.exp(x)-1))
     
 x = np.arange(-5,5, 0.1)
-y = elu(0.2,x)
+y = elu(0.00001,x)
 
-'''
 plt.plot(x,y)
 plt.grid()
 plt.show()
-'''
