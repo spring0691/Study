@@ -40,7 +40,7 @@ loss = -tf.reduce_mean(y*tf.math.log(hypothesis)+(1-y)*tf.math.log(1-hypothesis)
 # loss = tf.reduce_mean(tf.square(hypothesis-y))        # MSE
 
 # optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=0.06)       
-optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.7)      
+optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=1.5)      
 
 train = optimizer.minimize(loss)
 
@@ -58,7 +58,7 @@ while True:
     print(f"{step:05d} \t{loss_val:.7f}")
     
     
-    if loss_val < 0.0001:       #  멀티레이어 문제로 Xor를 해결. loss값이 극한으로 작아져간다.
+    if loss_val < 0.00001:       #  멀티레이어 문제로 Xor를 해결. loss값이 극한으로 작아져간다.
         #4. 평가, 예측
         
         y_data_predict = sess.run(hypothesis,feed_dict={x:x_data})
