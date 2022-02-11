@@ -22,22 +22,22 @@ y = tf.compat.v1.placeholder(tf.float32, shape=[None,1])
 w1 = tf.compat.v1.Variable(tf.random.normal([10,32]),'weights1')
 b1 = tf.compat.v1.Variable(tf.random.normal([32]),'bias1')
 
-Hidden_layer1 = tf.matmul(x,w1) + b1
+Hidden_layer1 =  tf.nn.relu(tf.matmul(x,w1) + b1)
 
 w2 = tf.compat.v1.Variable(tf.random.normal([32,16]),'weights2')
 b2 = tf.compat.v1.Variable(tf.random.normal([16]),'bias2')
 
-Hidden_layer2 = tf.matmul(Hidden_layer1,w2) + b2
+Hidden_layer2 = tf.nn.relu(tf.matmul(Hidden_layer1,w2) + b2)
 
 w3 = tf.compat.v1.Variable(tf.random.normal([16,8]),'weights3')
 b3 = tf.compat.v1.Variable(tf.random.normal([8]),'bias3')
 
-Hidden_layer3 = tf.matmul(Hidden_layer2,w3) + b3
+Hidden_layer3 = tf.nn.relu(tf.matmul(Hidden_layer2,w3) + b3)
 
 w4 = tf.compat.v1.Variable(tf.random.normal([8,4]),'weights4')
 b4 = tf.compat.v1.Variable(tf.random.normal([4]),'bias4')
 
-Hidden_layer4 = tf.matmul(Hidden_layer3,w4) + b4
+Hidden_layer4 = tf.nn.relu(tf.matmul(Hidden_layer3,w4) + b4)
 
 w5 = tf.compat.v1.Variable(tf.random.normal([4,1]),'weights5')
 b5 = tf.compat.v1.Variable(tf.random.normal([1]),'bias5')
@@ -72,7 +72,7 @@ while True:
     # if len(val_loss_list) > p:
     #     if val_loss_list[-p] < val_loss_list[-p+1:-1]:   # patience값번째 뒤의 값. vs 그 뒤의 patience개수만큼의 모든 값
     
-    if loss_val < 2855:
+    if loss_val < 500:     # 단층 신경만의 한계 loss를 돌파했다.
         
         y_train_predict = sess.run(hypothesis,feed_dict={x:x_train})
         y_test_predcit = sess.run(hypothesis,feed_dict={x:x_test})
@@ -80,5 +80,6 @@ while True:
         test_r2 = r2_score(y_test,y_test_predcit)
         print(f"train_r2스코어 : {train_r2} test_r2스코어 : {test_r2}")
         # train_r2스코어 : 0.5142949103499602 test_r2스코어 : 0.5296165706130218
+        # train_r2스코어 : 0.9137111327790238 test_r2스코어 : 0.9215147933721487 <-- 거의 2배가 뛰었다
         break
 sess.close()
