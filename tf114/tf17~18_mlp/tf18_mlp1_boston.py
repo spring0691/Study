@@ -5,6 +5,9 @@ from sklearn.model_selection import train_test_split
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 tf.compat.v1.set_random_seed(66)
 
+# mlp는 각 레이어에서 다음레이어로 넘어갈때 값을 줄여서 넘겨줘야한다. 그냥 넘겨주면 의미가없다.
+# sigmoid 내장, tanh 내장, 
+
 #1. 데이터
 datasets = load_boston()
 x_data = datasets.data       # (506, 13)
@@ -19,7 +22,7 @@ y = tf.compat.v1.placeholder(tf.float32, shape=[None,1])
 w1 = tf.compat.v1.Variable(tf.zeros([13,64]),'weights1')
 b1 = tf.compat.v1.Variable(tf.zeros([64]),'bias1')
 
-Hidden_layer1 = tf.matmul(x,w1) + b1
+Hidden_layer1 =  (tf.matmul(x,w1) + b1)
 
 w2 = tf.compat.v1.Variable(tf.zeros([64,32], name='weight2'))   
 b2 = tf.compat.v1.Variable(tf.zeros([32], name='bia2'))     
