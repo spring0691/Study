@@ -12,7 +12,7 @@ x_test = x_test.reshape(len(x_test),-1)         # 10000, 784
 
 #2. 모델
 x = tf.compat.v1.placeholder(tf.float32,shape=[None,784])    
-y = tf.compat.v1.placeholder(tf.float32,shape=[None,10]) 
+y = tf.compat.v1.placeholder(tf.float32,shape=[None,1]) 
 
 w = tf.compat.v1.Variable(tf.zeros([784,1024]),'weights')
 b = tf.compat.v1.Variable(tf.zeros([1,1024]))
