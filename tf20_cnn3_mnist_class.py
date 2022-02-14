@@ -54,21 +54,27 @@ L_flat = tf.reshape(L3_maxpool,[-1,4*4*4])
 # print(f"플래튼 : {L_flat}")     # (?, 128)
 
 # Layer5    DNN
-w5 = tf.compat.v1.Variable(tf.random.normal([64,32]))
-b5 = tf.compat.v1.Variable(tf.random.normal([32]))
+w5 = tf.get_variable('w5',shape=[4*4*4, 64], initializer=tf.contrib.layers.xavier_initializer())
+b5 = tf.compat.v1.Variable(tf.random.normal([64]), name='b5')
+L4 =  tf.nn.selu(tf.matmul(L_flat,w5) + b5)
+L4 = tf.nn.dropout(L4, keep_prob=0.5)
 
-Hidden_layer1 =  tf.nn.relu(tf.matmul(L_flat,w5) + b5)
+# Layer6    DNN
+w6 = tf.get_variable('w6',shape=[64, 32], initializer=tf.contrib.layers.xavier_initializer())
+b6 = tf.compat.v1.Variable(tf.random.normal([32]), name='b6')
+L5 =  tf.nn.relu(tf.matmul(L4,w6) + b6)
+L5 = tf.nn.dropout(L5, keep_prob=0.5)
 
-w6 = tf.compat.v1.Variable(tf.random.normal([32,10]))
-b6 = tf.compat.v1.Variable(tf.random.normal([10]))
-
-hypothesis = tf.nn.softmax(tf.matmul(Hidden_layer1,w6) + b6)
+# Layer7    DNN
+w7 = tf.get_variable('w6',shape=[32, 10], initializer=tf.contrib.layers.xavier_initializer())
+b7 = tf.compat.v1.Variable(tf.random.normal([10]), name='b6')
+L6 =  tf.nn.relu(tf.matmul(L5,w7) + b7)
+L6 = tf.nn.dropout(L6, keep_prob=0.5)
+hypothesis = tf.nn.softmax(L6)
 
 
 #3-1. 컴파일
 loss = tf.reduce_mean(-tf.reduce_sum(y * tf.math.log(hypothesis), axis=1))   # categorical_crossentropy
-
-
 optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=0.01).minimize(loss)      
 # optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.000000005)   .minimize(loss)   
 
@@ -102,7 +108,7 @@ while True:
         test_acc = accuracy_score(y_test_int,y_test_predict_int)
         
         print(f"train_acc : {train_acc} test_acc : {test_acc}")
-        # train_acc : 0.9405 test_acc : 0.9424 notbad... but too slow
+       
         break
     
 sess.close()
