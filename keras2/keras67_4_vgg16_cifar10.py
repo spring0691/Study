@@ -8,8 +8,8 @@ import numpy as np, time
 
 (x_train,y_train), (x_test,y_test) = cifar10.load_data()
 
-# print(x_train.shape)              # 32,32,3
-# print(len(np.unique(y_test)))     # 100
+# print(x_train.shape,x_test.shape)         # 32,32,3
+# print(len(np.unique(y_test)))             # 10
 
 x_train = x_train.reshape(50000,32,32,3)/255.
 x_test = x_test.reshape(10000,32,32,3)/255.
