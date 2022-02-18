@@ -9,7 +9,7 @@ from tensorflow.keras.applications import NASNetLarge, NASNetMobile
 from tensorflow.keras.applications import EfficientNetB0, EfficientNetB1, EfficientNetB7
 from tensorflow.keras.applications import Xception
 
-model_list = [VGG16(), VGG19(), ResNet50(), ResNet50V2(), ResNet101(), ResNet101V2(), DenseNet121(), DenseNet169(), DenseNet201(),
+model_list = [VGG16(), VGG19(),ResNet50(), ResNet50V2(), ResNet101(), ResNet101V2(), DenseNet121(), DenseNet169(), DenseNet201(),
               InceptionV3(), InceptionResNetV2(), MobileNet(), MobileNetV2(), MobileNetV3Small(), MobileNetV3Large(),
               NASNetLarge(), NASNetMobile(), EfficientNetB0(), EfficientNetB1(), EfficientNetB7(), Xception()]
 
