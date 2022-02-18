@@ -56,7 +56,7 @@ model.summary()
 # print(len(model.weights))               # 레이어 16개 -> len은 32개
 # print(len(model.trainable_weights))     # 레이어 16개 -> len은 32개
 
-# 점심과제 : FC layer에 대해 정리
+# 점심과제 : FC layer에 대해 정리   -> Fully Connected layer, Dense처럼 다 연결된 형태의 레이어
 '''
 lr=ReduceLROnPlateau(monitor= "val_acc", patience = 5, mode='max',factor = 0.5, min_lr=0.0001,verbose=1)
 es = EarlyStopping(monitor ="val_acc", patience=50, mode='max',verbose=1,restore_best_weights=True)
