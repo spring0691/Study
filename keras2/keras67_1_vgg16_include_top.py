@@ -4,8 +4,8 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.applications import VGG16
 
 # model = VGG16()
-# model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max') #
-model = VGG16(weights="imagenet", include_top=False, input_shape=(32,32,3), classes=100, pooling='max') #
+model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max') #
+# model = VGG16(weights="imagenet", include_top=False, input_shape=(32,32,3), classes=100, pooling='max') #
 
 model.summary()
 ########################## include_top = True ################################
