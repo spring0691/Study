@@ -17,7 +17,7 @@ x_test = x_test.reshape(10000,32,32,3)/255.
 vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(32,32,3))
 # model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max')
 
-vgg16.trainable = True     # 가중치를 동결시킨다!
+vgg16.trainable = False     # 가중치를 동결시킨다!
 
 model = Sequential()
 model.add(vgg16)
@@ -47,8 +47,8 @@ print(f"Acc : {round(Acc,4)}")
 # 위 4개 조합해서 최고결과 뽑고 이전 최고치 acc0.65와 비교
 
 # 출력결과     True/Flat    True/GAP      False/Flat      False/GAP     Defaultvgg16    
-# time :                                                                583.8867
-# loss :                                                                6.7649
-#  acc :                                                                0.3121
+# time :       638.6476     280.0477      280.9244                          583.8867
+# loss :       3.7577       2.1816        2.5506                            6.7649
+#  acc :       0.6037       0.607         0.3655                            0.3121
 
 # 수정완료
