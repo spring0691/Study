@@ -14,17 +14,18 @@ import numpy as np, time
 x_train = x_train.reshape(50000,32,32,3)/255.
 x_test = x_test.reshape(10000,32,32,3)/255.
 
-vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(32,32,3))
+# vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(32,32,3))
+model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max')
 
 # vgg16.trainable = False     # 가중치를 동결시킨다!
 
-model = Sequential()
-model.add(vgg16)
-model.add(Flatten())
-# model.add(GlobalAveragePooling2D())     
-model.add(Dense(1024))
-model.add(Dense(512))
-model.add(Dense(10,activation='softmax'))
+# model = Sequential()
+# model.add(vgg16)
+# model.add(Flatten())
+# # model.add(GlobalAveragePooling2D())     
+# model.add(Dense(1024))
+# model.add(Dense(512))
+# model.add(Dense(10,activation='softmax'))
 
 optimizer = Adam(learning_rate=0.01)
 lr=ReduceLROnPlateau(monitor= "val_acc", patience = 3, mode='max',factor = 0.5, min_lr=0.0001,verbose=1)
