@@ -2,18 +2,6 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.applications import VGG16
-from tensorflow.keras.datasets import mnist, cifar10, cifar100
-from keras.callbacks import EarlyStopping , ReduceLROnPlateau
-'''
-#1.데이터
-(x_train,y_train), (x_test,y_test) = cifar100.load_data()
-
-# print(x_train.shape)              # 32,32,3
-# print(len(np.unique(y_test)))     # 100
-
-x_train = x_train.reshape(50000,32,32,3)/255.
-x_test = x_test.reshape(10000,32,32,3)/255.
-'''
 
 # model = VGG16()
 # model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max') #
@@ -57,14 +45,4 @@ model.summary()
 # print(len(model.trainable_weights))     # 레이어 16개 -> len은 32개
 
 # 점심과제 : FC layer에 대해 정리   -> Fully Connected layer, Dense처럼 다 연결된 형태의 레이어
-'''
-lr=ReduceLROnPlateau(monitor= "val_acc", patience = 5, mode='max',factor = 0.5, min_lr=0.0001,verbose=1)
-es = EarlyStopping(monitor ="val_acc", patience=50, mode='max',verbose=1,restore_best_weights=True)
-model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics='accuracy')
-model.fit(x_train,y_train,batch_size=5,epochs=10000,validation_split=0.2,callbacks=[lr,es])#,cp
-result = model.evaluate(x_test,y_test,batch_size=5)
-loss = np.round(result[0],4)
-Acc = np.round(result[1],4)
-print('loss : ',loss)
-print('Acc : ',Acc)
-'''
+
