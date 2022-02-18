@@ -46,7 +46,7 @@ print(f"Acc : {round(Acc,4)}")
 # Flatten / Global Average Pooling
 # 위 4개 조합해서 최고결과 뽑고 이전 최고치 acc0.65와 비교
 
-# 출력결과     True/Flat    True/GAP    False/Flat      False/GAP
-# time : 
-# loss : 
-#  acc :  
+# 출력결과     True/Flat    True/GAP      False/Flat      False/GAP     Defaultvgg16    
+# time :                                                                879.0209
+# loss :                                                                1.5638
+#  acc :                                                                0.7491
