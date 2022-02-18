@@ -17,7 +17,7 @@ x_test = x_test.reshape(10000,32,32,3)/255.
 vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(32,32,3))
 # model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max')
 
-# vgg16.trainable = False     # 가중치를 동결시킨다!
+vgg16.trainable = True     # 가중치를 동결시킨다!
 
 model = Sequential()
 model.add(vgg16)
@@ -39,7 +39,7 @@ loss, Acc = model.evaluate(x_test,y_test,batch_size=100)
 
 print(f"Time : {round(end - start,4)}")
 print(f"loss : {round(loss,4)}")
-print(f"Acc : {np.round(Acc,4)}")
+print(f"Acc : {round(Acc,4)}")
 
 # 결과 비교
 # vgg trainable : True / False
