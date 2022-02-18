@@ -14,18 +14,18 @@ import numpy as np, time
 x_train = x_train.reshape(50000,32,32,3)/255.
 x_test = x_test.reshape(10000,32,32,3)/255.
 
-# vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(32,32,3))
-model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max')
+vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(32,32,3))
+# model = VGG16(weights=None, include_top=True, input_shape=(32,32,3), classes=100, pooling='max')
 
-# vgg16.trainable = True     # 가중치를 동결시킨다!
+vgg16.trainable = True     # 가중치를 동결시킨다!
 
-# model = Sequential()
-# model.add(vgg16)
-# model.add(Flatten())
-# # model.add(GlobalAveragePooling2D())     
-# model.add(Dense(1024))
-# model.add(Dense(512))
-# model.add(Dense(100,activation='softmax'))
+model = Sequential()
+model.add(vgg16)
+model.add(Flatten())
+# model.add(GlobalAveragePooling2D())     
+model.add(Dense(1024))
+model.add(Dense(512))
+model.add(Dense(100,activation='softmax'))
 
 optimizer = Adam(learning_rate=0.0001)      # 초기 lr이 되게 되게 중요하다
 lr=ReduceLROnPlateau(monitor= "val_acc", patience = 2, mode='max',factor = 0.1, min_lr=0.00001,verbose=1)
@@ -47,8 +47,8 @@ print(f"Acc : {round(Acc,4)}")
 # 위 4개 조합해서 최고결과 뽑고 이전 최고치 acc0.65와 비교
 
 # 출력결과     True/Flat    True/GAP      False/Flat      False/GAP     Defaultvgg16    
-# time :        593.9125    726.1867       157.9657        134.4698     879.0209
-# loss :        0.9263      1.2026         1.1849          1.1839       1.5638
-#  acc :        0.8662      0.8673         0.5899          0.5915       0.7491
+# time :                                                                583.8867
+# loss :                                                                6.7649
+#  acc :                                                                0.3121
 
 # 수정완료
