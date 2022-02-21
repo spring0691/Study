@@ -45,14 +45,44 @@ for model in model_list:
     model.add(Dense(100,activation='softmax'))
     
     optimizer = Adam(learning_rate=0.0001)  # 1e-4     
-    lr=ReduceLROnPlateau(monitor= "val_acc", patience = 3, mode='max',factor = 0.1, min_lr=0.00001,verbose=1)
+    lr=ReduceLROnPlateau(monitor= "val_acc", patience = 3, mode='max',factor = 0.1, min_lr=0.00001,verbose=False)
     es = EarlyStopping(monitor ="val_acc", patience=15, mode='max',verbose=1,restore_best_weights=True)
     model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics='acc')
-
-    model.fit(x_train,y_train,batch_size=100,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=False)
+    
+    start = time.time()
+    model.fit(x_train,y_train,batch_size=200,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=False)
+    end = time.time()
     
     loss, Acc = model.evaluate(x_test,y_test,batch_size=100,verbose=False)
     
+    print(f"Time : {round(end - start,4)}")
     print(f"loss : {round(loss,4)}")
     print(f"Acc : {round(Acc,4)}")
     
+'''
+batch 200기준!!! <-----------------------------------------------
+모델명 : vgg19
+Time : 357.6416
+loss : 2.6871
+Acc : 0.5823
+
+모델명 : resnet50
+Time : 1045.516
+loss : 3.9487
+Acc : 0.4696
+
+모델명 : resnet101
+Time : 1621.1863
+loss : 3.8353
+Acc : 0.4717
+
+모델명 : densenet121
+Time : 1357.5877
+loss : 3.1646
+Acc : 0.5438
+
+모델명 : mobilenetv2_1.00_224
+Time : 921.6555
+loss : 4.9463
+Acc : 0.416
+'''
