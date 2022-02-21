@@ -51,7 +51,7 @@ x_train = np.load(path + 'rps_train_x.npy')
 y_train = np.load(path + 'rps_train_y.npy')     
 x_test = np.load(path + 'rps_test_x.npy')       
 y_test = np.load(path + 'rps_test_y.npy')
-print(x_train.shape,y_train.shape,x_test.shape,y_test.shape) # (2016, 200, 200, 3) (2016, 3) (504, 200, 200, 3) (504, 3)
+# print(x_train.shape,y_train.shape,x_test.shape,y_test.shape) # (2016, 200, 200, 3) (2016, 3) (504, 200, 200, 3) (504, 3)
 
 model_list = [VGG19(weights='imagenet', include_top=False, input_shape=(200,200,3),pooling='max',classifier_activation='softmax'),
               Xception(weights='imagenet', include_top=False, input_shape=(200,200,3),pooling='max',classifier_activation='softmax')]
@@ -62,7 +62,6 @@ for model in model_list:
     TL_model.trainable = True
     model = Sequential()
     model.add(TL_model)    
-    model.add(Flatten())  
     model.add(Dense(128,activation='relu'))
     model.add(Dense(64,activation='relu'))
     model.add(Dense(3,activation='softmax'))

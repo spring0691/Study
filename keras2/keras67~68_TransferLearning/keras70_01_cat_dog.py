@@ -64,7 +64,6 @@ for model in model_list:
     TL_model.trainable = True
     model = Sequential()
     model.add(TL_model)    
-    model.add(Flatten())  
     model.add(Dense(128,activation='relu'))
     model.add(Dense(64,activation='relu'))
     model.add(Dense(1,activation='sigmoid'))
