@@ -80,3 +80,14 @@ for model in model_list:
     print(f"Time : {round(end - start,4)}")
     print(f"loss : {round(loss,4)}")
     print(f"Acc : {round(Acc,4)}")
+'''
+모델명 : vgg19
+Time : 75.725
+loss : 0.1771
+Acc : 0.9268
+
+모델명 : xception
+Time : 108.9116
+loss : 0.003
+Acc : 1.0
+'''
