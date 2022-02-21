@@ -85,4 +85,14 @@ Acc : 0.5438
 Time : 921.6555
 loss : 4.9463
 Acc : 0.416
+
+모델명 : NASNet
+Time : 574.9925
+loss : 4.6314
+Acc : 0.0133
+
+모델명 : efficientnetb0
+Time : 669.8647
+loss : 3.179
+Acc : 0.3278
 '''
