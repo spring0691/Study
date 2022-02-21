@@ -46,10 +46,10 @@ for model in model_list:
     
     optimizer = Adam(learning_rate=0.0001)  # 1e-4     
     lr=ReduceLROnPlateau(monitor= "val_acc", patience = 3, mode='max',factor = 0.1, min_lr=0.00001,verbose=1)
-    es = EarlyStopping(monitor ="val_acc", patience=10, mode='max',verbose=1,restore_best_weights=True)
+    es = EarlyStopping(monitor ="val_acc", patience=15, mode='max',verbose=1,restore_best_weights=True)
     model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics='acc')
 
-    model.fit(x_train,y_train,batch_size=200,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=False)
+    model.fit(x_train,y_train,batch_size=100,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=False)
     
     loss, Acc = model.evaluate(x_test,y_test,batch_size=100,verbose=False)
     
