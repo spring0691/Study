@@ -7,53 +7,54 @@ from tensorflow.keras.optimizers import Adam
 import numpy as np, time, warnings, os
 # warnings.filterwarnings(action='ignore')
 
-path = 'D:\_data\image_classification\horse-or-human/'
-'''
-# 나중에 사진 변환하고 저장할때 비교를 쉽게하기 위해 기존 사진들의 이름을 따서 저장.
-horses = os.listdir(path+'horses')         
-humans = os.listdir(path+'humans')                  
+path = 'D:\_data\image_classification\\rps/'
 
-# print(len(horses),len(humans))    # 500 527
+# 나중에 사진 변환하고 저장할때 비교를 쉽게하기 위해 기존 사진들의 이름을 따서 저장.
+paper = os.listdir(path+'paper')         
+rock = os.listdir(path+'rock')                  
+scissors = os.listdir(path+'scissors')                  
+
+# print(len(paper),len(rock),len(scissors))    # 840 840 840
 # 딱히 증폭시켜서 장수의 밸런스를 맞춰줄 필요는 없을듯 하다.
 
 # save 구간 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+'''
 img_datagen = ImageDataGenerator(rescale= 1/255.,validation_split=0.2)
 
-horsehuman_train = img_datagen.flow_from_directory(      
+rps_train = img_datagen.flow_from_directory(      
     path,
     target_size = (200, 200),                                                                       
     batch_size=100000,                                   
-    class_mode='binary',  
-    classes= ['horses','humans'],
+    class_mode='categorical',  
+    classes= ['paper','rock','scissors'],
     subset = 'training'        
 )   
 
-horsehuman_test = img_datagen.flow_from_directory(         
+rps_test = img_datagen.flow_from_directory(         
     path,
     target_size=(200,200),
     batch_size=1000000,
-    class_mode='binary',  
-    classes= ['horses','humans'],
+    class_mode='categorical',  
+    classes= ['paper','rock','scissors'],
     subset='validation'                              
 ) 
 
-np.save(path + 'horsehuman_train_x', arr=horsehuman_train[0][0])    
-np.save(path + 'horsehuman_train_y', arr=horsehuman_train[0][1])    
-np.save(path + 'horsehuman_test_x', arr=horsehuman_test[0][0])      
-np.save(path + 'horsehuman_test_y', arr=horsehuman_test[0][1]) 
+np.save(path + 'rps_train_x', arr=rps_train[0][0])    
+np.save(path + 'rps_train_y', arr=rps_train[0][1])    
+np.save(path + 'rps_test_x', arr=rps_test[0][0])      
+np.save(path + 'rps_test_y', arr=rps_test[0][1]) 
 '''
 
 # load구간 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-x_train = np.load(path + 'horsehuman_train_x.npy')      
-y_train = np.load(path + 'horsehuman_train_y.npy')     
-x_test = np.load(path + 'horsehuman_test_x.npy')       
-y_test = np.load(path + 'horsehuman_test_y.npy')
-print(x_train.shape,y_train.shape,x_test.shape,y_test.shape) # (822, 200, 200, 3) (822,) (205, 200, 200, 3) (205,)
+x_train = np.load(path + 'rps_train_x.npy')      
+y_train = np.load(path + 'rps_train_y.npy')     
+x_test = np.load(path + 'rps_test_x.npy')       
+y_test = np.load(path + 'rps_test_y.npy')
+print(x_train.shape,y_train.shape,x_test.shape,y_test.shape) # (2016, 200, 200, 3) (2016, 3) (504, 200, 200, 3) (504, 3)
 
-model_list = [VGG19(weights='imagenet', include_top=False, input_shape=(200,200,3),pooling='max',classifier_activation='sigmoid'),
-              Xception(weights='imagenet', include_top=False, input_shape=(200,200,3),pooling='max',classifier_activation='sigmoid')]
+model_list = [VGG19(weights='imagenet', include_top=False, input_shape=(200,200,3),pooling='max',classifier_activation='softmax'),
+              Xception(weights='imagenet', include_top=False, input_shape=(200,200,3),pooling='max',classifier_activation='softmax')]
 
 for model in model_list:
     print(f"모델명 : {model.name}")
@@ -64,18 +65,18 @@ for model in model_list:
     model.add(Flatten())  
     model.add(Dense(128,activation='relu'))
     model.add(Dense(64,activation='relu'))
-    model.add(Dense(1,activation='sigmoid'))
+    model.add(Dense(3,activation='softmax'))
     
     optimizer = Adam(learning_rate=0.0001)  # 1e-4     
     lr=ReduceLROnPlateau(monitor= "val_acc", patience = 3, mode='max',factor = 0.1, min_lr=0.00001,verbose=False)
     es = EarlyStopping(monitor ="val_acc", patience=10, mode='max',verbose=1,restore_best_weights=True)
-    model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics='acc')
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics='acc')
     
     start = time.time()
-    model.fit(x_train,y_train,batch_size=25,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=1)
+    model.fit(x_train,y_train,batch_size=20,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=1)
     end = time.time()
     
-    loss, Acc = model.evaluate(x_test,y_test,batch_size=25,verbose=False)
+    loss, Acc = model.evaluate(x_test,y_test,batch_size=20,verbose=False)
     
     print(f"Time : {round(end - start,4)}")
     print(f"loss : {round(loss,4)}")
