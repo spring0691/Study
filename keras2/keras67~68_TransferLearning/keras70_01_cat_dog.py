@@ -57,7 +57,7 @@ print(x_train.shape,y_train.shape,x_test.shape,y_test.shape) # (8005, 100, 100, 
 
 model_list = [VGG19(weights='imagenet', include_top=False, input_shape=(100,100,3),pooling='max',classifier_activation='sigmoid'),
               Xception(weights='imagenet', include_top=False, input_shape=(100,100,3),pooling='max',classifier_activation='sigmoid')]
-
+            # pooling의 역할. 전이학습 모델의 마지막레이어를 flatten넣을지 globalavarge 넣을지 고를 수 있다...
 for model in model_list:
     print(f"모델명 : {model.name}")
     TL_model = model
