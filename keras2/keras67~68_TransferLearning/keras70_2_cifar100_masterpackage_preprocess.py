@@ -76,32 +76,32 @@ loss : 4.9
 Acc : 0.5582
 
 모델명 : resnet50
-Time : 1045.516
-loss : 3.9487
-Acc : 0.4696
+Time : 1093.0532
+loss : 3.8416
+Acc : 0.4741
 
 모델명 : resnet101
-Time : 1621.1863
-loss : 3.8353
-Acc : 0.4717
+Time : 1752.1339
+loss : 3.954
+Acc : 0.4724
 
 모델명 : densenet121
-Time : 1357.5877
-loss : 3.1646
-Acc : 0.5438
+Time : 1220.9396
+loss : 3.1168
+Acc : 0.5388
 
 모델명 : mobilenetv2_1.00_224
-Time : 921.6555
-loss : 4.9463
-Acc : 0.416
+Time : 653.221
+loss : 4.5997
+Acc : 0.4188
 
 모델명 : NASNet
-Time : 574.9925
-loss : 4.6314
-Acc : 0.0133
+Time : 496.2634
+loss : 44.2563
+Acc : 0.0114
 
 모델명 : efficientnetb0
-Time : 669.8647
-loss : 3.179
-Acc : 0.3278
+Time : 954.3006
+loss : 2.9445
+Acc : 0.4872
 '''
