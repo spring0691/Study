@@ -6,6 +6,13 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense,GlobalAveragePooling2D
 from tensorflow.keras.applications import VGG19, Xception, ResNet50, ResNet101, InceptionV3
 from tensorflow.keras.applications import InceptionResNetV2, DenseNet121, MobileNetV2, NASNetMobile, EfficientNetB0
+from tensorflow.keras.applications.vgg19 import preprocess_input
+from tensorflow.keras.applications.resnet50 import preprocess_input
+from tensorflow.keras.applications.resnet import preprocess_input
+from tensorflow.keras.applications.densenet import preprocess_input
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from tensorflow.keras.applications.nasnet import preprocess_input
+from tensorflow.keras.applications.efficientnet import preprocess_input
 from tensorflow.keras.datasets import cifar100
 from keras.callbacks import EarlyStopping , ReduceLROnPlateau
 from tensorflow.keras.optimizers import Adam
@@ -18,8 +25,8 @@ warnings.filterwarnings(action='ignore')
 # print(x_train.shape,x_test.shape)               # 32,32,3
 # print(len(np.unique(y_test)))                   # 100
 
-x_train = x_train.reshape(50000,32,32,3)/255.
-x_test = x_test.reshape(10000,32,32,3)/255.
+# x_train = x_train.reshape(50000,32,32,3)/255.
+# x_test = x_test.reshape(10000,32,32,3)/255.     여기 과정대신에 preprocessing해주고 비교하겠다.
 
 # aa = NasNetMobile(weights='imagenet')
 model_list = [VGG19(weights='imagenet', include_top=False, input_shape=(32,32,3)),
@@ -36,6 +43,7 @@ model_list = [VGG19(weights='imagenet', include_top=False, input_shape=(32,32,3)
 for model in model_list:
     print(f"모델명 : {model.name}")
     TL_model = model
+    x_train,x_test = preprocess_input([x_train,x_test])   #  요기 전처리 과정 추가.
     TL_model.trainable = True
     model = Sequential()
     model.add(TL_model)    
@@ -50,7 +58,7 @@ for model in model_list:
     model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics='acc')
     
     start = time.time()
-    model.fit(x_train,y_train,batch_size=200,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=True)
+    model.fit(x_train,y_train,batch_size=200,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=False)
     end = time.time()
     
     loss, Acc = model.evaluate(x_test,y_test,batch_size=100,verbose=False)
