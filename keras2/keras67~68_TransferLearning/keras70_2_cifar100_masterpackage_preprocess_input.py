@@ -43,7 +43,8 @@ model_list = [VGG19(weights='imagenet', include_top=False, input_shape=(32,32,3)
 for model in model_list:
     print(f"모델명 : {model.name}")
     TL_model = model
-    x_train,x_test = preprocess_input([x_train,x_test])   #  요기 전처리 과정 추가.
+    x_train = preprocess_input(x_train)   #  요기 전처리 과정 추가.
+    x_test = preprocess_input(x_test)   
     TL_model.trainable = True
     model = Sequential()
     model.add(TL_model)    
