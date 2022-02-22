@@ -30,7 +30,7 @@ def load_img_to_numpy(path):
     from sklearn.preprocessing import LabelEncoder
     le = LabelEncoder()
     labels= le.fit_transform(labels)
-    labels = labels.reshape(-1,1)
+    # labels = labels.reshape(-1,1)
     
     return images, labels
 
