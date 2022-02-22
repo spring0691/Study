@@ -50,7 +50,7 @@ for model in model_list:
     model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics='acc')
     
     start = time.time()
-    model.fit(x_train,y_train,batch_size=200,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=False)
+    model.fit(x_train,y_train,batch_size=200,epochs=1000,validation_split=0.2,callbacks=[lr,es], verbose=True)
     end = time.time()
     
     loss, Acc = model.evaluate(x_test,y_test,batch_size=100,verbose=False)

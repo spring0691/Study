@@ -1,6 +1,6 @@
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Flatten, Input
-from tensorflow.keras.applications import VGG16, Xception
+from tensorflow.keras.layers import Dense, Flatten, Input, GlobalAveragePooling2D
+from tensorflow.keras.applications import VGG16, VGG19
 from tensorflow.keras.datasets import cifar100
 from keras.callbacks import EarlyStopping , ReduceLROnPlateau
 from tensorflow.keras.optimizers import Adam
@@ -9,16 +9,18 @@ import numpy as np, time, warnings
 (x_train,y_train), (x_test,y_test) = cifar100.load_data()
 
 input = Input(shape=(32,32,3))
-vgg16 = VGG16(include_top=False,pooling='avg')(input)
-hidden1 = Dense(1024)(vgg16)
+vgg16 = VGG19(weights='imagenet',include_top=False)(input)
+vgg16.trainable = True
+Glp = GlobalAveragePooling2D()(vgg16)
+hidden1 = Dense(1024)(Glp)
 hidden2 = Dense(512)(hidden1)
 output1 = Dense(100,activation='softmax')(hidden2)
 
 model = Model(inputs=input, outputs=output1)
 
-optimizer = Adam(learning_rate=0.0001)  # 1e-4     
-lr=ReduceLROnPlateau(monitor= "val_acc", patience = 3, mode='max',factor = 0.1, min_lr=0.00001,verbose=False)
-es = EarlyStopping(monitor ="val_acc", patience=15, mode='max',verbose=1,restore_best_weights=True)
+optimizer = Adam(learning_rate=1e-3)  # 1e-4     
+lr=ReduceLROnPlateau(monitor= "val_acc", patience = 2, mode='max',factor = 0.1, min_lr=1e-6,verbose=False)
+es = EarlyStopping(monitor ="val_acc", patience=5, mode='max',verbose=1,restore_best_weights=True)
 model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics='acc')
 
 start = time.time()
