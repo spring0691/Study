@@ -5,8 +5,8 @@ import warnings, numpy as np
 
 warnings.filterwarnings(action='ignore')
 
-datasets = load_boston()                    # (506, 13) (506,)
-# datasets = fetch_california_housing()       # (20640, 8) (20640,)
+# datasets = load_boston()                    # (506, 13) (506,)
+datasets = fetch_california_housing()       # (20640, 8) (20640,)
 
 x = datasets.data
 y = datasets.target
@@ -20,9 +20,37 @@ from sklearn.pipeline import make_pipeline
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=66)
 
-model = LinearRegression()
-# model = make_pipeline(StandardScaler(), LinearRegression())
+# model = LinearRegression()
+model = make_pipeline(StandardScaler(), LinearRegression())
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exit()
 # model.fit(x_train, y_train)
 
 # print(model.score(x_test,y_test))   # 0.7795056314949791
@@ -40,7 +68,7 @@ xp = pf.fit_transform(x)
 # print(xp.shape)                   # 칼럼이 엄청 늘어났다.
 x_train, x_test, y_train, y_test = train_test_split(xp, y, test_size=0.1, random_state=66)
 
-scores = cross_val_score(model, x_train, y_train, cv=7, scoring='r2')   # scoring는 평가지표, sklearn.metrics.SCORERS.keys()로 확인가능.
-# model.fit(x_train, y_train)
-print(np.mean(scores))
+# scores = cross_val_score(model, x_train, y_train, cv=7, scoring='r2')   # scoring는 평가지표, sklearn.metrics.SCORERS.keys()로 확인가능.
+model.fit(x_train, y_train)
+# print(np.mean(scores))
 print(model.score(x_test,y_test))
