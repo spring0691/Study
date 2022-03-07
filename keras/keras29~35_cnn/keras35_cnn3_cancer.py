@@ -44,7 +44,7 @@ model.add(Dense(64))
 model.add(Dropout(0.5))
 model.add(Dense(16))
 model.add(Dropout(0.5))
-model.add(Dense(2, activation='sigmoid'))
+model.add(Dense(1, activation='sigmoid'))
 
 
 #3. 컴파일, 훈련
