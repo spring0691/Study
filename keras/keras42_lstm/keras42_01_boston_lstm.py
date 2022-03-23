@@ -69,7 +69,7 @@ x_train,x_test,y_train,y_test = train_test_split(x,y, train_size=0.8, shuffle=Tr
 #2.모델링   각 데이터에 알맞게 튜닝
 model = Sequential()
 #model.add(SimpleRNN(10,input_shape=(x.shape[1],x.shape[2])   ,return_sequences=True))       # 공백안에 ,activation='relu'도 사용해보세요.
-#model.add(LSTM(10,return_sequences=True,activation='relu'))   #                             # 두번째, 세번째 줄은 주석처리해서 1개만 사용해보세요.
+model.add(LSTM(10,return_sequences=True,activation='relu'))   #                             # 두번째, 세번째 줄은 주석처리해서 1개만 사용해보세요.
 #model.add(GRU(10,return_sequences=False,activation='relu'))  #  
 model.add(Dense(50,input_dim= x.shape[1]))                                                  # DNN방식적용시 위의 RNN주석 걸고 위의 1-4에서 두번째 옵션 선택합니다.                
 model.add(Dense(50))
