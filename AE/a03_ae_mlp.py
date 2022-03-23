@@ -1,41 +1,27 @@
+# deep하게 구성
+# 2개의 모델을 구성하는데 하나는 기본적인 오토인코더
+# 다른하나는 딥하게 구성
+# 2개의 성능 비교
+
 import numpy as np
 from tensorflow.keras.datasets import mnist
 from tensorflow.python.keras import activations
 
 # autoencoder를 함수로 제작하여 사용해보기.
 
-def autoencoder(hidden_layer_size):
+def basic_autoencoder(hidden_layer_size):
     model = Sequential()
     model.add(Dense( units=hidden_layer_size, input_shape= ( 784, ), activation='relu'))
     model.add(Dense( units=784, activation='sigmoid' ) )
     return model
 
-def show_img(original,decoded_img,n):
-    import matplotlib.pyplot as plt
-    
-    n = n
-    plt.figure(figsize=(20,4))
-    for i in range(n):
-        ax = plt.subplot(2, n, i+1)
-        plt.imshow(original[i].reshape(28,28))
-        plt.gray()
-        ax.get_xaxis().set_visible(False)
-        ax.get_yaxis().set_visible(False)
-        
-        ax = plt.subplot(2, n, i+1+n)
-        plt.imshow(decoded_img[i].reshape(28,28))
-        plt.gray()
-        ax.get_xaxis().set_visible(False)
-        ax.get_yaxis().set_visible(False)
-        
-    plt.show()
-
-# def autoencoder(hidden_layer_size):
-#     model = Sequential([
-#         Dense( units=hidden_layer_size, input_shape= ( x_train.shape(1), ), activation='relu'),
-#         Dense( units=x_train.shape(1), activation='sigmoid') 
-#     ])
-#     return model
+def deep_autoencoder(hidden_layer_size):
+    model = Sequential()
+    model.add(Dense( units=hidden_layer_size, input_shape= ( 784, ), activation='relu'))
+    model.add(Dense( hidden_layer_size*2, activation='relu'))
+    model.add(Dense( hidden_layer_size, activation='relu'))
+    model.add(Dense( units=784, activation='sigmoid' ) )
+    return model
 
 #1. 데이터
 (x_train, _) , (x_test, _)  = mnist.load_data()
@@ -46,12 +32,16 @@ x_test = x_test.reshape(10000, 784).astype('float')/255
 #2. 모델
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.callbacks import EarlyStopping
 
-model = autoencoder(hidden_layer_size=32)
+model = basic_autoencoder(hidden_layer_size=32)
+# model = deep_autoencoder(hidden_layer_size=32)
+
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam')
-model.fit(x_train,x_train,epochs=15)
+es = EarlyStopping(monitor='loss', mode='auto', patience=3)
+model.compile(loss='binary_crossentropy', optimizer='adam')
+model.fit(x_train,x_train,epochs=30,callbacks=[es])
 
 #4. 평가, 예측
 output = model.predict(x_test)

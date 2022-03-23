@@ -17,7 +17,12 @@ from tensorflow.keras.layers import Dense, Input
 
 input_img = Input(shape=(784,))
 
-encoded = Dense(64, activation='relu')(input_img)       # 중간 encoded의 값에 따라 output의 흐림한 정도가 결정된다.
+# encoded = Dense(64, activation='relu')(input_img)       # 중간 encoded의 값에 따라 output의 흐림한 정도가 결정된다.
+# encoded = Dense(16, activation='relu')(input_img)
+# encoded = Dense(32, activation='relu')(input_img)
+# encoded = Dense(128, activation='relu')(input_img)
+encoded = Dense(154, activation='relu')(input_img)        # 전에 PCA했을때 원본 정확도 0.95이상 유지되는 지점
+# encoded = Dense(486, activation='relu')(input_img)          # PCA 원본 0.999이상 유지되는 지점
 
 decoded = Dense(784, activation='sigmoid')(encoded)     # linear도 가능 근데 통상적으로 sigmoid + binary_crossentropy 사용함
 
