@@ -6,6 +6,19 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping,ReduceLROnPlateau
 
+def loadGIF(imgPath):
+    try:
+        if str(imgPath).lower().endswith('.gif'):
+            gif = cv2.VideoCapture(imgPath)
+            ret, frame = gif.read()  
+            if ret:
+                return frame
+        else:
+            return cv2.imread(imgPath)
+    except Exception as e:
+        print(e)
+        return None
+
 #1. 데이터
 path = 'D:\_data\men_women\\real_use'
 
@@ -15,11 +28,11 @@ img_npy = []
 
 for i,image in enumerate(img_list,start=1):
     # img_npy.append(np.array(Image.open(f'{path}/{image}').convert('RGB').resize((300,300))).astype('float')/255)
-    img_npy.append(cv2.resize(cv2.cvtColor(cv2.imread(f'{path}/{image}'),cv2.COLOR_BGR2RGB).astype('float')/255, (300,300),cv2.INTER_LINEAR))
+    img_npy.append(cv2.resize(cv2.cvtColor(loadGIF(f'{path}/{image}'),cv2.COLOR_BGR2RGB).astype('float')/255, (300,300),cv2.INTER_LINEAR))
    
 img_npy = np.array(img_npy)
 
-img_train,img_test = train_test_split(img_npy,train_size=0.9)
+img_train,img_test = train_test_split(img_npy,train_size=0.75)
 
 img_train_noised = img_train + np.random.normal(0, 0.1, size = img_train.shape) 
 img_test_noised = img_test + np.random.normal(0, 0.1, size = img_test.shape) 
