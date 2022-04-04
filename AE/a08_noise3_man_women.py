@@ -15,7 +15,7 @@ img_npy = []
 
 for i,image in enumerate(img_list,start=1):
     # img_npy.append(np.array(Image.open(f'{path}/{image}').convert('RGB').resize((300,300))).astype('float')/255)
-    img_npy.append(cv2.resize(cv2.imread(f'{path}/{image}',cv2.COLOR_BGR2RGB).astype('float')/255, (300,300), cv2.INTER_LINEAR))
+    img_npy.append(cv2.resize(cv2.cvtColor(cv2.imread(f'{path}/{image}'),cv2.COLOR_BGR2RGB).astype('float')/255, (300,300),cv2.INTER_LINEAR))
    
 img_npy = np.array(img_npy)
 
