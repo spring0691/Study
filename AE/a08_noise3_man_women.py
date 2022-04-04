@@ -1,7 +1,7 @@
 # 과제
 # 남자 여자 데이터에 노이즈를 넣어서 기미 주근깨 여드름 제거
 
-import numpy as np, os
+import numpy as np, os, cv2
 from PIL import Image
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping,ReduceLROnPlateau
@@ -13,9 +13,10 @@ img_list = os.listdir(path)
 
 img_npy = []
 
-for image in img_list:
-    img_npy.append(np.array(Image.open(f'{path}/{image}').convert('RGB').resize((300,300))).astype('float')/255)    
-    
+for i,image in enumerate(img_list,start=1):
+    # img_npy.append(np.array(Image.open(f'{path}/{image}').convert('RGB').resize((300,300))).astype('float')/255)
+    img_npy.append(cv2.resize(cv2.imread(f'{path}/{image}',cv2.COLOR_BGR2RGB).astype('float')/255, (300,300), cv2.INTER_LINEAR))
+   
 img_npy = np.array(img_npy)
 
 img_train,img_test = train_test_split(img_npy,train_size=0.9)
@@ -48,7 +49,7 @@ model = autoencoder(hidden_layer_size=64)
 model.compile(optimizer='adam', loss='mae')
 lr=ReduceLROnPlateau(monitor= "val_loss", patience = 3, mode='min',factor = 0.1, min_lr=0.00001,verbose=1)
 es = EarlyStopping(monitor ="val_loss", patience=5, mode='min',verbose=1,restore_best_weights=True)
-model.fit(img_train_noised,img_train, epochs=100,batch_size=10,validation_split=0.2,callbacks=[lr,es])
+model.fit(img_train_noised,img_train, epochs=10,batch_size=10,validation_split=0.2,callbacks=[lr,es])
 
 output = (model.predict(img_test_noised)*255).astype(np.uint8)
 
