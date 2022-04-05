@@ -5,6 +5,8 @@ import numpy as np, os, cv2
 from PIL import Image
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping,ReduceLROnPlateau
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing import image_dataset_from_directory as idfd
 
 def loadGIF(imgPath):
     try:
@@ -20,6 +22,7 @@ def loadGIF(imgPath):
         return None
 
 #1. 데이터
+'''
 path = 'D:\_data\men_women\\real_use'
 
 img_list = os.listdir(path)
@@ -31,7 +34,19 @@ for i,image in enumerate(img_list,start=1):
     img_npy.append(cv2.resize(cv2.cvtColor(loadGIF(f'{path}/{image}'),cv2.COLOR_BGR2RGB).astype('float')/255, (300,300),cv2.INTER_LINEAR))
    
 img_npy = np.array(img_npy)
+'''
 
+path = 'D:\_data\men_women'
+
+# img_datagen = ImageDataGenerator(1./255)
+
+# img_npy = img_datagen.flow_from_directory(
+#     path,(300,300),
+# )
+xy_train = idfd(path,batch_size=10000,image_size=(300,300),label_mode=None)
+
+
+'''
 img_train,img_test = train_test_split(img_npy,train_size=0.75)
 
 img_train_noised = img_train + np.random.normal(0, 0.1, size = img_train.shape) 
@@ -104,3 +119,4 @@ for i, ax in enumerate([ax6, ax7, ax8, ax9, ax10]):
 
 plt.tight_layout()
 plt.show()
+'''
