@@ -47,4 +47,4 @@ model.fit(x_train,y_train,epochs=100, batch_size=8,validation_split=0.2, callbac
 y_pred = model.predict(x_test)
 y_pred_int = np.argmax(model.predict(x_test),axis=1)
 cf = confusion_matrix(y_test,y_pred_int)
-print(cf)
+print(classification_report(y_test,y_pred_int))
