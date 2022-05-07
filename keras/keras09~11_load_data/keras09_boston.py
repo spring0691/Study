@@ -11,6 +11,8 @@ from sklearn.metrics import r2_score
 datasets = load_boston()
 x = datasets.data
 y = datasets.target
+
+print(x.shape)
 '''
 print(x)    # x내용물 확인
 print(y)    # y내용물 확인
@@ -19,6 +21,8 @@ print(y.shape) # y형태
 print(datasets.feature_names) # 컬럼,열의 이름들
 print(datasets.DESCR) # 데이터셋 및 컬럼에 대한 설명 
 '''
+print(x[:50])
+exit()
 x_train,x_test,y_train,y_test = train_test_split(x, y, train_size=0.7, shuffle=True, random_state=66)
 #이거 하나로 다 해결;;;
 
