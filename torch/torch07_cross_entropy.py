@@ -69,21 +69,21 @@ def train(model, criterion, optimizer, x_train, y_train):
     return loss.item()
 
 epoch = 0
+early_stopping = 0
+best_loss = 1000
 while True:
     epoch += 1
-    early_stopping = 0
     loss = train(model, criterion, optimizer, x_train, y_train)
+    
     print(f'epoch: {epoch}, loss:{loss:.8f}')
+        
+    if loss < best_loss: 
+        best_loss = loss    
+        early_stopping = 0
+    else:
+        early_stopping += 1
     
-    if epoch == 1200:break
-    # if :
-    #     early_stopping = 0
-    
-    # else:
-    #     early_stopping += 1
-    
-    # if early_stopping == 20:
-    #     break
+    if early_stopping == 20: break
 
 #4.평가, 예측
 print("================== 평가 예측 ====================")
